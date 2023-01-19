@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Data Migration Portal</title>
+    <link rel="stylesheet" href="" th:href="@{/css/style.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link th:href="@{/css/sweetalert.css}" type="text/css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/js/sweetalert.min.js}" type="text/javascript"></script>
+    <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
+    <script type="text/javascript">
+
+        function preventBack() { window.history.forward(); }
+
+        setTimeout("preventBack()", 0);
+
+        window.onunload = function () { null };
+        function editText() {
+
+            var inputs = document.getElementsByTagName("input");
+
+            for (var i = 0; i < inputs.length; i++) {
+
+                if (inputs[i].type == "text") {
+
+                    inputs[i].disabled = false;
+
+                    inputs[i].readOnly = false;
+
+                }
+
+            }
+        }
+
+        // Popup Script
+        function openForm() {
+            document.getElementById("popupForm").style.display = "block";
+        }
+        function closeForm() {
+            document.getElementById("popupForm").style.display = "none";
+        }
+    </script>
+
+    <style>
+        * {
+
+            box-sizing: border-box;
+
+        }
+
+        .openBtn {
+
+            display: flex;
+
+            justify-content: left;
+
+        }
+
+        .openButton {
+
+            border: none;
+
+            border-radius: 5px;
+
+            background-color: #1c87c9;
+
+            color: white;
+
+            padding: 14px 20px;
+
+            cursor: pointer;
+
+            position: fixed;
+
+        }
+
+        .loginPopup {
+
+            position: relative;
+
+            text-align: center;
+
+            width: 100%;
+
+        }
+
+        .formPopup {
+            box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+            border-radius: 25px;
+            display: none;
+
+            position: fixed;
+            margin-top: 150px;
+            left: 45%;
+
+            top: 5%;
+
+            transform: translate(-50%, 5%);
+            z-index: 9;
+
+        }
+
+        .formContainer {
+            max-width: 500px;
+
+            padding: 20px;
+
+            background-color: #fff;
+
+        }
+
+        .formContainer input[type=text],
+
+        .formContainer input[type=password] {
+
+            width: 100%;
+
+            padding: 15px;
+
+            margin: 5px 0 20px 0;
+
+            border: none;
+
+            background: #eee;
+
+        }
+
+        .formContainer input[type=text]:focus,
+
+        .formContainer input[type=password]:focus {
+
+            background-color: #ddd;
+
+            outline: none;
+
+        }
+
+        .formContainer .btn {
+
+            padding: 12px 20px;
+
+            border: none;
+            margin-right: 15px;
+            margin-left: 10px;
+            background-color: #3ec71cc8;
+            box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+
+            width: 30%;
+            border-radius: 30px;
+            margin-bottom: 15px;
+
+            opacity: 0.8;
+
+        }
+
+        .formContainer .cancel {
+
+            background-color: rgba(246, 58, 58, 0.832);
+
+        }
+
+
+
+        .formContainer .btn:hover,
+
+        .openButton:hover {
+
+            opacity: 1;
+
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="outer-container flex" th:if="${!session.isEmpty()}">
+        <section class="sidebar">
+
+            <div id="logo">
+                <img src="" th:src="@{/assets/logo.png}" alt="">
+            </div>
+            <div id="nav-content">
+                <div id="dash-board">
+                    <a class="dashboard" href="#dashboard"> <img id="dashboard" src="" th:src="@{/assets/dashboard.svg}"
+                            alt=""> Dashboard </a>
+                </div>
+
+                <div>
+                    <a class="report" href="#report"> <img id="report" src="" th:src="@{/assets/report.svg}" alt="">
+                        Report</a>
+                </div>
+
+                <div>
+                    <a class="setting" href="#setting"> <img id="setting" src="" th:src="@{/assets/setting.svg}" alt="">
+                        Setting</a>
+
+                </div>
+                <div>
+
+                    <form th:action="@{/api/destroy}" method="post">
+
+                        <a class="logout" href="#logout"> <img id="logout" src="" th:src="@{/assets/logout.svg}" alt="">
+
+                            <button id="logout_btn" type="submit" value="Logout">Logout</button>
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+
+
+
+
+            </div>
+        </section>
+        <section class="interface">
+            <div id="navigation">
+
+                <div id="user">
+                    <div id="profile"></div>
+                    <div id="user-text">
+
+                        <h1 th:if="${!session.isEmpty()}" th:text="${#strings.concat('Good Morning',' ',session.name)}">
+                        </h1>
+
+
+                        <p>Here is your today's activities and updates</p>
+                    </div>
+
+                </div>
+                <div id="download">
+
+                    <img id="download-icon" src="" th:src="@{/assets/download.svg}" alt="">
+
+                    <select id="entity">
+                        <option selected>Download Entity Lookup Sample File</option>
+                        <option class="entity" th:each="option : ${entities}" th:value="${option.key}"
+                            th:text="${option.key}" th:name="${option.key}">
+                        </option>
+                    </select>
+                    <div class="new flex">
+
+                    </div>
+                </div>
+            </div>
+            <div class="values flex">
+                <div class="validation-records flex">
+                    <div class="valimg">
+                        <img src="" th:src="@{/assets/validate.svg}" alt="">
+                    </div>
+                    <div class="valcontent">
+                        <h4>103,332</h4>
+                        <p>records pending for <strong>validation</strong></p>
+                    </div>
+                </div>
+                <div class="transform-records flex">
+                    <div class="valimg">
+                        <img src="" th:src="@{/assets/transform.svg}" alt="">
+                    </div>
+                    <div class="valcontent ">
+                        <h4>103,332</h4>
+                        <p>records pending for <strong>transform</strong></p>
+                    </div>
+                </div>
+                <div class="load-records flex">
+                    <div class="valimg">
+                        <img src="" th:src="@{/assets/load.svg}" alt="">
+                    </div>
+                    <div class="valcontent">
+                        <h4>103,332</h4>
+                        <p>records pending for <strong>load</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="global-lookup flex">
+
+                <!-- <p><b>Global Lookup</b> <a href="#" class="edit"><b>Edit</b></a></p>
+
+                <div class="content">
+                    <p class="some-text">
+                        <b>VERSION</b> :3 &nbsp;|&nbsp; <b>USER ID</b>:SYSUSER &nbsp;|&nbsp; <b>DATE_FORMAT</b>:MM-DD-YY
+                        &nbsp;|&nbsp; <b>DATE_TIME_FORMAT</b>:MM-DD-YY HH &nbsp;|&nbsp; <b>FILED 5</b>: FILED 5
+                        &nbsp;|&nbsp; <b>FILED 6</b>: FILED 6
+                    </p> -->
+                <p><b>Global Lookup</b> <a href="#" class="edit" onclick="openForm();"><b>Edit</b></a></p>
+
+                <form id="global-lookup" method="post" th:action="@{/api/main}" th:object="${data}"
+                    onsubmit="return validateForm(this)">
+
+                    <div class="content">
+
+                        <p class="some-text" th:each=" map,i: ${data}">
+
+                            <!-- <b>VERSION</b> :3 &nbsp;|&nbsp; <b>USER ID</b>:SYSUSER  &nbsp;|&nbsp; <b>DATE_FORMAT</b>:MM-DD-YY &nbsp;|&nbsp; <b>DATE_TIME_FORMAT</b>:MM-DD-YY HH &nbsp;|&nbsp;  <b>FILED 5</b>: FILED 5 &nbsp;|&nbsp;  <b>FILED 6</b>: FILED 6            -->
+
+                            <b><label id="key" th:name="${map.key}" th:text="${map.key}"></label></b>:
+
+                            <label id="value" th:name="${map.key}" th:text="${map.value}"></label>
+
+                            <!-- <span th:if="${i.count}!=${i.size}">|</span> -->
+
+                        </p>
+
+                    </div>
+
+                </form>
+            </div>
+            <section id="cards">
+
+                <div class="global-lookup-card flex lookup">
+                    <a th:href="@{/api/lookup}">
+                        <div class="text-center">
+                            <img src="" th:src="@{/assets/lookup.svg}" alt="">
+                        </div>
+                        <div class="text-center">
+                            <p>Manage lookup files</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="recently-used-entity flex">
+                    <h1>Recently Used</h1>
+                    <div class="recent flex">
+                        <div class="cards">
+                            <div class="Circles" style="background-color:#56BDC5;padding-top: 10px;">
+                                <h5 style="color:white;text-align: center;font-weight:400;font-size: 25px;">P</h5>
+                            </div>
+                            <h6 class="Names">
+                                Person
+                            </h6>
+                        </div>
+                        <div class="cards">
+                            <div class="Circles" style="background-color:#3E64B8;padding-top: 10px;">
+                                <h5 style="color:white;text-align: center;font-weight:400;font-size: 25px;">A</h5>
+                            </div>
+                            <h6 class="Names">
+                                Account
+                            </h6>
+                        </div>
+                        <div class="cards">
+                            <div class="Circles" style="background-color:#2D6664;padding-top: 10px;">
+                                <h5 style="color:white;text-align: center; font-weight:400; font-size: 25px;">D</h5>
+                            </div>
+                            <h6 class="Names">
+                               Device
+                            </h6>
+                        </div>
+                        <div class="cards">
+                            <div class="Circles" style="background-color:#7B5556;padding-top: 10px;">
+                                <h5 style="color:white;text-align: center;font-weight:400;font-size: 25px;">IE</h5>
+                            </div>
+                            <h6 class="Names">
+                              Install Events
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <hr>
+            <section class="other-pages flex">
+                <a th:href="@{/api/validate}">
+                    <div class="global-lookup-card flex validate">
+
+                        <img src="" th:src="@{/assets/validate.svg}" alt="">
+                        <p>Validate</p>
+                    </div>
+                </a>
+                <div class="global-lookup-card flex transform">
+                    <a th:href="@{/api/transform}">
+                        <img src="" th:src="@{/assets/transform.svg}" alt="">
+                        <p>Transform</p>
+                </div>
+                </a>
+                <div class="global-lookup-card flex load">
+                    <a th:href="@{/api/load}">
+                        <img src="" th:src="@{/assets/load.svg}" alt="">
+                        <p>Load</p>
+                </div>
+                </a>
+            </section>
+        </section>
+
+    </div>
+    <!-- Popup Form -->
+    <div class="loginPopup">
+        <div class="formPopup" id="popupForm">
+            <form class="form formContainer" method="post" th:action="@{/api/main}" th:object="${data}"
+                onsubmit="return validateForm(this)">
+                <h2>Global Lookup</h2>
+                <table>
+                    <div class="form-control" th:each=" map : ${data}">
+                        <tr style="align-items: center;">
+                            <td><label id="key" th:name="${map.key}" th:text="${map.key}"></label></td>
+                            <td><input id="global_value" class="form-control" style=" margin-top: 20px; background-color: #f5f5f5;  border-radius: 7px;
+                            font-size:17px" th:name="${map.key}" type="text" th:value="${map.value}">
+                            </td>
+                        </tr>
+                    </div>
+                </table>
+                <button type="submit" class="btn">Save</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

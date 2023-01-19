@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+}
+.my-custom-scrollbar {
+  position: relative;
+  height: 700px;
+  overflow: auto;
+  overflow-x: hidden;
+  }
+  .table-wrapper-scroll-y {
+    border: transparent;
+  display: block;
+  }
+.Heading {
+  position: fixed;
+    overflow: hidden;
+    top: 0;
+    background-color: #333;
+    width: 100%;
+    padding: 10px 0px 10px 50px;
+ 
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    display: flex;
+    justify-content: space-between;
+    color: whitesmoke;
+    z-index: 9999;
+
+}
+.spacer{
+  width: 100%;
+  height: 70px;
+}
+.Heading h1 {
+    margin-top: 5px;
+    font-weight: 500;
+    font-size: 25px;
+}
+
+.btn-close {
+    margin-top: 5px;
+    margin-right: 50px;
+    filter: brightness(0) invert(1);
+}
+
+.selected-row {
+    display: flex;
+}
+
+.selected-row h3 {
+    padding-left: 15px;
+    margin-top: 20px;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.selected-entity {
+    margin-left: 10px;
+    width: 120px;
+    margin-top: 10px;
+    height: 40px;
+    background-color: #f5f5f5;
+    display: flex;
+    padding: 5px 5px 5px 5px;
+    border-radius: 7px;
+}
+
+.circle {
+    display: flex;
+    margin-left: 5px;
+    margin-right: 6px;
+    padding-top: 5px;
+    text-align: center;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    color: white;
+}
+
+.name{
+    margin-top: 5px;
+    text-align: center;
+    color: #424141;
+    font-weight: 400;
+}
+.name h6{
+  font-size: 14px;
+  margin-left: 5px;
+}
+.transform-box{
+    display: flex;
+    border-radius: 15px;
+    margin-top: 25px;
+   height: 200px;
+   width: 100%;
+   background-color: #f6f6f6;
+}
+.process{
+ 
+  width: 100%;
+}
+.process p{
+    font-weight: 500;
+    margin-top: 65px;
+   text-align: center;
+}
+.text-center .btn{
+    text-align: center;
+    background-color: #0E7DBF;
+    color: #FFF;
+    box-shadow: 0 3px 10px rgba(71, 133, 234, 0.1);
+    font-size: 12px;
+   
+    padding: 5px 25px  5px 25px;
+}
+.text-center .btn:hover{
+ color: #0E7DBF;
+ border: 1px solid #0E7DBF;
+}
+#myProgress {
+    width: 100%;
+    background-color: #ddd;
+  }
+#myBar {
+    width: 0.5%;
+    height: 30px;
+    background-color: #04AA6D;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+  }
+  .primary h3{
+    font-size: 22px;
+    margin-top: 20px;
+    opacity: .9;
+  }
+  .values-fields{
+    margin-top: 20px;
+  }
+  #value{
+   margin-left: 10px;
+  opacity: .4;
+  }
+  .footer{
+    background-color: #f4f4f4;
+  }
+ .buttons{
+   padding: 10px;
+    float: right;
+    margin-right: 30px;
+ }
+ .buttons #cancel{
+    font-size: 15px;
+    color: #0E7DBF;
+ }
+ .buttons #save{
+    color: #0E7DBF;
+    margin-right: 10px;
+    font-size: 15px;
+ }
+ .buttons #submit{
+    padding: 2px 25px 2px 25px;
+    background-color: #0E7DBF;
+    color: #fff;
+    font-size: 15px;
+    margin-right: 10px;
+ }
+ #buttonAdd{
+  border: 1px solid #56BDC5 ;
+  background-color: transparent;
+  color: #56BDC5;
+ }
+ .subButton{
+  border: 1px solid #56BDC5 ;
+  background-color: transparent;
+  color: #56BDC5;
+ }
+ .subButton:hover{
+  border: 1px solid #56BDC5 ;
+  background-color: #56BDC5;
+  color: #ffffff;
+ }
+ .primary{
+  display: flex;
+  
+ }
+.primary > p {
+ 
+  margin-top: 25px;
+
+ 
+  border-radius: 50%;
+  top: 189px;
+left: 51px;
+width: 15px;
+height: 15px;
+/* UI Properties */
+background: #72B83E 0% 0% no-repeat padding-box;
+opacity: 1;
+}
+
+.primary > h3{
+ 
+margin-left: 10px;
+ display: inline;
+}
+.primary > hr{
+ 
+  width: 20px;
+  margin-top: 30px;
+  z-index: 1000;
+  border-top:  1px solid #333;
+  }
+ .primary i{
+  margin-top: 18px;
+ color: #72B83E;
+ }

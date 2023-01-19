@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vadidate Entities</title>
+    <link rel="stylesheet" href="" th:href="@{/css/primary.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+</head>
+
+<body>
+    <section>
+
+        <form id="formread" th:action="@{'/api/write/'+${entityName}}" th:object="${csvfile}" th:method="post">
+        <div class="container-fliud pb-5">
+            <div class="row">
+                <div class="col-md-12 bg-dark ">
+                    <div class="Heading">
+                       
+                        <h1>Lookup Files</h1>
+                        <a th:href="@{/api/lookup}">
+
+                            <button type="button" class="btn-close btn-close-white" style="opacity: .9;"
+                                aria-label="Close"></button>
+                        </a>
+                    </div>
+                 
+
+                </div>
+
+            </div>
+            <div class="spacer">
+                &nbsp;
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-12" style="padding-left: 50px;  padding-top: 5px;">
+                    <div class="selected-row">
+                        <h3>Entity Selected:</h3>
+                        <div class="selected-entity">
+                            <div class="circle small_circle"
+                                style=" padding-top: 6px; align-items: center;">
+                                <h5 style="color:white;text-align: center; font-size: 12px; margin-left: 12px;">A</h5>
+                            </div>
+                            <div class="name">
+                                <h6 th:text="${entityName}"></h6>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4" style="padding-left: 65px;  padding-top: 5px;">
+                    <div class="primary">
+                        
+                        <p>
+                        </p>
+                        <hr>
+                        <p style="background-color:gray;"></p>
+                           
+                        
+                        <h3>Primary Lookup File</h3>
+                    </div>
+                    <div class="values-fields">
+
+                            <p id="setPrimary" th:text="${Updatemessage}" th:if="${Updatemessage ne null}" class=""></p>
+                            
+                            <!-- <table >
+                                <div class="form-group" th:each=" map : ${csvfile}">
+                                    <tr>
+                                        <td><label id="key" th:name="${map.key}" th:text="${map.key}"></label></td>
+                                        <td><input id="value" th:name="${map.key}" type="text" th:value="${map.value}"
+                                                class="form-control" style="color: black;"></td>
+                                    </tr>
+                                </div>
+                            </table> -->
+                            <!-- <div class="form-group">
+                                <input type="submit" value="SUBMIT" class="btn btn-success" />
+                            </div> -->
+                        
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+                                <table class="table mb-0">
+                                    <div class="form-group" th:each=" map : ${csvfile}">
+                                        <tr style="border: transparent;">
+                                            <td><label id="key" th:name="${map.key}" th:text="${map.key}"></label></td>
+                                            <td><input id="value" th:name="${map.key}" type="text" th:value="${map.value}"
+                                                    class="form-control" style="color: #333;"></td>
+                                        </tr>
+                                    </div>
+                                </table>
+                              
+                              </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <footer class="text-right text-white fixed-bottom" style="background-color: #f6f6f6;">
+
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div class="buttons" >
+                        <button type="button" id="cancel"class="btn btn-default">Cancel</button>
+                        <!-- <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div> -->
+                        <button type="submit" id="save" class="btn btn-default">Save</button>
+                        <a th:href="@{'/api/secondary/'+${entityName}}">
+                        <button type="button" id="submit" class="btn btn-default">Submit and Continue</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </footer>
+        </form>
+    </section>
+</body>
+
+</html>

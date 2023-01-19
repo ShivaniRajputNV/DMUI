@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.Heading {
+  
+    padding: 10px 0px 10px 50px;
+    border: 6px solid #0AA405;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    display: flex;
+    justify-content: space-between;
+    color: whitesmoke;
+
+}
+.Heading h1 {
+    margin-top: 5px;
+    font-weight: 500;
+    font-size: 25px;
+}
+
+.btn-close {
+    margin-top: 5px;
+    margin-right: 50px;
+    filter: brightness(0) invert(1);
+}
+
+.selected-row {
+    display: flex;
+}
+
+.selected-row h3 {
+    padding-left: 15px;
+    margin-top: 20px;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.selected-entity {
+    margin-left: 10px;
+    width: 120px;
+    margin-top: 10px;
+    height: 40px;
+    background-color: #f5f5f5;
+    display: flex;
+    padding: 5px 5px 5px 5px;
+    border-radius: 7px;
+}
+
+.circle {
+    display: flex;
+    margin-left: 5px;
+    margin-right: 6px;
+    padding-top: 5px;
+    text-align: center;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    color: white;
+}
+
+.name{
+    margin-top: 5px;
+    text-align: center;
+    color: #424141;
+    font-weight: 400;
+}
+.name h6{
+  font-size: 14px;
+  margin-left: 5px;
+}
+.transform-box{
+    display: flex;
+    border-radius: 15px;
+    margin-top: 25px;
+   height: 200px;
+   width: 100%;
+   background-color: #f6f6f6;
+}
+.process{
+ 
+  width: 100%;
+}
+.process p{
+    font-weight: 500;
+    margin-top: 65px;
+   text-align: center;
+}
+.text-center .btn{
+    text-align: center;
+    background-color: #0E7DBF;
+    color: #FFF;
+    box-shadow: 0 3px 10px rgba(71, 133, 234, 0.1);
+    font-size: 12px;
+   
+    padding: 5px 25px  5px 25px;
+}
+.text-center .btn:hover{
+ color: #0E7DBF;
+ border: 1px solid #0E7DBF;
+}
+#myProgress {
+    width: 100%;
+    background-color: #ddd;
+  }
+#myBar {
+    width: 0.5%;
+    height: 30px;
+    background-color: #04AA6D;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+  }
+  
