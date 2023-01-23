@@ -286,12 +286,14 @@ h4{
    height: 50px;
    width: 50px;
    border-radius: 50% 50%;
+   padding-top: 10px;
  }
  .Names{
    text-align: center;
   color: #424141;
    font-size: 15px;
- font-weight: 400;
+ font-weight: 300;
+  margin-right: 10px;
  }
  .recently-used-entity {
    flex-direction: column;
@@ -355,4 +357,135 @@ hr{
 .load p{
   margin-right: 20px;
  color: #0AA405;
+}
+
+/* for popup global lookup */
+* {
+
+    box-sizing: border-box;
+
+}
+
+.openBtn {
+
+    display: flex;
+
+    justify-content: left;
+
+}
+
+.openButton {
+
+    border: none;
+
+    border-radius: 5px;
+
+    background-color: #1c87c9;
+
+    color: white;
+
+    padding: 14px 20px;
+
+    cursor: pointer;
+
+    position: fixed;
+
+}
+
+.loginPopup {
+
+    position: relative;
+
+    text-align: center;
+
+    width: 100%;
+
+}
+
+.formPopup {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    border-radius: 25px;
+    display: none;
+
+    position: fixed;
+    margin-top: 150px;
+    left: 45%;
+
+    top: 5%;
+
+    transform: translate(-50%, 5%);
+    z-index: 9;
+
+}
+
+.formContainer {
+    max-width: 500px;
+
+    padding: 20px;
+
+    background-color: #fff;
+
+}
+
+.formContainer input[type=text],
+
+.formContainer input[type=password] {
+
+    width: 100%;
+
+    padding: 15px;
+
+    margin: 5px 0 20px 0;
+
+    border: none;
+
+    background: #eee;
+
+}
+
+.formContainer input[type=text]:focus,
+
+.formContainer input[type=password]:focus {
+
+    background-color: #ddd;
+
+    outline: none;
+
+}
+
+.formContainer .btn {
+
+    padding: 12px 20px;
+
+    border: none;
+    margin-right: 15px;
+    margin-left: 10px;
+    background-color: #3ec71cc8;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+
+    width: 30%;
+    border-radius: 30px;
+    margin-bottom: 15px;
+
+    opacity: 0.8;
+
+}
+
+.formContainer .cancel {
+
+    background-color: rgba(246, 58, 58, 0.832);
+
+}
+
+
+
+.formContainer .btn:hover,
+
+.openButton:hover {
+
+    opacity: 1;
+
 }

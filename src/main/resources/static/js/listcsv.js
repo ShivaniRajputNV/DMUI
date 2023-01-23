@@ -102,6 +102,10 @@ function validateForm() {
 // });
 // deleteRow
 function deleteRow(el, sform) {
+    var selectedFileName = el.attributes.value.value;
+    console.log(el);
+    console.log(sform.id);
+    console.log(selectedFileName);
     swal({
         title: "Are you sure?",
         icon: "warning",
@@ -123,14 +127,14 @@ function deleteRow(el, sform) {
                 }
                 console.log(formMap);
                 $.ajax({
-                    url: '/api/writeS',
+                    url: '/api/writeSec/'+selectedFileName,
                     type: 'POST',
                     data: Object.fromEntries(formMap),
                     dataType: "json",
                     success: function (formMap) {
                         console.log(formMap);
                         //setInterval('location.reload()',100);
-                        window.location = '/admin';
+                        //window.location = '/admin';
                     }
                 })
             } else {
@@ -170,6 +174,10 @@ $(document).ready(function () {
                 $("#validateBtn").prop("hidden", false);
                 $("#validateImg").prop("hidden", false);
                 $('#fetchP').html('<b>' + selectedFileName + '</b>' + " fetched successfully and ready to validate");
+            },
+            error:function(){
+                $('#fetchP').html('<b>' + selectedFileName + '</b>' + " not Found !");
+   
             }
         })
     });
@@ -186,8 +194,25 @@ $(document).ready(function () {
             data: { 'entityValidate': selectedFileName },
             success: function (message) {
                 console.log(message);
-                //call secondary
+                let keys = Object.keys(message);
+                let vals =Object.values(message);
+                
+                console.log(vals+":"+keys);
+                if(keys=="Error"){
+                    console.log(keys+"="+"Error");
 
+                $('#fetchP').html("");
+
+                $("#validateImg").prop("hidden", true);
+
+                document.getElementById("error").style.color = "red";
+
+                $('#error').html('<b>' + vals + '</b>');
+
+                $("#secondaryValidate").prop("disabled", true);
+                }else{
+                    $("#validateImg").prop("hidden", false);
+                $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
                 $.ajax({
                     url: '/api/validateSelect',
                     type: 'GET',
@@ -201,17 +226,54 @@ $(document).ready(function () {
 
 
                     }
-                })
+                });
 
-                //end call secondary
-                $("#validateBtn").prop("hidden", true);
-                $("#validateImg").prop("hidden", false);
-
-                document.getElementById("fetchP").style.color = "green";
-                $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
                 $("#secondaryValidate").prop("disabled", false);
                 document.getElementById("secondaryValidate").style.color = "#0D71AC";
                 document.getElementById("secondaryProcessMessage").style.color = "black";
+                }
+                //call secondary
+
+                // $.ajax({
+                //     url: '/api/validateSelect',
+                //     type: 'GET',
+                //     data: { 'entityValidate': selectedFileName },
+                //     success: function (result) {
+                //         console.log(result);
+                //         $.each(result, function (key, value) {
+                //             $("#secondaryValidate").append('<option' + '>' + value + '</option>');
+                //             console.log(value);
+                //         });
+
+
+                //     }
+                // })
+
+                //end call secondary
+                $.ajax({
+                    url: '/api/validate/messageprimary',
+                    type: 'GET',
+                    data: { 'entityValidate': selectedFileName },
+                    success: function (result) {
+                        console.log(result);
+                        $.each(result, function (key, value) {
+                            $('#messageOutput').html(value);
+                            console.log(value);
+                        });
+
+
+                    }
+                })
+
+                $("#validateBtn").prop("hidden", true);
+                //$("#validateImg").prop("hidden", false);
+
+                document.getElementById("fetchP").style.color = "green";
+                // $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
+                // $("#secondaryValidate").prop("disabled", false);
+                // document.getElementById("secondaryValidate").style.color = "#0D71AC";
+                // document.getElementById("secondaryProcessMessage").style.color = "black";
+
             }
         })
     });
@@ -302,31 +364,80 @@ function move() {
                 elem.style.width = width + "%";
                 elem.innerHTML = width + "%";
                 if (width == 100) {
-        
+
                     $('#transformMessage').html("Completed!");
                     document.getElementById("transformMessage").style.visibility = "visible";
                     $('#transformComplete').html(" Transformation completed successfully");
-                     $('#transformDone').prop("hidden", false);
-                    
+                    $('#transformDone').prop("hidden", false);
+
                 }
-                else{
+                else {
                     $('#transformComplete').html(" Transforming...");
                 }
             }
         }
     }
-    
+
 
 }
 
 //bg colour chooser for cards
-$(document).ready(function() {
+$(document).ready(function () {
     var index = 0;
-    $(".small_circle").each(function(item) {
-      var colors = ["#D8C595 ","#3E64B8","#56BDC5","#656464","#6EC3E1","#2D6664","#F0823D","#2B8CC6"];
-      var colorsLength = colors.length;
-      var colorIndex = index%colorsLength;   
+    $(".small_circle").each(function (item) {
+        var colors = ["#D8C595 ", "#3E64B8", "#56BDC5", "#656464", "#6EC3E1", "#2D6664", "#F0823D", "#2B8CC6"];
+        var colorsLength = colors.length;
+        var colorIndex = index % colorsLength;
         $(this).css("background-color", colors[colorIndex]);
         index++;
     });
+});
+
+// Global Lookup Popup Script
+function openForm() {
+    document.getElementById("popupForm").style.display = "block";
+}
+function closeForm() {
+    document.getElementById("popupForm").style.display = "none";
+}
+
+//For Secondary Lookup submit
+$(document).ready(function () {
+    
+    $('#submitSec').click(function () {
+        var selectedFileName = $(this).val();
+    console.log(selectedFileName);
+        // const validatebtn = document.getElementById("validateBtn");
+        //var formsCollection = document.getElementsByTagName("form");
+       
+        var f=[]
+        const formm = new Map();
+        var dataModel ={};
+        for (var i = 0; i < document.forms.length; i++) {
+            var foo =document.forms[i];
+            var fd = new FormData(foo);
+            console.log(fd);
+            const formMap = new Map();
+            for(var [key,value] of fd){
+
+                formMap.set(key,value);
+                
+            }
+            console.log(formMap);
+             $.ajax({
+            url: '/api/writeSec/'+selectedFileName,
+            type: 'POST',
+            dataType:"json",
+            //contentType: "application/json",
+            data:Object.fromEntries(formMap),
+            success: function (message) {
+                console.log(message);
+            }
+        })
+          
+           
+        }
+       
+        
     });
+});

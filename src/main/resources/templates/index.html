@@ -22,163 +22,9 @@
         setTimeout("preventBack()", 0);
 
         window.onunload = function () { null };
-        function editText() {
 
-            var inputs = document.getElementsByTagName("input");
-
-            for (var i = 0; i < inputs.length; i++) {
-
-                if (inputs[i].type == "text") {
-
-                    inputs[i].disabled = false;
-
-                    inputs[i].readOnly = false;
-
-                }
-
-            }
-        }
-
-        // Popup Script
-        function openForm() {
-            document.getElementById("popupForm").style.display = "block";
-        }
-        function closeForm() {
-            document.getElementById("popupForm").style.display = "none";
-        }
     </script>
 
-    <style>
-        * {
-
-            box-sizing: border-box;
-
-        }
-
-        .openBtn {
-
-            display: flex;
-
-            justify-content: left;
-
-        }
-
-        .openButton {
-
-            border: none;
-
-            border-radius: 5px;
-
-            background-color: #1c87c9;
-
-            color: white;
-
-            padding: 14px 20px;
-
-            cursor: pointer;
-
-            position: fixed;
-
-        }
-
-        .loginPopup {
-
-            position: relative;
-
-            text-align: center;
-
-            width: 100%;
-
-        }
-
-        .formPopup {
-            box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-            border-radius: 25px;
-            display: none;
-
-            position: fixed;
-            margin-top: 150px;
-            left: 45%;
-
-            top: 5%;
-
-            transform: translate(-50%, 5%);
-            z-index: 9;
-
-        }
-
-        .formContainer {
-            max-width: 500px;
-
-            padding: 20px;
-
-            background-color: #fff;
-
-        }
-
-        .formContainer input[type=text],
-
-        .formContainer input[type=password] {
-
-            width: 100%;
-
-            padding: 15px;
-
-            margin: 5px 0 20px 0;
-
-            border: none;
-
-            background: #eee;
-
-        }
-
-        .formContainer input[type=text]:focus,
-
-        .formContainer input[type=password]:focus {
-
-            background-color: #ddd;
-
-            outline: none;
-
-        }
-
-        .formContainer .btn {
-
-            padding: 12px 20px;
-
-            border: none;
-            margin-right: 15px;
-            margin-left: 10px;
-            background-color: #3ec71cc8;
-            box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-            color: #fff;
-            font-size: 15px;
-            cursor: pointer;
-
-            width: 30%;
-            border-radius: 30px;
-            margin-bottom: 15px;
-
-            opacity: 0.8;
-
-        }
-
-        .formContainer .cancel {
-
-            background-color: rgba(246, 58, 58, 0.832);
-
-        }
-
-
-
-        .formContainer .btn:hover,
-
-        .openButton:hover {
-
-            opacity: 1;
-
-        }
-    </style>
 
 
 </head>
@@ -334,38 +180,21 @@
                 <div class="recently-used-entity flex">
                     <h1>Recently Used</h1>
                     <div class="recent flex">
-                        <div class="cards">
-                            <div class="Circles" style="background-color:#56BDC5;padding-top: 10px;">
-                                <h5 style="color:white;text-align: center;font-weight:400;font-size: 25px;">P</h5>
+                        <div class="cards" th:each="option,i : ${recentList}">
+                            <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
+                                <h5 th:text="${#strings.substring(option.key,0,1)}" style="color:white;text-align: center;font-weight:400;font-size: 25px;"></h5>
                             </div>
                             <h6 class="Names">
-                                Person
+                                <a th:href="@{'/api/primary/' + ${option.key}}">
+                                    <span th:value="${option.key}" th:text="${option.key}"
+                                        th:name="${option.key}"></span>
+                                </a>
                             </h6>
                         </div>
-                        <div class="cards">
-                            <div class="Circles" style="background-color:#3E64B8;padding-top: 10px;">
-                                <h5 style="color:white;text-align: center;font-weight:400;font-size: 25px;">A</h5>
-                            </div>
-                            <h6 class="Names">
-                                Account
-                            </h6>
-                        </div>
-                        <div class="cards">
-                            <div class="Circles" style="background-color:#2D6664;padding-top: 10px;">
-                                <h5 style="color:white;text-align: center; font-weight:400; font-size: 25px;">D</h5>
-                            </div>
-                            <h6 class="Names">
-                               Device
-                            </h6>
-                        </div>
-                        <div class="cards">
-                            <div class="Circles" style="background-color:#7B5556;padding-top: 10px;">
-                                <h5 style="color:white;text-align: center;font-weight:400;font-size: 25px;">IE</h5>
-                            </div>
-                            <h6 class="Names">
-                              Install Events
-                            </h6>
-                        </div>
+
+                       
+
+
                     </div>
                 </div>
 

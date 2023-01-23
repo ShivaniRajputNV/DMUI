@@ -89,25 +89,26 @@ i{
   height: 50px;
   width: 50px;
   border-radius: 50% 50%;
+  padding-top: 10px;
 }
 .Names{
   text-align: center;
  color: #424141;
   font-size: 15px;
-font-weight: 400;
+font-weight: 300;
 }
 .entities-box{
   display: flex;
   flex-wrap: wrap;
 }
 .tags{
-  width: auto;
+  width: 240px;
   margin-right: 15px;
-  height: 40px;
+  height: auto;
   background-color: #f5f5f5;
   display: flex;
   padding: 5px 5px 5px 5px;
-  border-radius: 7px ;
+  border-radius: 15px ;
 }
 .small_circle{
   margin-left: 5px;

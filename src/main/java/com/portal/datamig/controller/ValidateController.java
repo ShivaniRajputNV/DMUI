@@ -1,8 +1,10 @@
 package com.portal.datamig.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,7 @@ public class ValidateController {
   public String entityValidate(@PathVariable("name") String name, RedirectAttributes attributes) {
     if (name != null) {
       attributes.addFlashAttribute("name", name);
+      
     }
     return "entityValidate";
   }
@@ -37,6 +40,7 @@ public class ValidateController {
   @GetMapping("/validate")
   public String validate(Model model) throws IOException {
     model.addAttribute("entities", read.entityList());
+    model.addAttribute("recentList", read.recentlyUsed("Input"));
     return "validate";
   }
 
@@ -48,6 +52,7 @@ public class ValidateController {
       validate.copyCSVFiles(selectedValueValidate);
     } catch (IOException e) {
       // TODO Auto-generated catch block
+      System.out.println(selectedValueValidate+" not Found");
       e.printStackTrace();
     }
     // return success response
@@ -59,11 +64,20 @@ public class ValidateController {
   }
 
   @PostMapping(value = "/validate/primary")
-  public String validateFiles(@RequestParam String entityValidate, RedirectAttributes attributes, Model model)
+  @ResponseBody
+  public Map<String, List<String>> validateFiles(@RequestParam String entityValidate, RedirectAttributes attributes, Model model)
       throws IOException, InterruptedException {
-    validate.callValidationProgram(entityValidate);
-    attributes.addFlashAttribute("message", "hello");
-    return "redirect:/api/entityValidate/" + entityValidate;
+    Map<String ,List<String>> map =validate.callValidationProgram(entityValidate);
+    System.out.println(map);
+    
+    attributes.addFlashAttribute("message", map);
+    return map;
+  }
+  @GetMapping("/validate/messageprimary")
+  @ResponseBody
+  public List<String> primaryMessage(@RequestParam String entityValidate) throws IOException, InterruptedException {
+    List<String> output = validate.callEntityValidationProgram(entityValidate);
+    return output;
   }
 
   @GetMapping("/validateSelect")

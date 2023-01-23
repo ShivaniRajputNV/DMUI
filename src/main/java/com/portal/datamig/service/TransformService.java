@@ -68,6 +68,8 @@ public class TransformService {
                     print("Output ", process.getInputStream());
                 }
             }
+            File filename = new File("../DMUtil/Transform/"+fileName);
+            filename.setLastModified(System.currentTimeMillis());
             // process.waitFor();
             // process.exitValue()
     }

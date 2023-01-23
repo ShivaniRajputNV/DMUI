@@ -9,10 +9,21 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -98,8 +109,9 @@ public class ReadService {
     public Map<String, String> readCSVFile(String name) throws IOException, Exception {
         String dirName = name;
         name = name.replaceAll("_", "");
-      //  Resource resource = new ClassPathResource("../DMUtil/Lookup/"+ dirName + "/" + name + "Lookup" + ".csv");
-        File file = new File("../DMUtil/Lookup/"+ dirName + "/" + name + "Lookup" + ".csv");
+        // Resource resource = new ClassPathResource("../DMUtil/Lookup/"+ dirName + "/"
+        // + name + "Lookup" + ".csv");
+        File file = new File("../DMUtil/Lookup/" + dirName + "/" + name + "Lookup" + ".csv");
         FileReader filereader = new FileReader(file);
         BufferedReader br = new BufferedReader(filereader);
         Map<String, String> map = new LinkedHashMap<>();
@@ -130,14 +142,16 @@ public class ReadService {
 
         return map;
     }
-    //primary lookup update
+
+    // primary lookup update
     public Map<String, String> saveLookup(Map<String, String> data, String fname) throws IOException {
         System.out.println(data.entrySet());
         String dirName = fname;
         fname = fname.replaceAll("_", "");
         // Resource resource = new ClassPathResource("/csvs/csvs/" + dirName + "/" +
         // fname + "Lookup" + ".csv");
-        File file = new File("../DMUtil/Lookup/"+ dirName + "/" + fname + "Lookup" + ".csv");
+        File file = new File("../DMUtil/Lookup/" + dirName + "/" + fname + "Lookup" + ".csv");
+        
         String eol = System.getProperty("line.separator");
 
         try (Writer writer = new FileWriter(file)) {
@@ -153,15 +167,18 @@ public class ReadService {
 
             e.printStackTrace();
         }
+        File folderName =new File("../DMUtil/Lookup/" + dirName);
+        folderName.setLastModified(System.currentTimeMillis());
         return data;
     }
+
     public Map<String, Map<String, String>> readCSVFiles(String fname) {
         Map<String, Map<String, String>> listMap = new HashMap();
         String dirName = fname;
         String filename = fname.replaceAll("_", "");
         try {
-           // Resource resource = new ClassPathResource("/csvs/csvs/" + dirName + "/");
-            File f = new File("../DMUtil/Lookup/"+ dirName + "/");
+            // Resource resource = new ClassPathResource("/csvs/csvs/" + dirName + "/");
+            File f = new File("../DMUtil/Lookup/" + dirName + "/");
             System.out.println("file name" + f);
             FilenameFilter filter = new FilenameFilter() {
                 @Override
@@ -191,9 +208,11 @@ public class ReadService {
         }
         return listMap;
     }
+
     public Map<String, String> printCSVFile(String name, String dirName) throws IOException {
-       // Resource resource = new ClassPathResource("/csvs/csvs/" + dirName + "/" + name);
-        File file = new File("../DMUtil/Lookup/"+ dirName + "/"+ name);
+        // Resource resource = new ClassPathResource("/csvs/csvs/" + dirName + "/" +
+        // name);
+        File file = new File("../DMUtil/Lookup/" + dirName + "/" + name);
         FileReader filereader = new FileReader(file);
         BufferedReader br = new BufferedReader(filereader);
         Map<String, String> map = new LinkedHashMap<String, String>();
@@ -220,6 +239,98 @@ public class ReadService {
             System.out.println(key + " " + map.get(key));
         }
         return map;
+    }
+
+    public Map<String, String> recentlyUsed(String folderName) throws IOException {
+        String homeDir = System.getProperty("user.home");
+        long weekAgo = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(2);
+        File directory = new File(homeDir + "/DMUtil/" + folderName);
+        Path filepath= Paths.get(homeDir + "/DMUtil/" + folderName);
+        File[] files = directory.listFiles(pathname -> pathname.lastModified() >= weekAgo && pathname.isDirectory());
+        List<String> flist = new ArrayList<>();
+        for (File file : files) {
+            System.out.println("Files are " + file.getName());
+            flist.add(file.getName());
+        }
+        System.out.println(flist+"File list");
+        // data from entity csv file
+        File file = new File(homeDir + "/DMUtil/EntityList.csv");
+        FileReader filereader = new FileReader(file);
+        BufferedReader br = new BufferedReader(filereader);
+        Map<String, String> colorMap = new HashMap<>();
+        Map<String, String> map = new LinkedHashMap<>();
+        String[] groupArray = new String[1000];
+        String line;
+        int i = 0, k = 0;
+        while ((line = br.readLine()) != null) {
+            String[] split = line.split(",");
+            if (k == 0) {
+                k++;
+                continue;
+            }
+            groupArray[i] = split[0].trim();
+            groupArray[i + 1] = (split.length > 1) ? split[1].trim() : "";
+            i += 2;
+        }
+        String keyname, keyvalue;
+        for (int j = 0; j < i; j += 2) {
+            keyname = groupArray[j];
+            keyvalue = groupArray[j + 1];
+            map.put(keyname, keyvalue);
+        }
+        for (Map.Entry m : map.entrySet()) {
+            if (flist.contains(m.getKey())) {
+                colorMap.put((String) m.getKey(), (String) m.getValue());
+            }
+            // System.out.println("VALUE: "+ m.getKey() + "");
+        }
+        System.out.print(colorMap);
+        System.out.println("Home Directory Linux " + homeDir);
+        return colorMap;
+    }
+
+    public Map<String, String> saveLookups(Map<String, String> data, String fname) throws IOException {
+        //System.out.println(data.entrySet());
+        String dirName = fname;
+        fname = fname.replaceAll("_", "");
+        String fileName = data.keySet().stream().findFirst().get();
+        System.out.println(fileName);
+        
+        File file = new File("../DMUtil/Lookup/" + dirName + "/" + fileName);
+        System.out.println(file);
+        System.out.println("DATA");
+        System.out.println(data);
+
+        // File file = new File("src/main/resources/csvs/csvs/" + dirName + "/" + fileName);
+        // System.out.println("src/main/resources/csvs/csvs/" + dirName + "/" + fileName);
+        String eol = System.getProperty("line.separator");
+
+        int k = 0, i = 1;
+        try (Writer writer = new FileWriter(file)) {
+        writer.append(lookup)
+        .append(eol);
+        for (Map.Entry<String, String> entry : data.entrySet()) {
+        if (k == 0) {
+        k++;
+        continue;
+        }
+
+        if ((i % 2) != 0) {
+        writer.append(entry.getValue())
+        .append(',');
+        } else {
+        writer.append(entry.getValue())
+        .append(eol);
+        }
+
+        i++;
+
+        }
+        } catch (IOException e) {
+
+        e.printStackTrace();
+        }
+        return data;
     }
 
 }

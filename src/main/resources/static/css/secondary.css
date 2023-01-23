@@ -220,3 +220,6 @@ margin-left: 10px;
   margin-top: 18px;
  color: #72B83E;
  }
+ table tr{
+  border: transparent;
+ }

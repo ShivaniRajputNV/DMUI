@@ -25,6 +25,8 @@ public class TransformController {
     @GetMapping("/transform")
     public String transform(Model model) throws IOException{
         model.addAttribute("entities", read.entityList());
+
+    model.addAttribute("recentList", read.recentlyUsed("Transform"));
         return "transform";
     }
     @GetMapping("/transforming/{name}")
