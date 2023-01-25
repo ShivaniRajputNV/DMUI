@@ -25,7 +25,7 @@
   </script>
 </head>
 
-<body>
+<body id="body-section">
   <section>
     <div class="container-fliud">
       <div class="row">
@@ -42,6 +42,9 @@
       </div>
     </div>
   </section>
+  <div class="spacer">
+    &nbsp;
+</div>
   <section>
     <div class="container-fliud">
       <div class="row" style="padding-left: 25px;">
@@ -95,7 +98,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3" style="padding: 0; padding-top: 10px;">
+        <div class="col-md-4" style="padding: 0; padding-top: 10px;">
           <div class="validateP" >
             <div class="div" id="hidediv">
             <div class="validate-box" >
@@ -105,13 +108,16 @@
             </div>
             <p id="messageOutput"></p>
             <p id="error"></p>
+            <div id="report-details" class="flex">
+
+            </div>
             <div class="validate-btn">
               <button   id="validateBtn" type="button" class="btn btn-default" style="border: 1px solid #0D71AC; " hidden="true" th:value="${name}">Validate</button>
             </div>
           </div>
           </div>
         </div>
-        <div class="col-md-5" style="padding: 0;padding-top: 10px;">
+        <div class="col-md-4" style="padding: 0;padding-top: 10px;">
           <div class="blank">
 
           </div>
@@ -121,8 +127,8 @@
   </section>
 
 
-  <section>
-    <div class="container-fliud">
+  <section id="secondary-section">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-md-12" style="padding-left: 60px;  padding-top: 5px;">
           <div class="fetch">
@@ -130,14 +136,14 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" id="secondary-container">
         <div class="col-md-3" style="padding: 0; padding-left: 60px; padding-top: 10px;">
           <div class="fetch-box">
             <div class="fetchP">
               <p id="secondaryProcessMessage" style="color:grey">Your file is ready to process...</p>
               <div class="fetch-btn">
                 <!-- <button type="button" class="btn btn-default" style="border: 1px solid #0D71AC; ">Fetch Now</button> -->
-                <select id="secondaryValidate" class="btn btn-default" style="border: 1px solid #0D71AC;" disabled>
+                <select id="secondaryValidate" class="btn btn-default" disabled="true">
                   <option selected>Fetch Now</option>
                 </select>
                 
@@ -164,16 +170,50 @@
               <button id="secondaryValidateBtn" type="button" class="btn btn-default" style="border: 1px solid #0D71AC; " hidden="true">Validate</button>
             </div>
           </div>
+          
         </div>
         <div class="col-md-5" style="padding: 0;padding-top: 10px;">
-          <div class="blank">
+            <div class="blank">
 
           </div>
-        </div>
       </div>
     </div>
+    
+    </div>
+    
   </section>
+  <section>
+  <div class="container-fluid" id="view-reports" hidden>
+    <div class="row">
+      <div class="col-md-10" style="padding-left: 60px;  padding-top: 5px;">
+        <div class="fetch">
+          <h3>View Reports</h3>
+        </div>
+        <div class="row" >
+          <div class="col-md-8" id="reports" >
+          <table id="add-reports">
 
+          </table>
+        </div>
+        </div>
+      </div>
+      </div>
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 py-4" style="padding-left: 53px;">
+      <div id="validate-done" class="text-center ">
+        <a th:href="@{/api/main}">
+        <button id="validateDone" class="btn btn-primary " type="button" hidden="true">Done</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  
+</section>
+  
 </body>
 
 </html>

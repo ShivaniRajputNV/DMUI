@@ -127,7 +127,7 @@ function deleteRow(el, sform) {
                 }
                 console.log(formMap);
                 $.ajax({
-                    url: '/api/writeSec/'+selectedFileName,
+                    url: '/api/writeSec/' + selectedFileName,
                     type: 'POST',
                     data: Object.fromEntries(formMap),
                     dataType: "json",
@@ -175,9 +175,9 @@ $(document).ready(function () {
                 $("#validateImg").prop("hidden", false);
                 $('#fetchP').html('<b>' + selectedFileName + '</b>' + " fetched successfully and ready to validate");
             },
-            error:function(){
+            error: function () {
                 $('#fetchP').html('<b>' + selectedFileName + '</b>' + " not Found !");
-   
+
             }
         })
     });
@@ -195,42 +195,54 @@ $(document).ready(function () {
             success: function (message) {
                 console.log(message);
                 let keys = Object.keys(message);
-                let vals =Object.values(message);
-                
-                console.log(vals+":"+keys);
-                if(keys=="Error"){
-                    console.log(keys+"="+"Error");
+                let vals = Object.values(message);
 
-                $('#fetchP').html("");
+                console.log(vals + ":" + keys);
+                if (keys == "Error") {
+                    console.log(keys + "=" + "Error");
 
-                $("#validateImg").prop("hidden", true);
+                    $('#fetchP').html("");
 
-                document.getElementById("error").style.color = "red";
+                    $("#validateImg").prop("hidden", true);
 
-                $('#error').html('<b>' + vals + '</b>');
+                    document.getElementById("error").style.color = "red";
 
-                $("#secondaryValidate").prop("disabled", true);
-                }else{
+                    $('#error').html('<b>' + selectedFileName + '</b>' + " Validation Failed!");
+
+                    $("#secondaryValidate").prop("disabled", true);
+                } else {
                     $("#validateImg").prop("hidden", false);
-                $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
-                $.ajax({
-                    url: '/api/validateSelect',
-                    type: 'GET',
-                    data: { 'entityValidate': selectedFileName },
-                    success: function (result) {
-                        console.log(result);
-                        $.each(result, function (key, value) {
-                            $("#secondaryValidate").append('<option' + '>' + value + '</option>');
-                            console.log(value);
-                        });
+                    $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
+
+                    // $('#validate-record').html('<b>' + selectedFileName + '</b>' + " 0 error records found");
+                    // $('#view-r').html('<i class="bi bi-eye"></i>View Report</a>');
+                    // $('#download-r').html('<i class="bi bi-download"></i>Download Report</a>');
+
+                    $('#report-details').append('0 records found');
+                    $('#report-details').append('<a href=""><i class="bi bi-eye"></i>view Report</a>');
+                    $('#report-details').append('<a href=""><i class="bi bi-download"></i>Download Report</a>');
+                    
+                    $.ajax({
+                        url: '/api/validateSelect',
+                        type: 'GET',
+                        data: { 'entityValidate': selectedFileName },
+                        success: function (result) {
+                            console.log(result);
+                            $.each(result, function (key, value) {
+                                $("#secondaryValidate").append('<option' + '>' + value + '</option>');
+                                $("#FetchMore").append('<option' + '>' + value + '</option>');
+                                console.log(value);
+                            });
 
 
-                    }
-                });
+                        }
+                    });
 
-                $("#secondaryValidate").prop("disabled", false);
-                document.getElementById("secondaryValidate").style.color = "#0D71AC";
-                document.getElementById("secondaryProcessMessage").style.color = "black";
+                    $("#secondaryValidate").prop("disabled", false);
+                    document.getElementById("secondaryValidate").style.color = "#0D71AC";
+
+                    document.getElementById("secondaryValidate").style.border = "1px solid #0D71AC";
+                    document.getElementById("secondaryProcessMessage").style.color = "black";
                 }
                 //call secondary
 
@@ -325,6 +337,7 @@ $(document).ready(function () {
     });
 });
 
+
 //validate secondary
 $(document).ready(function () {
     $('#secondaryValidateBtn').click(function () {
@@ -340,10 +353,35 @@ $(document).ready(function () {
                 document.getElementById("fetchS").style.color = "green";
                 $('#fetchS').html('<b>' + selectedFileName + '</b>' + " processed and validated successfully");
                 $('#secondaryValidateBtn').prop("hidden", true);
+                $('#secondaryValidate').prop("hidden", false);
+                $('#view-reports').prop("hidden", false);
+                //var tr = document.createElement("tr");
+                tr =`<tr>`;
+                var td = document.createElement("td");
+                const i = document.createElement('i');
+                const j = document.createElement('i');
+                 i.className = "bi bi-eye";
+                 j.className= "bi bi-download";
+                // li.appendChild(i);
+                // li.appendChild(document.createTextNode(selectedFileName));
+                
+                // li.appendChild(j);
+                // li.appendChild(document.createTextNode("Download Report"));
+                // ul.appendChild(li);
+               // ul.insertBefore(i,li);
+               tr +=  `<td><i class="bi bi-eye"></i>`+` `+selectedFileName+`</td>`;
+               tr += `<td><i class="bi bi-download"></i>`+` `+"Download Report"+`</td>`;
+                tr += `</tr>`;
+                $('table').append(tr);
+                //document.getElementById("add-reports").innerHTML= tr;
+               $('#validateDone').prop("hidden", false);
+
             }
         })
     });
 });
+
+
 
 // Function for progress bar
 
@@ -403,41 +441,53 @@ function closeForm() {
 
 //For Secondary Lookup submit
 $(document).ready(function () {
-    
+
     $('#submitSec').click(function () {
         var selectedFileName = $(this).val();
-    console.log(selectedFileName);
+        console.log(selectedFileName);
         // const validatebtn = document.getElementById("validateBtn");
         //var formsCollection = document.getElementsByTagName("form");
-       
-        var f=[]
+
+        var f = []
         const formm = new Map();
-        var dataModel ={};
+        var dataModel = {};
         for (var i = 0; i < document.forms.length; i++) {
-            var foo =document.forms[i];
+            var foo = document.forms[i];
             var fd = new FormData(foo);
             console.log(fd);
             const formMap = new Map();
-            for(var [key,value] of fd){
+            for (var [key, value] of fd) {
 
-                formMap.set(key,value);
-                
+                formMap.set(key, value);
+
             }
             console.log(formMap);
-             $.ajax({
-            url: '/api/writeSec/'+selectedFileName,
-            type: 'POST',
-            dataType:"json",
-            //contentType: "application/json",
-            data:Object.fromEntries(formMap),
-            success: function (message) {
-                console.log(message);
-            }
-        })
-          
-           
+            $.ajax({
+                url: '/api/writeSec/' + selectedFileName,
+                type: 'POST',
+                dataType: "json",
+                //contentType: "application/json",
+                data: Object.fromEntries(formMap),
+                success: function (message) {
+                    console.log(message);
+                }
+            })
+
+
         }
-       
-        
+
+
     });
 });
+
+$(document).ready(function () {
+    var i =$('#boolean').val();
+    console.log(i);
+    if(i=="false"){
+        console.log(i);
+        $('#hr').prop("hidden", true);
+        $('#secondary-circle').prop("hidden", true);
+        $('#submit').prop("hidden", true);
+    }
+    
+})

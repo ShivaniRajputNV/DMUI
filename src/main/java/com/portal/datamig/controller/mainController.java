@@ -58,9 +58,15 @@ public class mainController {
     } 
     @GetMapping("/primary/{name}")
     public String lookupfile(@PathVariable("name")String name,Model model) throws IOException, Exception{
+        Boolean a=true;
+        if(read.readCSVFiles(name).isEmpty()){
+            a=false;
+        }
+        System.out.println(a);
         if(name!=null){
             model.addAttribute("entityName",name);
             model.addAttribute("csvfile", read.readCSVFile(name));
+            model.addAttribute("boolean", a);
         }
         return "primary";
     }
