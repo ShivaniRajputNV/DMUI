@@ -64,6 +64,11 @@ public class mainController {
             a=false;
         }
         System.out.println(a);
+        Boolean a=true;
+        if(read.readCSVFiles(name).isEmpty()){
+            a=false;
+        }
+        System.out.println(a);
         if(name!=null){
             model.addAttribute("entityName",name);
             model.addAttribute("csvfile", read.readCSVFile(name));

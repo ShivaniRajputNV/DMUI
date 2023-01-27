@@ -19,6 +19,17 @@ $(document).ready(function () {
         })
     });
 });
+//successfully filled lookup file start
+
+
+      function submit() {
+        document.getElementById("popupForm").style.display = "block";
+      }
+      function closeForm() {
+        document.getElementById("popupForm").style.display = "none";
+      }
+    
+//successfully filled lookup file start
 
 
 //select admin primary entity
@@ -128,6 +139,7 @@ function deleteRow(el, sform) {
                 console.log(formMap);
                 $.ajax({
                     url: '/api/writeSec/' + selectedFileName,
+                    url: '/api/writeSec/' + selectedFileName,
                     type: 'POST',
                     data: Object.fromEntries(formMap),
                     dataType: "json",
@@ -195,6 +207,11 @@ $(document).ready(function () {
             success: function (message) {
                 console.log(message);
                 let keys = Object.keys(message);
+                let vals = Object.values(message);
+
+                console.log(vals + ":" + keys);
+                if (keys == "Error") {
+                    console.log(keys + "=" + "Error");
                 let vals = Object.values(message);
 
                 console.log(vals + ":" + keys);
@@ -442,21 +459,30 @@ function closeForm() {
 //For Secondary Lookup submit
 $(document).ready(function () {
 
+
     $('#submitSec').click(function () {
         var selectedFileName = $(this).val();
+        console.log(selectedFileName);
         console.log(selectedFileName);
         // const validatebtn = document.getElementById("validateBtn");
         //var formsCollection = document.getElementsByTagName("form");
 
         var f = []
+
+        var f = []
         const formm = new Map();
         var dataModel = {};
+        var dataModel = {};
         for (var i = 0; i < document.forms.length; i++) {
+            var foo = document.forms[i];
             var foo = document.forms[i];
             var fd = new FormData(foo);
             console.log(fd);
             const formMap = new Map();
             for (var [key, value] of fd) {
+            for (var [key, value] of fd) {
+
+                formMap.set(key, value);
 
                 formMap.set(key, value);
 
@@ -589,4 +615,14 @@ $(function () {
     });
 });
 
-
+$(document).ready(function () {
+    var i =$('#boolean').val();
+    console.log(i);
+    if(i=="false"){
+        console.log(i);
+        $('#hr').prop("hidden", true);
+        $('#secondary-circle').prop("hidden", true);
+        $('#submit').prop("hidden", true);
+    }
+    
+})
