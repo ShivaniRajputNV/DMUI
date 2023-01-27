@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,14 +68,20 @@ public class mainController {
             model.addAttribute("entityName",name);
             model.addAttribute("csvfile", read.readCSVFile(name));
             model.addAttribute("boolean", a);
+            String entityColor = read.entityList().entrySet().stream().filter(x-> x.getKey().equals(name)).map(Map.Entry::getValue).collect(Collectors.joining(", "));
+            
+             model.addAttribute("col",entityColor);
         }
         return "primary";
     }
     @GetMapping("/secondary/{name}")
-    public String secondary(@PathVariable("name")String name,Model model){
+    public String secondary(@PathVariable("name")String name,Model model) throws IOException{
         if(name!=null){
             model.addAttribute("entityName",name);
             model.addAttribute("csvfiles", read.readCSVFiles(name));
+            String entityColor = read.entityList().entrySet().stream().filter(x-> x.getKey().equals(name)).map(Map.Entry::getValue).collect(Collectors.joining(", "));
+            
+             model.addAttribute("col",entityColor);
         }
         return "secondary";
     } 
@@ -208,6 +215,17 @@ return "redirect:/api/auth";
 
         return "redirect:/api/secondary/"+name;
     }
+
+    @GetMapping("/search")
+    @ResponseBody public List<String> searchEntity(@RequestParam String name,HttpServletResponse response,RedirectAttributes attributes) throws IOException {
+        System.out.println(read.searchEntity(name));
+        List<String> names = read.searchEntity(name);
+        System.out.println("SEARCH");
+        System.out.print(names);
+            attributes.addFlashAttribute("names", names);
+            return names;
+    }
+
 }
 
 

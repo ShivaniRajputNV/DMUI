@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,9 +30,12 @@ public class ValidateController {
   ValidateService validate;
 
   @GetMapping("/entityValidate/{name}")
-  public String entityValidate(@PathVariable("name") String name, RedirectAttributes attributes) {
+  public String entityValidate(@PathVariable("name") String name, RedirectAttributes attributes,Model model) throws IOException {
     if (name != null) {
       attributes.addFlashAttribute("name", name);
+      String entityColor = read.entityList().entrySet().stream().filter(x-> x.getKey().equals(name)).map(Map.Entry::getValue).collect(Collectors.joining(", "));
+            
+             model.addAttribute("col",entityColor);
       
     }
     return "entityValidate";

@@ -12,8 +12,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
 
@@ -39,7 +39,7 @@
   </section>
   <div class="spacer">
     &nbsp;
-</div>
+  </div>
 
   <section>
     <div class="container-fliud">
@@ -50,10 +50,15 @@
           </div>
           <div class="search search-bar">
 
-            <input id="searchQueryInput" type="text" name="searchQueryInput" placeholder="Search" value="" />
+            <input id="searchQueryInputTransform" class="searchQueryInput" type="text" name="searchQueryInput"
+              placeholder="Search" value="" />
             <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
               <i class="bi bi-search"></i>
             </button>
+
+            <div id="search_list_area">
+              <div class="output"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -73,12 +78,12 @@
         <div class="col-md-1" th:each="option,i : ${recentList}">
           <div class="cards">
             <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
-              <h5 th:text="${#strings.substring(option.key,0,1)}" style="color:white;text-align: center;font-size: 25px;"></h5>
+              <h5 th:text="${#strings.substring(option.key,0,1)}"
+                style="color:white;text-align: center;font-size: 25px;"></h5>
             </div>
             <h6 class="Names">
               <a th:href="@{'/api/transforming/' + ${option.key}}" style="text-decoration: none; color:#333;">
-                <span th:value="${option.key}" th:text="${option.key}"
-                    th:name="${option.key}"></span>
+                <span th:value="${option.key}" th:text="${option.key}" th:name="${option.key}"></span>
               </a>
             </h6>
           </div>
@@ -104,7 +109,7 @@
             <div class="tags" style="margin-bottom: 15px;" th:each="option : ${entities}">
 
 
-              <div class="small_circle" style="  background-color: #56BDC5;">
+              <div class="small_circle" th:style="'background-color:' + ${option.value} + ';'">
                 <span th:text="${#strings.substring(option.key,0,1)}"></span>
 
               </div>

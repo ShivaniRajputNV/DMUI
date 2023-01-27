@@ -46,7 +46,7 @@ justify-content: space-between;
 .cards a{
   text-decoration: none;
 }
-#searchQueryInput {
+.searchQueryInput {
   margin-top: 10px;
   width: 100%;
   height: 3.5rem;
@@ -128,4 +128,37 @@ font-weight: 300;
   width: 30px;
   border-radius: 50%;
   color: white;
+}
+ul li{
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+
+ul{
+    margin-top:1rem;
+    padding:5px;
+
+   box-shadow: 0 3px 10px rgba(71, 133, 234, 0.2);
+  border: 1px solid lavender;
+  color: #333;
+  border-top: 0;
+  width:96%;
+}
+
+.output {
+margin-left: 17px;
+height: auto;
+width: 100%;
+}
+
+li:hover{
+  color: #56BDC5;
+}
+#test{
+  text-decoration: none;
+  color: #333;
+}
+#test:hover{
+  color: #56BDC5;
 }

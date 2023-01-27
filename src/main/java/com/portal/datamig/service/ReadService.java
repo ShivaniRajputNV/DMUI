@@ -333,4 +333,40 @@ public class ReadService {
         return data;
     }
 
+    // search functinality   
+     public List<String> searchEntity(String searchCriteria) throws IOException {
+        String homeDir = System.getProperty("user.home");
+        // data from entity csv file        
+        File file = new File(homeDir + "/DMUtil/EntityList.csv");
+        FileReader filereader = new FileReader(file);
+        BufferedReader br = new BufferedReader(filereader);
+        List<String> searchList = new ArrayList<>();
+        Map<String, String> map = new LinkedHashMap<>();
+        String[] groupArray = new String[1000];
+        String line;
+        int i = 0, k = 0;
+        while ((line = br.readLine()) != null) {
+            String[] split = line.split(",");
+            if (k == 0) {
+                k++;
+                continue;
+            }
+            groupArray[i] = split[0].trim();
+            groupArray[i + 1] = (split.length > 1) ? split[1].trim() : "";
+            i += 2;
+        }
+        String keyname, keyvalue;
+        for (int j = 0; j < i; j += 2) {
+            keyname = groupArray[j];
+            keyvalue = groupArray[j + 1];
+            map.put(keyname, keyvalue);
+        }
+        for (Map.Entry m : map.entrySet()) {
+            searchList.add((String) m.getKey());
+            System.out.println("VALUE: " + m.getKey() + "");
+        }              
+        
+        return searchList.stream().filter(n->n.toLowerCase().contains(searchCriteria.toLowerCase())).collect(Collectors.toList());
+    }
+
 }

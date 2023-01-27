@@ -1,6 +1,8 @@
 package com.portal.datamig.controller;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,9 +32,12 @@ public class TransformController {
         return "transform";
     }
     @GetMapping("/transforming/{name}")
-    public String transforming(@PathVariable("name")String name,RedirectAttributes redirectAttributes){
+    public String transforming(@PathVariable("name")String name,RedirectAttributes redirectAttributes ,Model model) throws IOException{
         if(name!=null){
             redirectAttributes.addFlashAttribute("name",name);
+            String entityColor = read.entityList().entrySet().stream().filter(x-> x.getKey().equals(name)).map(Map.Entry::getValue).collect(Collectors.joining(", "));
+            
+             model.addAttribute("col",entityColor);
         }
         return "transforming";
     }

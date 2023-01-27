@@ -53,12 +53,12 @@
 
 .selected-entity {
     margin-left: 10px;
-    width: 120px;
+    width: auto;
     margin-top: 10px;
     height: 40px;
     background-color: #f5f5f5;
     display: flex;
-    padding: 5px 5px 5px 5px;
+    padding: 5px;
     border-radius: 7px;
 }
 

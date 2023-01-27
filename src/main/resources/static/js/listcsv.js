@@ -420,16 +420,16 @@ function move() {
 }
 
 //bg colour chooser for cards
-$(document).ready(function () {
-    var index = 0;
-    $(".small_circle").each(function (item) {
-        var colors = ["#D8C595 ", "#3E64B8", "#56BDC5", "#656464", "#6EC3E1", "#2D6664", "#F0823D", "#2B8CC6"];
-        var colorsLength = colors.length;
-        var colorIndex = index % colorsLength;
-        $(this).css("background-color", colors[colorIndex]);
-        index++;
-    });
-});
+// $(document).ready(function () {
+//     var index = 0;
+//     $(".small_circle").each(function (item) {
+//         var colors = ["#D8C595 ", "#3E64B8", "#56BDC5", "#656464", "#6EC3E1", "#2D6664", "#F0823D", "#2B8CC6"];
+//         var colorsLength = colors.length;
+//         var colorIndex = index % colorsLength;
+//         $(this).css("background-color", colors[colorIndex]);
+//         index++;
+//     });
+// });
 
 // Global Lookup Popup Script
 function openForm() {
@@ -472,16 +472,17 @@ $(document).ready(function () {
                     console.log(message);
                 }
             })
+           
+
+        };
 
 
-        }
-
-
-    });
+    }); 
+    
 });
 
 $(document).ready(function () {
-    var i =$('#boolean').val();
+    var i =$('#boolean').attr("name");
     console.log(i);
     if(i=="false"){
         console.log(i);
@@ -490,4 +491,102 @@ $(document).ready(function () {
         $('#submit').prop("hidden", true);
     }
     
-})
+});
+
+//search functionality
+$(function () {
+    // Document is ready    
+    $("#searchQueryInputLookup").keyup(function () {
+        var value = $("#searchQueryInputLookup").val();
+        var loc = "../api/primary/";
+        var result = document.querySelector('.output');
+        var element = document.getElementById("searchLink");
+        // element.style.visibility = "visible";       
+         if(!value){
+            result.innerHTML='';
+            return       
+         }
+
+        $.ajax({
+            type: "GET",
+            url: "/api/search",
+            data: { 'name': value },
+            dataType: "JSON",
+            success: function (data) {
+                //Receiving the result of search here                
+                var res = '<ul>';
+                data.forEach(e => {
+                    // res += '<li id="autocomplete">' + e + '</li>';                    
+                    res += `<li id="autocomplete"`+'value="'+e+'"'+`>`+`<a id="test" href="`+loc+e+`"`+ `>`+e+`</a>`+`</li>`;
+                })
+                res += '</ul>';
+                result.innerHTML = res;
+            }
+        });
+    });
+});
+$(function () {
+    // Document is ready    
+    $("#searchQueryInputValidate").keyup(function () {
+        var value = $("#searchQueryInputValidate").val();
+        var loc = "../api/entityValidate/";
+        var result = document.querySelector('.output');
+        var element = document.getElementById("searchLink");
+        // element.style.visibility = "visible";       
+         if(!value){
+            result.innerHTML='';
+            return       
+         }
+
+        $.ajax({
+            type: "GET",
+            url: "/api/search",
+            data: { 'name': value },
+            dataType: "JSON",
+            success: function (data) {
+                //Receiving the result of search here                
+                var res = '<ul>';
+                data.forEach(e => {
+                    // res += '<li id="autocomplete">' + e + '</li>';                    
+                    res += `<li id="autocomplete"`+'value="'+e+'"'+`>`+`<a id="test" href="`+loc+e+`"`+ `>`+e+`</a>`+`</li>`;
+                })
+                res += '</ul>';
+                result.innerHTML = res;
+            }
+        });
+    });
+});
+$(function () {
+    // Document is ready    
+    $("#searchQueryInputTransform").keyup(function () {
+        var value = $("#searchQueryInputTransform").val();
+        var loc = "../api/transforming/";
+
+        var result = document.querySelector('.output');
+        var element = document.getElementById("searchLink");
+        // element.style.visibility = "visible";       
+         if(!value){
+            result.innerHTML='';
+            return       
+         }
+
+        $.ajax({
+            type: "GET",
+            url: "/api/search",
+            data: { 'name': value },
+            dataType: "JSON",
+            success: function (data) {
+                //Receiving the result of search here                
+                var res = '<ul>';
+                data.forEach(e => {
+                    // res += '<li id="autocomplete">' + e + '</li>';                    
+                    res += `<li id="autocomplete"`+'value="'+e+'"'+`>`+`<a id="test" href="`+loc+e+`"`+ `>`+e+`</a>`+`</li>`;
+                })
+                res += '</ul>';
+                result.innerHTML = res;
+            }
+        });
+    });
+});
+
+

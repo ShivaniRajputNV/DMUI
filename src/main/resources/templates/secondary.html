@@ -28,7 +28,7 @@
                 <div class="col-md-12" style="background-color: black;">
                     <div class="Heading">
                         <h1> Lookup Files</h1>
-                        <a th:href="@{'/api/primary/'+${entityName}}">
+                        <a th:href="@{'/api/lookup'}">
 
                             <button type="button" class="btn-close btn-close-white" style="opacity: .9;"
                                 aria-label="Close"></button>
@@ -49,7 +49,7 @@
                         <h3>Entity Selected:</h3>
                         <div class="selected-entity">
                             <div class="circle"
-                                style="background-color: #3E64B8; padding-top: 6px; align-items: center;">
+                            th:style="'background-color:' + ${col} + ';padding-top: 6px; align-items: center;'">
                                 <h5 style="color:white;text-align: center; font-size: 12px; margin-left: 12px;">A</h5>
                             </div>
                             <div class="name">
@@ -124,9 +124,12 @@
             <div class="row">
                 <div class="col-md-12 ">
                     <div class="buttons">
-                        <button type="button" id="cancel" class="btn btn-default">Cancel</button>
-                        <button type="button" id="save" class="btn btn-default">Save</button>
-                        <button type="button" id="submitSec" class="btn btn-default" th:value="${entityName}">Submit</button>
+                        <a th:href="@{'/api/primary/'+${entityName}}">
+                        <button type="button" id="cancel" class="btn btn-default">Cancel</button></a>
+                        <button type="button" id="submitSec" class="btn btn-default" th:value="${entityName}">Save</button>
+                        <a th:href="@{'/api/main'}">
+                        <button type="button" id="submit-slookup" th:value="${entityName}" class="btn btn-default" >Submit</button>
+                    </a>
                     </div>
                 </div>
             </div>

@@ -51,10 +51,9 @@
                     <div class="selected-row">
                         <h3>Entity Selected:</h3>
                         <div class="selected-entity">
-                            <div class="circle small_circle"
-                                style=" padding-top: 6px; align-items: center;">
-                                <h5 style="color:white;text-align: center; font-size: 12px; margin-left: 12px;">A</h5>
-                            </div>
+                            <div class="circle small_circle" th:style="'background-color:' + ${col} + ';padding-top: 6px; align-items: center;'">
+                                <h5 style="color:white;text-align: center; font-size: 12px; margin-left: 12px;" th:text="${#strings.substring(name,0,1)}"></h5>
+                              </div>
                             <div class="name">
                                 <h6 th:text="${entityName}"></h6>
                             </div>
@@ -69,19 +68,21 @@
                 <div class="col-md-4" style="padding-left: 65px;  padding-top: 5px;">
                     <div class="primary">
                         
-                        <p>
+                        <p id="primary-circle">
                         </p>
                         <hr id="hr">
                         <p id="secondary-circle" style="background-color:gray;"></p>
                            
                         
                         <h3>Primary Lookup File</h3>
-                        <input id="boolean" th:name="${boolean}" th:value="${boolean}" type="hidden">
+                        <span id="boolean" th:name="${boolean}" th:value="${boolean}" type="hidden"></span>
                     </div>
                     <div class="values-fields">
 
                             <p id="setPrimary" th:text="${Updatemessage}" th:if="${Updatemessage ne null}" class=""></p>
+                            <p id="check-status" th:text="${status}" th:name="${status}" th:value="${status}" th:if="${status ne null}" class="" hidden="true"></p>
                             
+
                             <!-- <table >
                                 <div class="form-group" th:each=" map : ${csvfile}">
                                     <tr>

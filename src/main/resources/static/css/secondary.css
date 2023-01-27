@@ -158,12 +158,12 @@
     font-size: 15px;
     color: #0E7DBF;
  }
- .buttons #save{
+ .buttons #submitSec{
     color: #0E7DBF;
     margin-right: 10px;
     font-size: 15px;
  }
- .buttons #submit{
+ .buttons #submit-slookup{
     padding: 2px 25px 2px 25px;
     background-color: #0E7DBF;
     color: #fff;

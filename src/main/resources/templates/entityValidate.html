@@ -52,7 +52,7 @@
           <div class="selected-row">
             <h3>Entity Selected:</h3>
             <div class="selected-entity" style="width: auto;">
-              <div class="circle" style="background-color: #3E64B8; padding-top: 6px; align-items: center;">
+              <div class="circle" th:style="'background-color:' + ${col} + ';padding-top: 6px; align-items: center;'">
                 <h5 style="color:white;text-align: center; font-size: 12px; margin-left: 12px;" th:text="${#strings.substring(name,0,1)}"></h5>
               </div>
               <div class="name">
