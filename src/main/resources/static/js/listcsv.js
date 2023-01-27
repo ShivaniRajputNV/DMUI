@@ -22,13 +22,13 @@ $(document).ready(function () {
 //successfully filled lookup file start
 
 
-      function submit() {
-        document.getElementById("popupForm").style.display = "block";
-      }
-      function closeForm() {
-        document.getElementById("popupForm").style.display = "none";
-      }
-    
+function submit() {
+    document.getElementById("popupForm").style.display = "block";
+}
+function closeForm() {
+    document.getElementById("popupForm").style.display = "none";
+}
+
 //successfully filled lookup file start
 
 
@@ -212,97 +212,98 @@ $(document).ready(function () {
                 console.log(vals + ":" + keys);
                 if (keys == "Error") {
                     console.log(keys + "=" + "Error");
-                let vals = Object.values(message);
+                    let vals = Object.values(message);
 
-                console.log(vals + ":" + keys);
-                if (keys == "Error") {
-                    console.log(keys + "=" + "Error");
+                    console.log(vals + ":" + keys);
+                    if (keys == "Error") {
+                        console.log(keys + "=" + "Error");
 
-                    $('#fetchP').html("");
+                        $('#fetchP').html("");
 
-                    $("#validateImg").prop("hidden", true);
+                        $("#validateImg").prop("hidden", true);
 
-                    document.getElementById("error").style.color = "red";
+                        document.getElementById("error").style.color = "red";
 
-                    $('#error').html('<b>' + selectedFileName + '</b>' + " Validation Failed!");
+                        $('#error').html('<b>' + selectedFileName + '</b>' + " Validation Failed!");
 
-                    $("#secondaryValidate").prop("disabled", true);
-                } else {
-                    $("#validateImg").prop("hidden", false);
-                    $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
+                        $("#secondaryValidate").prop("disabled", true);
+                    } else {
+                        $("#validateImg").prop("hidden", false);
+                        $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
 
-                    // $('#validate-record').html('<b>' + selectedFileName + '</b>' + " 0 error records found");
-                    // $('#view-r').html('<i class="bi bi-eye"></i>View Report</a>');
-                    // $('#download-r').html('<i class="bi bi-download"></i>Download Report</a>');
+                        // $('#validate-record').html('<b>' + selectedFileName + '</b>' + " 0 error records found");
+                        // $('#view-r').html('<i class="bi bi-eye"></i>View Report</a>');
+                        // $('#download-r').html('<i class="bi bi-download"></i>Download Report</a>');
 
-                    $('#report-details').append('0 records found');
-                    $('#report-details').append('<a href=""><i class="bi bi-eye"></i>view Report</a>');
-                    $('#report-details').append('<a href=""><i class="bi bi-download"></i>Download Report</a>');
-                    
+                        $('#report-details').append('0 records found');
+                        $('#report-details').append('<a href=""><i class="bi bi-eye"></i>view Report</a>');
+                        $('#report-details').append('<a href=""><i class="bi bi-download"></i>Download Report</a>');
+
+                        $.ajax({
+                            url: '/api/validateSelect',
+                            type: 'GET',
+                            data: { 'entityValidate': selectedFileName },
+                            success: function (result) {
+                                console.log(result);
+                                $.each(result, function (key, value) {
+                                    $("#secondaryValidate").append('<option' + '>' + value + '</option>');
+                                    $("#FetchMore").append('<option' + '>' + value + '</option>');
+                                    console.log(value);
+                                });
+
+
+                            }
+                        });
+
+                        $("#secondaryValidate").prop("disabled", false);
+                        document.getElementById("secondaryValidate").style.color = "#0D71AC";
+
+                        document.getElementById("secondaryValidate").style.border = "1px solid #0D71AC";
+                        document.getElementById("secondaryProcessMessage").style.color = "black";
+                    }
+                    //call secondary
+
+                    // $.ajax({
+                    //     url: '/api/validateSelect',
+                    //     type: 'GET',
+                    //     data: { 'entityValidate': selectedFileName },
+                    //     success: function (result) {
+                    //         console.log(result);
+                    //         $.each(result, function (key, value) {
+                    //             $("#secondaryValidate").append('<option' + '>' + value + '</option>');
+                    //             console.log(value);
+                    //         });
+
+
+                    //     }
+                    // })
+
+                    //end call secondary
                     $.ajax({
-                        url: '/api/validateSelect',
+                        url: '/api/validate/messageprimary',
                         type: 'GET',
                         data: { 'entityValidate': selectedFileName },
                         success: function (result) {
                             console.log(result);
                             $.each(result, function (key, value) {
-                                $("#secondaryValidate").append('<option' + '>' + value + '</option>');
-                                $("#FetchMore").append('<option' + '>' + value + '</option>');
+                                $('#messageOutput').html(value);
                                 console.log(value);
                             });
 
 
                         }
-                    });
+                    })
 
-                    $("#secondaryValidate").prop("disabled", false);
-                    document.getElementById("secondaryValidate").style.color = "#0D71AC";
+                    $("#validateBtn").prop("hidden", true);
+                    //$("#validateImg").prop("hidden", false);
 
-                    document.getElementById("secondaryValidate").style.border = "1px solid #0D71AC";
-                    document.getElementById("secondaryProcessMessage").style.color = "black";
+                    document.getElementById("fetchP").style.color = "green";
+                    // $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
+                    // $("#secondaryValidate").prop("disabled", false);
+                    // document.getElementById("secondaryValidate").style.color = "#0D71AC";
+                    // document.getElementById("secondaryProcessMessage").style.color = "black";
+
                 }
-                //call secondary
-
-                // $.ajax({
-                //     url: '/api/validateSelect',
-                //     type: 'GET',
-                //     data: { 'entityValidate': selectedFileName },
-                //     success: function (result) {
-                //         console.log(result);
-                //         $.each(result, function (key, value) {
-                //             $("#secondaryValidate").append('<option' + '>' + value + '</option>');
-                //             console.log(value);
-                //         });
-
-
-                //     }
-                // })
-
-                //end call secondary
-                $.ajax({
-                    url: '/api/validate/messageprimary',
-                    type: 'GET',
-                    data: { 'entityValidate': selectedFileName },
-                    success: function (result) {
-                        console.log(result);
-                        $.each(result, function (key, value) {
-                            $('#messageOutput').html(value);
-                            console.log(value);
-                        });
-
-
-                    }
-                })
-
-                $("#validateBtn").prop("hidden", true);
-                //$("#validateImg").prop("hidden", false);
-
-                document.getElementById("fetchP").style.color = "green";
-                // $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
-                // $("#secondaryValidate").prop("disabled", false);
-                // document.getElementById("secondaryValidate").style.color = "#0D71AC";
-                // document.getElementById("secondaryProcessMessage").style.color = "black";
-
             }
         })
     });
@@ -373,25 +374,25 @@ $(document).ready(function () {
                 $('#secondaryValidate').prop("hidden", false);
                 $('#view-reports').prop("hidden", false);
                 //var tr = document.createElement("tr");
-                tr =`<tr>`;
+                tr = `<tr>`;
                 var td = document.createElement("td");
                 const i = document.createElement('i');
                 const j = document.createElement('i');
-                 i.className = "bi bi-eye";
-                 j.className= "bi bi-download";
+                i.className = "bi bi-eye";
+                j.className = "bi bi-download";
                 // li.appendChild(i);
                 // li.appendChild(document.createTextNode(selectedFileName));
-                
+
                 // li.appendChild(j);
                 // li.appendChild(document.createTextNode("Download Report"));
                 // ul.appendChild(li);
-               // ul.insertBefore(i,li);
-               tr +=  `<td><i class="bi bi-eye"></i>`+` `+selectedFileName+`</td>`;
-               tr += `<td><i class="bi bi-download"></i>`+` `+"Download Report"+`</td>`;
+                // ul.insertBefore(i,li);
+                tr += `<td><i class="bi bi-eye"></i>` + ` ` + selectedFileName + `</td>`;
+                tr += `<td><i class="bi bi-download"></i>` + ` ` + "Download Report" + `</td>`;
                 tr += `</tr>`;
                 $('table').append(tr);
                 //document.getElementById("add-reports").innerHTML= tr;
-               $('#validateDone').prop("hidden", false);
+                $('#validateDone').prop("hidden", false);
 
             }
         })
@@ -480,43 +481,43 @@ $(document).ready(function () {
             console.log(fd);
             const formMap = new Map();
             for (var [key, value] of fd) {
-            for (var [key, value] of fd) {
+                for (var [key, value] of fd) {
 
-                formMap.set(key, value);
+                    formMap.set(key, value);
 
-                formMap.set(key, value);
+                    formMap.set(key, value);
 
-            }
-            console.log(formMap);
-            $.ajax({
-                url: '/api/writeSec/' + selectedFileName,
-                type: 'POST',
-                dataType: "json",
-                //contentType: "application/json",
-                data: Object.fromEntries(formMap),
-                success: function (message) {
-                    console.log(message);
                 }
-            })
-           
+                console.log(formMap);
+                $.ajax({
+                    url: '/api/writeSec/' + selectedFileName,
+                    type: 'POST',
+                    dataType: "json",
+                    //contentType: "application/json",
+                    data: Object.fromEntries(formMap),
+                    success: function (message) {
+                        console.log(message);
+                    }
+                })
+
+
+            };
+
 
         };
-
-
-    }); 
-    
+    })
 });
 
 $(document).ready(function () {
-    var i =$('#boolean').attr("name");
+    var i = $('#boolean').attr("name");
     console.log(i);
-    if(i=="false"){
+    if (i == "false") {
         console.log(i);
         $('#hr').prop("hidden", true);
         $('#secondary-circle').prop("hidden", true);
         $('#submit').prop("hidden", true);
     }
-    
+
 });
 
 //search functionality
@@ -528,10 +529,10 @@ $(function () {
         var result = document.querySelector('.output');
         var element = document.getElementById("searchLink");
         // element.style.visibility = "visible";       
-         if(!value){
-            result.innerHTML='';
-            return       
-         }
+        if (!value) {
+            result.innerHTML = '';
+            return
+        }
 
         $.ajax({
             type: "GET",
@@ -543,7 +544,7 @@ $(function () {
                 var res = '<ul>';
                 data.forEach(e => {
                     // res += '<li id="autocomplete">' + e + '</li>';                    
-                    res += `<li id="autocomplete"`+'value="'+e+'"'+`>`+`<a id="test" href="`+loc+e+`"`+ `>`+e+`</a>`+`</li>`;
+                    res += `<li id="autocomplete"` + 'value="' + e + '"' + `>` + `<a id="test" href="` + loc + e + `"` + `>` + e + `</a>` + `</li>`;
                 })
                 res += '</ul>';
                 result.innerHTML = res;
@@ -559,10 +560,10 @@ $(function () {
         var result = document.querySelector('.output');
         var element = document.getElementById("searchLink");
         // element.style.visibility = "visible";       
-         if(!value){
-            result.innerHTML='';
-            return       
-         }
+        if (!value) {
+            result.innerHTML = '';
+            return
+        }
 
         $.ajax({
             type: "GET",
@@ -574,7 +575,7 @@ $(function () {
                 var res = '<ul>';
                 data.forEach(e => {
                     // res += '<li id="autocomplete">' + e + '</li>';                    
-                    res += `<li id="autocomplete"`+'value="'+e+'"'+`>`+`<a id="test" href="`+loc+e+`"`+ `>`+e+`</a>`+`</li>`;
+                    res += `<li id="autocomplete"` + 'value="' + e + '"' + `>` + `<a id="test" href="` + loc + e + `"` + `>` + e + `</a>` + `</li>`;
                 })
                 res += '</ul>';
                 result.innerHTML = res;
@@ -591,10 +592,10 @@ $(function () {
         var result = document.querySelector('.output');
         var element = document.getElementById("searchLink");
         // element.style.visibility = "visible";       
-         if(!value){
-            result.innerHTML='';
-            return       
-         }
+        if (!value) {
+            result.innerHTML = '';
+            return
+        }
 
         $.ajax({
             type: "GET",
@@ -606,7 +607,7 @@ $(function () {
                 var res = '<ul>';
                 data.forEach(e => {
                     // res += '<li id="autocomplete">' + e + '</li>';                    
-                    res += `<li id="autocomplete"`+'value="'+e+'"'+`>`+`<a id="test" href="`+loc+e+`"`+ `>`+e+`</a>`+`</li>`;
+                    res += `<li id="autocomplete"` + 'value="' + e + '"' + `>` + `<a id="test" href="` + loc + e + `"` + `>` + e + `</a>` + `</li>`;
                 })
                 res += '</ul>';
                 result.innerHTML = res;
@@ -616,13 +617,13 @@ $(function () {
 });
 
 $(document).ready(function () {
-    var i =$('#boolean').val();
+    var i = $('#boolean').val();
     console.log(i);
-    if(i=="false"){
+    if (i == "false") {
         console.log(i);
         $('#hr').prop("hidden", true);
         $('#secondary-circle').prop("hidden", true);
         $('#submit').prop("hidden", true);
     }
-    
+
 })
