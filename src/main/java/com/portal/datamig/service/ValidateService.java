@@ -87,7 +87,7 @@ public class ValidateService {
     }
 
     public void callSecondaryValidationProgram(String selectedFolder) throws IOException, InterruptedException{
-        String loc = "../DMUtil/Validate/CmCommonValidation.java";
+        String loc = "../DMUtil"+File.separator+"Validate"+File.separator+"CmCommonValidation.java";
         String loc1 = "java -cp /home/anshika/DMUtil/Validate/CmCommonValidation"+" "+"/home/anshika/DMUtil/Input/"+selectedFolder+" "+"/home/anshika/DMUtil/Validate/Mapping_Sheet/"+selectedFolder+".csv";
         String[] nn = selectedFolder.split("/");
         String command[] = {"javac", loc};
@@ -99,7 +99,7 @@ public class ValidateService {
             }
             System.out.println(process.exitValue());
             if (process.exitValue() == 0) {
-                process = new ProcessBuilder(new String[]{"java", "-cp", "../DMUtil/Validate/", "CmCommonValidation","../DMUtil/Input/"+selectedFolder,"../DMUtil/Validate/Mapping_Sheet/"+nn[1].replace("_", "")+".csv"}).start();
+                process = new ProcessBuilder(new String[]{"java", "-cp", "../DMUtil"+File.separator+"Validate"+File.separator, "CmCommonValidation","../DMUtil"+File.separator+"Input"+File.separator+selectedFolder,"../DMUtil"+File.separator+"Validate"+File.separator+"Mapping_Sheet"+File.separator+nn[1].replace("_", "")+".csv"}).start();
                 if (process.getErrorStream().read() != -1) {
                     print("Errors ", process.getErrorStream());
                 } else {

@@ -22,7 +22,7 @@
 <body>
     <section>
 
-        <form id="formread" th:action="@{'/api/write/'+${entityName}}" th:object="${csvfile}" th:method="post">
+        <form id="formread" th:action="@{'/api/write/'+${entityName}}" th:object="${csvfile}" th:method="post" onsubmit="setStatus('true')">
         <div class="container-fliud pb-5">
             <div class="row">
                 <div class="col-md-12 bg-dark ">
@@ -138,6 +138,16 @@
         </footer>
         </form>
     </section>
+    <div class="loginPopup">
+        <div class="formPopup" id="popupForm">
+           
+            <img src="" th:src="@{/assets/done.svg}" alt=""> 
+            <a id="popup-close" th:href="@{'/api/primary/'+${entityName}}">
+            <button class="close"> &times; </button> 
+        </a> 
+         <p th:text="${#strings.concat('You successfully filled lookup values of ',entityName)}"></p>
+        </div>
+      </div>
 </body>
 
 </html>

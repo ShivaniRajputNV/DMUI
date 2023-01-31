@@ -204,3 +204,60 @@ opacity: 1;
     z-index: 1000;
     border-top:  1px solid #333;
     }
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+.loginPopup {
+
+  position: relative;
+ 
+  text-align: center;
+  width: 100%;
+}
+.formPopup {
+ 
+  height: 18%;
+  width:16%;
+  display: none;
+  position: fixed;
+  padding: 10px;
+  left: 50%;
+  top: 35%;
+  transform: translate(-50%, 5%);
+  /* box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);*/
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+  z-index: 9;
+}
+.formPopup img{
+margin-top: 2rem;
+margin-left: 1rem;
+}
+.formPopup  p{
+  color: #333;
+margin-top: 1rem;
+font-size: 17px;
+font-weight: 300;
+}
+.formPopup .close{
+border: none;
+color: grey;
+background-color: transparent;
+font-size: 1.5rem;
+font-weight: 300;
+margin-right: 6px;
+}

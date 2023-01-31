@@ -296,7 +296,7 @@ public class ReadService {
         String fileName = data.keySet().stream().findFirst().get();
         System.out.println(fileName);
         
-        File file = new File("../DMUtil/Lookup/" + dirName + "/" + fileName);
+        File file = new File("../DMUtil"+File.separator+"Lookup" +File.separator+ dirName + File.separator+ fileName);
         System.out.println(file);
         System.out.println("DATA");
         System.out.println(data);

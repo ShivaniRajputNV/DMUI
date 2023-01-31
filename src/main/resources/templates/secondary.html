@@ -141,7 +141,7 @@
                             <a th:href="@{/api/main}">
                             <button class="close"> &times; </button> 
                         </a> 
-                         <p>You Successfully filled lookup field values</p>
+                         <p th:text="${#strings.concat('You successfully filled lookup values of ',entityName)}"></p>
                         </div>
                       </div>
 

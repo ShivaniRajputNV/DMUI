@@ -30,6 +30,21 @@ function closeForm() {
 }
 
 //successfully filled lookup file start
+$(document).ready(function () {
+
+    console.log(sessionStorage.getItem("status"));
+    if (sessionStorage.getItem("status") == "true") {
+
+        console.log("Primary popup");
+        document.getElementById("popupForm").style.display = "block";
+        sessionStorage.clear();
+    }
+
+
+})
+function setStatus(s_status) {
+    sessionStorage.setItem("status", s_status);
+}
 
 
 //select admin primary entity
@@ -210,102 +225,103 @@ $(document).ready(function () {
                 let vals = Object.values(message);
 
                 console.log(vals + ":" + keys);
+
+
+                console.log(vals + ":" + keys);
                 if (keys == "Error") {
                     console.log(keys + "=" + "Error");
-                    let vals = Object.values(message);
 
-                    console.log(vals + ":" + keys);
-                    if (keys == "Error") {
-                        console.log(keys + "=" + "Error");
+                    $('#fetchP').html("");
 
-                        $('#fetchP').html("");
+                    $("#validateImg").prop("hidden", true);
 
-                        $("#validateImg").prop("hidden", true);
+                    document.getElementById("error").style.color = "red";
 
-                        document.getElementById("error").style.color = "red";
+                    $('#error').html('<b>' + selectedFileName + '</b>' + " Validation Failed!");
 
-                        $('#error').html('<b>' + selectedFileName + '</b>' + " Validation Failed!");
+                    $("#secondaryValidate").prop("disabled", true);
+                } else {
+                    $("#validateImg").prop("hidden", false);
+                    $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
+                    $("#fetchbtn").prop("disabled", true);
 
-                        $("#secondaryValidate").prop("disabled", true);
-                    } else {
-                        $("#validateImg").prop("hidden", false);
-                        $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
+                    document.getElementById("fetchbtn").style.border = "1px solid grey";
+                    // $('#validate-record').html('<b>' + selectedFileName + '</b>' + " 0 error records found");
+                    // $('#view-r').html('<i class="bi bi-eye"></i>View Report</a>');
+                    // $('#download-r').html('<i class="bi bi-download"></i>Download Report</a>');
 
-                        // $('#validate-record').html('<b>' + selectedFileName + '</b>' + " 0 error records found");
-                        // $('#view-r').html('<i class="bi bi-eye"></i>View Report</a>');
-                        // $('#download-r').html('<i class="bi bi-download"></i>Download Report</a>');
+                    $('#report-details').append('0 records found');
+                    //$('#report-details').append('<a href="../view" onclick="showReport()" value=' + selectedFileName + ' id="primary-report-view"><i class="bi bi-eye"></i>View Report</a>');
+                    $('#report-details').append('<button onclick="showReport()" id="primary-report-view" class="w3-button w3-black" value=' + selectedFileName+' >View Report</button>')
+                    $('#report-details').append('<a href="" id="validate-download-primary"><i class="bi bi-download"></i>Download Report</a>');
 
-                        $('#report-details').append('0 records found');
-                        $('#report-details').append('<a href=""><i class="bi bi-eye"></i>view Report</a>');
-                        $('#report-details').append('<a href=""><i class="bi bi-download"></i>Download Report</a>');
-
-                        $.ajax({
-                            url: '/api/validateSelect',
-                            type: 'GET',
-                            data: { 'entityValidate': selectedFileName },
-                            success: function (result) {
-                                console.log(result);
-                                $.each(result, function (key, value) {
-                                    $("#secondaryValidate").append('<option' + '>' + value + '</option>');
-                                    $("#FetchMore").append('<option' + '>' + value + '</option>');
-                                    console.log(value);
-                                });
-
-
-                            }
-                        });
-
-                        $("#secondaryValidate").prop("disabled", false);
-                        document.getElementById("secondaryValidate").style.color = "#0D71AC";
-
-                        document.getElementById("secondaryValidate").style.border = "1px solid #0D71AC";
-                        document.getElementById("secondaryProcessMessage").style.color = "black";
-                    }
-                    //call secondary
-
-                    // $.ajax({
-                    //     url: '/api/validateSelect',
-                    //     type: 'GET',
-                    //     data: { 'entityValidate': selectedFileName },
-                    //     success: function (result) {
-                    //         console.log(result);
-                    //         $.each(result, function (key, value) {
-                    //             $("#secondaryValidate").append('<option' + '>' + value + '</option>');
-                    //             console.log(value);
-                    //         });
-
-
-                    //     }
-                    // })
-
-                    //end call secondary
                     $.ajax({
-                        url: '/api/validate/messageprimary',
+                        url: '/api/validateSelect',
                         type: 'GET',
                         data: { 'entityValidate': selectedFileName },
                         success: function (result) {
                             console.log(result);
                             $.each(result, function (key, value) {
-                                $('#messageOutput').html(value);
+                                $("#secondaryValidate").append('<option' + '>' + value + '</option>');
+                                $("#FetchMore").append('<option' + '>' + value + '</option>');
                                 console.log(value);
                             });
 
 
                         }
-                    })
+                    });
 
-                    $("#validateBtn").prop("hidden", true);
-                    //$("#validateImg").prop("hidden", false);
+                    $("#secondaryValidate").prop("disabled", false);
+                    document.getElementById("secondaryValidate").style.color = "#0D71AC";
 
-                    document.getElementById("fetchP").style.color = "green";
-                    // $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
-                    // $("#secondaryValidate").prop("disabled", false);
-                    // document.getElementById("secondaryValidate").style.color = "#0D71AC";
-                    // document.getElementById("secondaryProcessMessage").style.color = "black";
-
+                    document.getElementById("secondaryValidate").style.border = "1px solid #0D71AC";
+                    document.getElementById("secondaryProcessMessage").style.color = "black";
                 }
+                //call secondary
+
+                // $.ajax({
+                //     url: '/api/validateSelect',
+                //     type: 'GET',
+                //     data: { 'entityValidate': selectedFileName },
+                //     success: function (result) {
+                //         console.log(result);
+                //         $.each(result, function (key, value) {
+                //             $("#secondaryValidate").append('<option' + '>' + value + '</option>');
+                //             console.log(value);
+                //         });
+
+
+                //     }
+                // })
+
+                //end call secondary
+                $.ajax({
+                    url: '/api/validate/messageprimary',
+                    type: 'GET',
+                    data: { 'entityValidate': selectedFileName },
+                    success: function (result) {
+                        console.log(result);
+                        $.each(result, function (key, value) {
+                            $('#messageOutput').html(value);
+                            console.log(value);
+                        });
+
+
+                    }
+                })
+
+                $("#validateBtn").prop("hidden", true);
+                //$("#validateImg").prop("hidden", false);
+
+                document.getElementById("fetchP").style.color = "green";
+                // $('#fetchP').html('<b>' + selectedFileName + '</b>' + " validated successfully");
+                // $("#secondaryValidate").prop("disabled", false);
+                // document.getElementById("secondaryValidate").style.color = "#0D71AC";
+                // document.getElementById("secondaryProcessMessage").style.color = "black";
+
             }
         })
+
     });
 });
 
@@ -470,10 +486,10 @@ $(document).ready(function () {
 
         var f = []
 
-        var f = []
+
         const formm = new Map();
         var dataModel = {};
-        var dataModel = {};
+
         for (var i = 0; i < document.forms.length; i++) {
             var foo = document.forms[i];
             var foo = document.forms[i];
@@ -481,30 +497,25 @@ $(document).ready(function () {
             console.log(fd);
             const formMap = new Map();
             for (var [key, value] of fd) {
-                for (var [key, value] of fd) {
 
-                    formMap.set(key, value);
+                formMap.set(key, value);
 
-                    formMap.set(key, value);
-
+            }
+            console.log(formMap);
+            $.ajax({
+                url: '/api/writeSec/' + selectedFileName,
+                type: 'POST',
+                dataType: "json",
+                //contentType: "application/json",
+                data: Object.fromEntries(formMap),
+                success: function (message) {
+                    console.log(message);
                 }
-                console.log(formMap);
-                $.ajax({
-                    url: '/api/writeSec/' + selectedFileName,
-                    type: 'POST',
-                    dataType: "json",
-                    //contentType: "application/json",
-                    data: Object.fromEntries(formMap),
-                    success: function (message) {
-                        console.log(message);
-                    }
-                })
-
-
-            };
+            })
 
 
         };
+
     })
 });
 
@@ -516,8 +527,9 @@ $(document).ready(function () {
         $('#hr').prop("hidden", true);
         $('#secondary-circle').prop("hidden", true);
         $('#submit').prop("hidden", true);
-    }
+        document.getElementById("popup-close").setAttribute("href", "../main");
 
+    }
 });
 
 //search functionality
@@ -616,14 +628,49 @@ $(function () {
     });
 });
 
-$(document).ready(function () {
-    var i = $('#boolean').val();
-    console.log(i);
-    if (i == "false") {
-        console.log(i);
-        $('#hr').prop("hidden", true);
-        $('#secondary-circle').prop("hidden", true);
-        $('#submit').prop("hidden", true);
-    }
 
-})
+function showReport() {
+    let table = document.getElementById("reportTable");
+    let ta = document.getElementById("reportTable1");
+    var value = document.getElementById("primary-report-view").value;
+    console.log(value);
+
+    $.ajax({
+        type: "GET",
+        url: "/api/view-reports",
+        data: { 'name': value },
+        success: function (name) {
+            console.log("HHHH");
+            console.log(name[0]);
+            table_data = `<table style="width:auto;">`;
+            if (name != null) {
+                for (const line in name) {
+                    var list = name[line].split(",");
+                    if (line == 0) {
+                        table_data += `<th>`;
+                        for (var i = 0; i < list.length; i++) {
+                            table_data += `<td colspan=2><b>` + list[i] + `</b></td>`;
+                        }
+
+                        table_data += `</th>`;
+                    } else {
+
+                        table_data += `<tr>`;
+                        for (var i = 0; i < list.length; i++) {
+                            table_data += `<td class="report-col px-2 py-1">` + list[i] + `</td>`;
+                        }
+                        table_data += `</tr>`;
+                    }
+
+                }
+                table_data += `</table>`;
+                table.innerHTML = table_data;
+                ta.innerHTML =  table_data;
+            }
+             document.getElementById('id01').style.display='block';
+
+
+        }
+    });
+};
+

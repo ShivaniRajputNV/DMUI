@@ -8,10 +8,10 @@
 
 .Heading {
     position: fixed;
-  overflow: hidden;
-  top: 0;
-  width: 100%;
-  background-color: #333;
+    overflow: hidden;
+    top: 0;
+    width: 100%;
+    background-color: #333;
     padding: 10px 0px 10px 50px;
     border: 6px solid#F0823D;
     border-top: 0;
@@ -22,10 +22,11 @@
     color: whitesmoke;
 
 }
-.spacer{
+
+.spacer {
     width: 100%;
     height: 70px;
-  }
+}
 
 .Heading h1 {
     margin-top: 5px;
@@ -74,112 +75,173 @@
     color: white;
 }
 
-.name{
-    margin-top: 5px;
+.name {
     text-align: center;
     color: #424141;
     font-weight: 400;
 }
-.name h6{
-  font-size: 14px;
-  margin-left: 5px;
+
+.name h6 {
+    font-size: 14px;
+    margin-left: 5px;
+    margin-bottom: 5px;
 }
-.fetch-box{
+
+.fetch-box {
     display: flex;
 }
-.fetch h3{
-    
+
+.fetch h3 {
+
     font-size: 22px;
     margin-top: 20px;
     opacity: .9;
 }
-.ver-line{
+
+.ver-line {
     display: flex;
 }
-.vr{
-   margin-top: 60px;
-color: #878686;
-   height: 80px;
+
+.vr {
+    margin-top: 60px;
+    color: #878686;
+    height: 80px;
 }
-.fetchP{
-   
+
+.fetchP {
+
     border-radius: 15px 0 0 15px;
     height: 200px;
     width: 100%;
     background-color: #f6f6f6;
 }
-.fetchP p{
+
+.fetchP p {
     font-weight: 500;
     margin-top: 60px;
     text-align: center;
 }
-.fetch-btn .btn{
+
+.fetch-btn .btn {
     color: #0D71AC;
     font-size: 12px;
     margin-left: 100px;
-    padding: 5px 20px  5px 20px;
- 
-}
-.fetch-btn .btn:hover{
+    padding: 5px 20px 5px 20px;
 
-    color: #0D71AC;}
-.ver-line{
+}
+
+.fetch-btn .btn:hover {
+
+    color: #0D71AC;
+}
+
+.ver-line {
     height: 200px;
     width: 100%;
     background-color: #f6f6f6;
 }
-.validate-box img{
+
+.validate-box img {
     margin-top: 50px;
 }
-.validate-box p{
- margin-top: 65px;
- margin-left: 10px;
- font-weight: 300;
+
+.validate-box p {
+    margin-top: 65px;
+    margin-left: 10px;
+    font-weight: 300;
 }
-.validateP{
+
+.validateP {
     height: 200px;
     width: 100%;
     background-color: #f6f6f6;
 }
-.validate-box{
+
+.validate-box {
     display: flex;
 }
-.validate-btn .btn{
+
+.validate-btn .btn {
     color: #fff;
     box-shadow: 0 3px 10px rgba(71, 133, 234, 0.1);
     background-color: #0E7DBF;
     font-size: 12px;
     margin-left: 100px;
-    padding: 5px 25px  5px 25px;
+    padding: 5px 25px 5px 25px;
 }
-.validate-btn .btn:hover{
+
+.validate-btn .btn:hover {
     color: #0E7DBF;
 }
-.blank{
+
+.blank {
     border-radius: 0 15px 15px 0;
     height: 200px;
     width: 60%;
     background-color: #f6f6f6;
 }
 
-#secondaryValidate{
+#secondaryValidate {
     cursor: pointer;
     font-size: 12px;
     margin-left: 100px;
-    padding: 5px 20px  5px 20px;
-  border:1px solid grey;
+    padding: 5px 20px 5px 20px;
+    border: 1px solid grey;
     color: grey;
-  
+
     font-size: 15px;
 }
-#reports{
+
+#reports {
     height: 200px;
     width: 100%;
     background-color: #f6f6f6;
     padding: 20px 20px;
     border-radius: 15px;
 }
-#add-reports td{
+
+#add-reports td {
     width: 270px;
     padding: 10px 10px;
+}
+
+#report-details {
+    display: flex;
+}
+
+#report-details i {
+    margin-right: 5px;
+}
+
+#report-details a {
+    text-decoration: none;
+    color: #0E7DBF;
+    margin-left: 1rem;
+}
+
+#report-details p {
+    color: tomato;
+}
+
+#primary-report-view {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.my-custom-scrollbar {
+    height: auto;
+    position: relative;
+    overflow: auto;
+    overflow-y: hidden;
+   
+    padding-bottom: 40px;
+}
+
+.table-wrapper-scroll-y {
+    border: transparent;
+    display: block;
+}
+.w3-modal-content{
+    width: 1200px !important;
+    
 }
