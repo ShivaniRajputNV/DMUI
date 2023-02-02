@@ -58,7 +58,7 @@ public class mainController {
         return "login";
     } 
     @GetMapping("/primary/{name}")
-    public String lookupfile(@PathVariable("name")String name,Model model) throws IOException, Exception{
+    public String lookupfile(@PathVariable("name")String name,Model model,RedirectAttributes attributes) throws IOException, Exception{
         Boolean a=true;
         if(read.readCSVFiles(name).isEmpty()){
             a=false;
@@ -66,12 +66,18 @@ public class mainController {
         System.out.println(a);
        
         if(name!=null){
+            Map<String ,String> readFile = read.readCSVFile(name);
             model.addAttribute("entityName",name);
+            if(readFile!=null){
             model.addAttribute("csvfile", read.readCSVFile(name));
             model.addAttribute("boolean", a);
             String entityColor = read.entityList().entrySet().stream().filter(x-> x.getKey().equals(name)).map(Map.Entry::getValue).collect(Collectors.joining(", "));
             
              model.addAttribute("col",entityColor);
+            }else{
+                model.addAttribute("Updatemessage", "NN");
+                model.addAttribute("boolean", a); 
+            }
         }
         return "primary";
     }
@@ -218,7 +224,8 @@ return "redirect:/api/auth";
     }
 
     @GetMapping("/search")
-    @ResponseBody public List<String> searchEntity(@RequestParam String name,HttpServletResponse response,RedirectAttributes attributes) throws IOException {
+    @ResponseBody 
+    public List<String> searchEntity(@RequestParam String name,HttpServletResponse response,RedirectAttributes attributes) throws IOException {
         System.out.println(read.searchEntity(name));
         List<String> names = read.searchEntity(name);
         System.out.println("SEARCH");

@@ -22,7 +22,7 @@
 <body>
     <section>
 
-        <form id="formread" th:action="@{'/api/write/'+${entityName}}" th:object="${csvfile}" th:method="post" onsubmit="setStatus('true')">
+        <form id="formread" th:action="@{'/api/write/'+${entityName}}" th:object="${csvfile}" th:if="${csvfile ne null}" th:method="post" onsubmit="setStatus('true')">
         <div class="container-fliud pb-5">
             <div class="row">
                 <div class="col-md-12 bg-dark ">

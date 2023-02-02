@@ -107,6 +107,8 @@ public class ReadService {
     }
 
     public Map<String, String> readCSVFile(String name) throws IOException, Exception {
+       Map<String, String> map = new LinkedHashMap<>(); 
+       try{
         String dirName = name;
         name = name.replaceAll("_", "");
         // Resource resource = new ClassPathResource("../DMUtil/Lookup/"+ dirName + "/"
@@ -114,7 +116,7 @@ public class ReadService {
         File file = new File("../DMUtil/Lookup/" + dirName + "/" + name + "Lookup" + ".csv");
         FileReader filereader = new FileReader(file);
         BufferedReader br = new BufferedReader(filereader);
-        Map<String, String> map = new LinkedHashMap<>();
+        
         String[] groupArray = new String[1000];
         String line;
         int i = 0, k = 0;
@@ -139,8 +141,15 @@ public class ReadService {
         // System.out.println(key + " " + map.get(key));
         // }
         // model.addAttribute("csvdata",map);
-
         return map;
+        }catch(Exception e){
+
+        }finally{
+           
+           return map;
+        }
+        
+        
     }
 
     // primary lookup update

@@ -226,8 +226,6 @@ $(document).ready(function () {
 
                 console.log(vals + ":" + keys);
 
-
-                console.log(vals + ":" + keys);
                 if (keys == "Error") {
                     console.log(keys + "=" + "Error");
 
@@ -250,7 +248,7 @@ $(document).ready(function () {
                     // $('#view-r').html('<i class="bi bi-eye"></i>View Report</a>');
                     // $('#download-r').html('<i class="bi bi-download"></i>Download Report</a>');
 
-                    $('#report-details').append('0 records found');
+                    $('#report-details').append('<p id="record-no"></p>');
                     //$('#report-details').append('<a href="../view" onclick="showReport()" value=' + selectedFileName + ' id="primary-report-view"><i class="bi bi-eye"></i>View Report</a>');
                     $('#report-details').append('<button onclick="showReport()" id="primary-report-view" class="w3-button w3-black" value=' + selectedFileName+' >View Report</button>')
                     $('#report-details').append('<a href="" id="validate-download-primary"><i class="bi bi-download"></i>Download Report</a>');
@@ -301,10 +299,15 @@ $(document).ready(function () {
                     data: { 'entityValidate': selectedFileName },
                     success: function (result) {
                         console.log(result);
-                        $.each(result, function (key, value) {
-                            $('#messageOutput').html(value);
-                            console.log(value);
-                        });
+                        
+                            $('#messageOutput').html(result[0]);
+                            if(result[1]>0){
+                                $('#record-no').html(result[1]+ " error records found!");
+
+                            }else{
+                                $('#record-no').html("0 error records found!");
+                            }
+                        
 
 
                     }
@@ -628,7 +631,7 @@ $(function () {
     });
 });
 
-
+//For report
 function showReport() {
     let table = document.getElementById("reportTable");
     let ta = document.getElementById("reportTable1");
@@ -643,16 +646,16 @@ function showReport() {
             console.log("HHHH");
             console.log(name[0]);
             table_data = `<table style="width:auto;">`;
-            if (name != null) {
-                for (const line in name) {
-                    var list = name[line].split(",");
+            if (name[0] != null) {
+                for (const line in name[0]) {
+                    var list = name[0][line].split(",");
                     if (line == 0) {
-                        table_data += `<th>`;
+                        table_data += `<tr>`;
                         for (var i = 0; i < list.length; i++) {
                             table_data += `<td colspan=2><b>` + list[i] + `</b></td>`;
                         }
 
-                        table_data += `</th>`;
+                        table_data += `</tr>`;
                     } else {
 
                         table_data += `<tr>`;
@@ -665,7 +668,31 @@ function showReport() {
                 }
                 table_data += `</table>`;
                 table.innerHTML = table_data;
-                ta.innerHTML =  table_data;
+                
+            }
+            t_data = `<table style="width:auto;">`;
+            if (name[1] != null) {
+                for (const line in name[1]) {
+                    var list = name[1][line].split(",");
+                    if (line == 0) {
+                        t_data += `<tr>`;
+                        for (var i = 0; i < list.length; i++) {
+                            t_data += `<td class="px-2 py-1"><b>` + list[i] + `</b></td>`;
+                        }
+
+                        t_data += `</tr>`;
+                    } else {
+
+                        t_data += `<tr>`;
+                        for (var i = 0; i < list.length; i++) {
+                            t_data += `<td class="report-col px-2 py-1">` + list[i] + `</td>`;
+                        }
+                        t_data += `</tr>`;
+                    }
+
+                }
+                t_data += `</table>`;
+                ta.innerHTML =  t_data;
             }
              document.getElementById('id01').style.display='block';
 
