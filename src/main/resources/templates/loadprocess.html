@@ -13,7 +13,9 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
 
 </head>
 
@@ -40,24 +42,23 @@
     </div>
     <section>
         <div class="container-fliud">
-            <div class="row" style="padding-left: 23px;">
-                <div class="col-md-12" style="padding:10px 5px 0px 24px">
-                    <div class="selected-row">
-                        <h3>Entity Selected:</h3>
-                        <div class="selected-entity">
-                            <div class="circle"
-                                style="background-color: #3E64B8; padding-top: 6px; align-items: center;">
-                                <h5 style="color:white;text-align: center; font-size: 12px; margin-left: 12px;">A</h5>
-                            </div>
-                            <div class="name">
-                                <h6>Account</h6>
-                            </div>
-                        </div>
-                    </div>
-
+          <div class="row" style="padding-left: 25px;">
+            <div class="col-md-12" style="padding:10px 5px 0px 24px">
+              <div class="selected-row">
+                <h3>Entity Selected:</h3>
+                <div class="selected-entity">
+                  <div class="circle" th:style="'background-color:' + ${col} + ';padding-top: 6px; align-items: center;'">
+                    <h5 style="color:white;text-align: center; font-size: 12px; margin-left: 12px;" th:text="${#strings.substring(name,0,1)}"></h5>
+                  </div>
+                  <div class="name">
+                    <h6 th:text="${name}"></h6>
+                  </div>
                 </div>
+              </div>
+    
             </div>
-    </section>
+          </div>
+      </section>
 
     <section>
         <div class="container-fluid">
@@ -69,33 +70,16 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4" style="padding-left: 50px; margin-top: 10px;">
+                <div class="col-md-6" style="padding-left: 50px; margin-top: 10px;">
 
-                    <table class="table">
-                        <thead >
-                            <tr>
-                                <th scope="col" >DB Fields</th>
-                                <th scope="col" >Values</th>
-
+                    <table class="table" style="width: 90%; height: 200px;">
+                        
+                            <tr th:class="${map.key =='DB Fields'}?tr-heading:''" th:each=" map ,i: ${dbdetails}">
+                                <td th:name="${map.key}" th:text="${map.key}"></td>
+                                <td><input th:name="${map.value}" th:value="${map.value}" th:type="${map.key =='DB Password'}?password:''" size="30" disabled style="border:none; background:transparent; color: #000;"/></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                                <td>Connection URL</td>
-                                <td>CISADM</td>
-                            </tr>
-                            <tr>
-
-                                <td>DB User Name</td>
-                                <td>TESTUSER</td>
-                            </tr>
-                            <tr class="remove">
-
-                                <td>DB Password</td>
-                                <td>********</td>
-                            </tr>
-                        </tbody>
+                       
+        
                     </table>
 
                 </div>
@@ -121,7 +105,7 @@
                     </div>
 
                     <div class="processing-btn">
-                        <button type="button" class="btn btn-default"
+                        <button type="button" id="load-btn" th:value="${name}" onclick="loadProcess()" class="btn btn-default"
                            >Processing...</button>
                     </div>
                 </div>

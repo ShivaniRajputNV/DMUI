@@ -54,6 +54,9 @@
             <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
               <i class="bi bi-search"></i>
             </button>
+            <div id="search_list_area">
+              <div class="output"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -70,42 +73,19 @@
         </div>
       </div>
       <div class="row" style="padding-left: 40px;">
-        <div class="col-md-1">
+        <div class="col-md-1" th:each="option,i : ${recentList}">
           <div class="cards">
-            <div class="Circles" style="background-color:#56BDC5;padding-top: 10px;">
-              <h5 style="color:white;text-align: center;font-size: 25px;">P</h5>
+            <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
+              <h5 th:text="${#strings.substring(option.key,0,1)}"
+                style="color:white;text-align: center;font-size: 25px;"></h5>
             </div>
             <h6 class="Names">
-              Person
+              <a th:href="@{'/api/loadprocess/' + ${option.key}}" style="text-decoration: none; color:#333;">
+                <span th:value="${option.key}" th:text="${option.key}" th:name="${option.key}"></span>
+              </a>
             </h6>
           </div>
         </div>
-        <div class="col-md-1">
-          <div class="cards">
-
-
-            <div class="Circles" style="background-color:#3E64B8;padding-top: 10px;">
-              <h5 style="color:white;text-align: center;font-size: 25px;">A</h5>
-
-            </div>
-            <h6 class="Names">
-              Account
-            </h6>
-
-          </div>
-        </div>
-        <div class="col-md-1">
-          <div class="cards">
-            <div class="Circles" style="background-color:#D8C595;padding-top: 10px;">
-              <h5 style="color:white;text-align: center;font-size: 25px;">MR</h5>
-            </div>
-            <h6 class="Names">
-              Measuring<br>Components
-            </h6>
-          </div>
-        </div>
-
-
       </div>
     </div>
   </section>
@@ -126,20 +106,25 @@
             <div class="tags" style="margin-bottom: 15px;" th:each="option : ${entities}">
 
 
-              <div class="small_circle" style="  background-color: #56BDC5;">
+              <div class="small_circle" th:style="'background-color:' + ${option.value} + ';'">
                 <span th:text="${#strings.substring(option.key,0,1)}"></span>
 
               </div>
-              <a th:href="@{/api/loadprocess}" style=" text-decoration: none; color:black">
+              <a th:href="@{'/api/loadprocess/'+${option.key}}" style=" text-decoration: none; color:black">
                 <p th:value="${option.key}" th:text="${option.key}"
                   style="font-size: 15px; margin-left:5px; margin-top: 5px; font-weight: 300;"></p>
               </a>
             </div>
+
+
+
+
           </div>
         </div>
       </div>
 
     </div>
+
   </section>
 </body>
 

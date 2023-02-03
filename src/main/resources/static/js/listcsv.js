@@ -298,11 +298,11 @@ $(document).ready(function () {
                     type: 'GET',
                     data: { 'entityValidate': selectedFileName },
                     success: function (result) {
-                        console.log(result);
+                        console.log(result[result.length-1]);
                         
-                            $('#messageOutput').html(result[0]);
-                            if(result[1]>0){
-                                $('#record-no').html(result[1]+ " error records found!");
+                            $('#messageOutput').html(result[result.length-2]);
+                            if(result[result.length-1]>0){
+                                $('#record-no').html(result[result.length-1]+ " error records found!");
 
                             }else{
                                 $('#record-no').html("0 error records found!");
@@ -700,4 +700,18 @@ function showReport() {
         }
     });
 };
+
+function loadProcess(){
+    var loadEntity =$('#load-btn').val();
+    console.log(loadEntity);
+    $.ajax({
+        type: "GET",
+        url: "/api/load/process",
+        data: { 'loadEntity': loadEntity },
+        dataType: "JSON",
+        success: function (data) {
+            console.log(data);
+        }
+    });
+}
 

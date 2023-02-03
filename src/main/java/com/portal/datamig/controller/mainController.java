@@ -100,16 +100,6 @@ public class mainController {
         return "lookup";
     }
     
-    
-    @GetMapping("/load")
-    public String load(Model model) throws IOException{
-        model.addAttribute("entities", read.entityList());
-        return "load";
-    }
-    @GetMapping("/loadprocess")
-    public String loadprocess(){
-        return "loadprocess";
-    }
     @GetMapping("/main")
     public String main(Model model) throws IOException{
         // Resource resource = new ClassPathResource("/csvs/Global_Lookup.csv");
