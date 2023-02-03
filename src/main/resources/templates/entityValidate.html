@@ -188,6 +188,11 @@ function openReport(evt, reportName) {
               <!-- <p th:text="${#strings.concat(name,' ','fetched successfully and ready to validate')}"></p> -->
               <p id="fetchS"></p>
             </div>
+            <p id="messageOutputS"></p>
+              <p id="errorS"></p>
+              <div id="sreport-details" class="flex">
+
+              </div>
             <div class="validate-btn">
               <button id="secondaryValidateBtn" type="button" class="btn btn-default"
                 style="border: 1px solid #0D71AC; " hidden="true">Validate</button>
@@ -255,12 +260,12 @@ function openReport(evt, reportName) {
             </div>
           <div id="sum-report" class="w3-container report" >
             
-            <div id="reportTable" class="table-wrapper-scroll-x my-custom-xscrollbar"></div>
+            <div id="reportTable" class="table-wrapper-scroll-x table-wrapper-scroll-y my-custom-scrollbar"></div>
             
           </div>
           <div id="ex-report" class="w3-container report">
             
-            <div id="reportTable1" class="table-wrapper-scroll-y my-custom-yscrollbar"></div>
+            <div id="reportTable1" class="table-wrapper-scroll-y my-custom-scrollbar"></div>
           </div>
           <div class="w3-container w3-light-grey w3-padding"> <button class="w3-button w3-right w3-white w3-border"
               onclick="document.getElementById('id01').style.display='none'">Close</button> </div>

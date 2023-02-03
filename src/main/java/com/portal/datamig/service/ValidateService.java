@@ -91,7 +91,7 @@ public class ValidateService {
         return lines;
     }
 
-    public void callSecondaryValidationProgram(String selectedFolder) throws IOException, InterruptedException {
+    public Map<String, List<String>> callSecondaryValidationProgram(String selectedFolder) throws IOException, InterruptedException {
         String loc = "../DMUtil" + File.separator + "Validate" + File.separator + "CmCommonValidation.java";
         String loc1 = "java -cp /home/anshika/DMUtil/Validate/CmCommonValidation" + " " + "/home/anshika/DMUtil/Input/"
                 + selectedFolder + " " + "/home/anshika/DMUtil/Validate/Mapping_Sheet/" + selectedFolder + ".csv";
@@ -100,6 +100,9 @@ public class ValidateService {
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         Process process = processBuilder.start();
         process.waitFor();
+        Map<String, List<String>> result = new HashMap();
+        List<String> output = new ArrayList<>();
+        List<String> error = new ArrayList<>();
         if (process.getErrorStream().read() != -1) {
             print("Compilation Errors", process.getErrorStream());
         }
@@ -112,13 +115,18 @@ public class ValidateService {
                             + nn[1].replace("_", "") + ".csv" })
                     .start();
             if (process.getErrorStream().read() != -1) {
-                print("Errors ", process.getErrorStream());
+                error = print("Errors ", process.getErrorStream());
+                result.put("Error", error);
+                
             } else {
-                print("Output ", process.getInputStream());
+                output = print("Output ", process.getInputStream());
+                result.put("Output", output);
+
             }
         }
         // process.waitFor();
         // process.exitValue();
+        return result;
     }
 
     public List<String> entityListSecondary(String n) throws IOException {

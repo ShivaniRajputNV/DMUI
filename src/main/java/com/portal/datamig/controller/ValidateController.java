@@ -130,13 +130,39 @@ public class ValidateController {
     return "redirect:/api/entityValidate/" + primaryEntityValidate;
   }
 
-  @PostMapping("/validate/validateSecondary")
-  public String validateSecondaryFiles(@RequestParam String entityValidate, String primaryEntityValidate,
+  @GetMapping("/validate/validateSecondary")
+  @ResponseBody
+  public Map<String, List<String>> validateSecondaryFiles(@RequestParam String entityValidate, String primaryEntityValidate,
       RedirectAttributes attributes, Model model)
       throws IOException, InterruptedException {
-    System.out.print("Secondary Validate" + entityValidate + "" + "Primary Validate" + "" + primaryEntityValidate);
-    validate.callSecondaryValidationProgram(primaryEntityValidate + "/" + entityValidate);
-    return "redirect:/api/entityValidate/" + primaryEntityValidate;
+        Map<String, List<String>> output =  validate.callSecondaryValidationProgram(primaryEntityValidate + "/" + entityValidate);
+      List<String> a = new ArrayList();
+
+    if(output.isEmpty()){
+      output.put("",null);
+    }
+    String exFolder = "Exception_Report/"+entityValidate;
+    System.out.println(exFolder);
+    String ll = validate.lastModifiled(exFolder);
+    long count =0;
+    try {
+
+      // make a connection to the file
+      Path file = Paths.get(ll);
+
+      // read all lines of the file
+       count = Files.lines(file).count();
+      System.out.println("Total Lines: " + count);
+      count--;
+      a.add(String.valueOf(count));
+
+    } catch (Exception e) {
+      e.getStackTrace();
+    }
+    System.out.println(count);
+    output.put("Count",a);
+    return output;
+   
   }
 
   @GetMapping("/view-reports")
@@ -148,8 +174,19 @@ public class ValidateController {
     String lastSummary = validate.lastModifiled(summaryFolder);
     String lastException = validate.lastModifiled(exceptionFolder);
     List<List<String>> data = new ArrayList<>();
+    try{
     data.add(validate.reports(lastSummary));
     data.add(validate.reports(lastException));
+    }catch(Exception e){
+    }finally{
+      List<String> nosumm = new ArrayList<>();
+      List<String> noex = new ArrayList<>();
+      nosumm.add("No data Found");
+      noex.add("No data found");
+      data.add(nosumm);
+      data.add(noex);
+    }
+    
     System.out.println(data.get(0));
     return data;
   }

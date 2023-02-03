@@ -250,7 +250,7 @@ $(document).ready(function () {
 
                     $('#report-details').append('<p id="record-no"></p>');
                     //$('#report-details').append('<a href="../view" onclick="showReport()" value=' + selectedFileName + ' id="primary-report-view"><i class="bi bi-eye"></i>View Report</a>');
-                    $('#report-details').append('<button onclick="showReport()" id="primary-report-view" class="w3-button w3-black" value=' + selectedFileName+' >View Report</button>')
+                    $('#report-details').append('<a href="#" onclick="showReport(this.name)" class="mx-2" id="primary-report-view" name=' + selectedFileName+' ><i class="bi bi-eye">View Report</a>')
                     $('#report-details').append('<a href="" id="validate-download-primary"><i class="bi bi-download"></i>Download Report</a>');
 
                     $.ajax({
@@ -383,15 +383,51 @@ $(document).ready(function () {
         // const validatebtn = document.getElementById("validateBtn");
         $.ajax({
             url: '/api/validate/validateSecondary',
-            type: 'POST',
+            type: 'GET',
             data: { 'entityValidate': selectedFileName, 'primaryEntityValidate': selectFolderName },
             success: function (message) {
                 console.log(message);
+                let keys = Object.keys(message);
+                let vals = Object.values(message);
+
+                console.log(vals + ":" + keys);
+
+                if (keys["Error"]!= null) {
+                    console.log(keys + "=" + "Error");
+
+                    $('#fetchS').html("");
+
+                    $("#secondaryFetchImg").prop("hidden", true);
+
+                    document.getElementById("errorS").style.color = "red";
+
+                    $('#errorS').html('<b>' + selectedFileName + '</b>' + " Validation Failed!");
+
+                    $("#secondaryValidate").prop("disabled", true);
+                } else {
                 document.getElementById("fetchS").style.color = "green";
-                $('#fetchS').html('<b>' + selectedFileName + '</b>' + " processed and validated successfully");
+                $('#fetchS').html('<b>' + selectedFileName + '</b>' + " validated successfully");
                 $('#secondaryValidateBtn').prop("hidden", true);
                 $('#secondaryValidate').prop("hidden", false);
                 $('#view-reports').prop("hidden", false);
+
+                    document.getElementById("fetchbtn").style.border = "1px solid grey";
+                    // $('#validate-record').html('<b>' + selectedFileName + '</b>' + " 0 error records found");
+                    // $('#view-r').html('<i class="bi bi-eye"></i>View Report</a>');
+                    // $('#download-r').html('<i class="bi bi-download"></i>Download Report</a>');
+
+                    $('#sreport-details').append('<p id="srecord-no"></p>');
+                    //$('#report-details').append('<a href="../view" onclick="showReport()" value=' + selectedFileName + ' id="primary-report-view"><i class="bi bi-eye"></i>View Report</a>');
+                    $('#sreport-details').append('<a href="#" onclick="showReport(this.name)" id="secondary-report-view" name=' +selectFolderName+"/"+ selectedFileName+'><i class="bi bi-eye"></i>View Report</a>')
+                    $('#sreport-details').append('<a href="" id="validate-download-secondary"><i class="bi bi-download"></i>Download Report</a>');
+                    if(keys["Count"]>0){
+                        $('#srecord-no').html(keys["Count"]+ " error records found!");
+
+                    }else{
+                        $('#srecord-no').html("0 error records found!");
+                    }
+
+                
                 //var tr = document.createElement("tr");
                 tr = `<tr>`;
                 var td = document.createElement("td");
@@ -412,6 +448,7 @@ $(document).ready(function () {
                 $('table').append(tr);
                 //document.getElementById("add-reports").innerHTML= tr;
                 $('#validateDone').prop("hidden", false);
+                }
 
             }
         })
@@ -632,12 +669,12 @@ $(function () {
 });
 
 //For report
-function showReport() {
+function showReport(value) {
     let table = document.getElementById("reportTable");
     let ta = document.getElementById("reportTable1");
-    var value = document.getElementById("primary-report-view").value;
+   // var value = document.getElementById("primary-report-view").value;
     console.log(value);
-
+    
     $.ajax({
         type: "GET",
         url: "/api/view-reports",

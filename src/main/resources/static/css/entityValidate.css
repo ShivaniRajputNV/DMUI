@@ -73,20 +73,22 @@
     width: 30px;
     border-radius: 50%;
     color: white;
-   
+
 }
 
-.name{
+.name {
     margin-top: 5px;
     text-align: center;
     color: #424141;
     font-weight: 400;
 }
-.name h6{
-  font-size: 14px;
-  margin-left: 5px;
-  margin:0;
+
+.name h6 {
+    font-size: 14px;
+    margin-left: 5px;
+    margin: 0;
 }
+
 .fetch-box {
     display: flex;
 }
@@ -211,29 +213,48 @@
 
 #report-details i {
     margin-right: 5px;
+    margin-left: 5px;
 }
 
 #report-details a {
     text-decoration: none;
     color: #0E7DBF;
     margin-left: 1rem;
+    
 }
 
 #report-details p {
     color: tomato;
 }
 
-#primary-report-view {
-    background-color: transparent !important;
-    border: none !important;
+#sreport-details {
+    display: flex;
+    width: 100%;
 }
 
-.my-custom-xscrollbar {
+#sreport-details i {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#sreport-details a {
+    text-decoration: none;
+    color: #0E7DBF;
+    margin-left: 1rem;
+}
+
+#sreport-details p {
+    color: tomato;
+}
+
+
+.my-custom-scrollbar {
     height: 500px;
     position: relative;
     overflow: auto;
-    overflow-y: hidden;
-   
+    overflow-y: scroll;
+    overflow-x: scroll;
+
     padding-bottom: 40px;
 }
 
@@ -241,19 +262,13 @@
     border: transparent;
     display: block;
 }
-.my-custom-yscrollbar {
-    height: 500px;
-    position: relative;
-    overflow: auto;
-    overflow-x: hidden;
-   
-    padding-bottom: 40px;
-}
+
 .table-wrapper-scroll-x {
     border: transparent;
     display: block;
 }
-.w3-modal-content{
+
+.w3-modal-content {
     width: 1200px !important;
-    
+
 }
