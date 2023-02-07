@@ -272,3 +272,9 @@
     width: 1200px !important;
 
 }
+
+#secondary-reports-view,#secondary-reports-download{
+    text-decoration: none;
+    color: #0E7DBF;
+    margin-left: 1rem;
+}

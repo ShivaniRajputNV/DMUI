@@ -90,7 +90,7 @@ public class ValidateController {
     if(output.isEmpty()){
       output.add("");
     }
-    String exFolder = "Exception_Report/"+entityValidate;
+    String exFolder = "../DMUtil/Reports/Validate/Entitywise_Val_Reports/Exception_Report/"+entityValidate;
     System.out.println(exFolder);
     String ll = validate.lastModifiled(exFolder);
     long count =0;
@@ -107,7 +107,7 @@ public class ValidateController {
     } catch (Exception e) {
       e.getStackTrace();
     }
-    System.out.println(count);
+    System.out.println("COUNT"+count);
     output.add(String.valueOf(count));
     return output;
   }
@@ -141,7 +141,7 @@ public class ValidateController {
     if(output.isEmpty()){
       output.put("",null);
     }
-    String exFolder = "Exception_Report/"+entityValidate;
+    String exFolder = "../DMUtil/Reports/Validate/Exception_Report/"+entityValidate;
     System.out.println(exFolder);
     String ll = validate.lastModifiled(exFolder);
     long count =0;
@@ -168,8 +168,12 @@ public class ValidateController {
   @GetMapping("/view-reports")
   @ResponseBody
   public List<List<String>> viewReport(@RequestParam String name) throws IOException, DocumentException {
-    String summaryFolder = "Summary_Report/"+name;
-    String exceptionFolder = "Exception_Report/"+name;
+    String summaryFolder = "../DMUtil/Reports/Validate/Entitywise_Val_Reports/Summary_Report/"+name;
+    String exceptionFolder = "../DMUtil/Reports/Validate/Entitywise_Val_Reports/Exception_Report/"+name;
+    if(name.contains("/")){
+       summaryFolder = "../DMUtil/Reports/Validate/Common_Val_Reports/Summary_Report/"+name;
+      exceptionFolder = "../DMUtil/Reports/Validate/Common_Val_Reports/Exception_Report/"+name;
+    }
     
     String lastSummary = validate.lastModifiled(summaryFolder);
     String lastException = validate.lastModifiled(exceptionFolder);
@@ -193,7 +197,31 @@ public class ValidateController {
 
  
  
+  @GetMapping("/validate/download")
+  @ResponseBody
+  public String downloadValidateReport(@RequestParam String validateEntity, RedirectAttributes attributes,
+  Model model)throws IOException{
+    String summaryFolder = "../DMUtil/Reports/Validate/Entitywise_Val_Reports/Summary_Report/"+validateEntity;
+    String exceptionFolder = "../DMUtil/Reports/Validate/Entitywise_Val_Reports/Exception_Report/"+validateEntity;
+    if(validateEntity.contains("/")){
+      summaryFolder = "../DMUtil/Reports/Validate/Common_Val_Reports/Summary_Report/"+validateEntity;
+     exceptionFolder = "../DMUtil/Reports/Validate/Common_Val_Reports/Exception_Report/"+validateEntity;
+   }
+   try{
+    List<String> data = new ArrayList<>();
+    String lastSummary = validate.lastModifiled(summaryFolder);
+    String lastException = validate.lastModifiled(exceptionFolder);
+   data.add(lastException);
+   data.add(lastSummary);
+   validate.downloadValidate(data,validateEntity);
+   }catch(Exception e){
 
+   }finally{
+    System.out.println("No Record to Download");
+   }
+
+      return "Success"+validateEntity;
+  }
       
 
 }

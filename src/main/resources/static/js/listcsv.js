@@ -251,7 +251,7 @@ $(document).ready(function () {
                     $('#report-details').append('<p id="record-no"></p>');
                     //$('#report-details').append('<a href="../view" onclick="showReport()" value=' + selectedFileName + ' id="primary-report-view"><i class="bi bi-eye"></i>View Report</a>');
                     $('#report-details').append('<a href="#" onclick="showReport(this.name)" class="mx-2" id="primary-report-view" name=' + selectedFileName+' ><i class="bi bi-eye">View Report</a>')
-                    $('#report-details').append('<a href="" id="validate-download-primary"><i class="bi bi-download"></i>Download Report</a>');
+                    $('#report-details').append('<a href="#" onclick="downloadValidate(this.name)" id="validate-download-primary" name=' + selectedFileName+' ><i class="bi bi-download"></i>Download Report</a>');
 
                     $.ajax({
                         url: '/api/validateSelect',
@@ -298,7 +298,7 @@ $(document).ready(function () {
                     type: 'GET',
                     data: { 'entityValidate': selectedFileName },
                     success: function (result) {
-                        console.log(result[result.length-1]);
+                        console.log(result);
                         
                             $('#messageOutput').html(result[result.length-2]);
                             if(result[result.length-1]>0){
@@ -368,6 +368,8 @@ $(document).ready(function () {
                 $('#secondaryFetchImg').prop("hidden", false);
                 document.getElementById("fetchS").style.color = "black";
                 $('#fetchS').html('<b>' + selectedFileName + '</b>' + " fetched successfully and ready to validate");
+
+                $('#sreport-details').prop("hidden",true);
                 $('#secondaryValidateBtn').prop("hidden", false);
             }
         })
@@ -381,6 +383,12 @@ $(document).ready(function () {
         var selectedFileName = document.getElementById("secondaryValidate").value;
         var selectFolderName = document.getElementById("validateBtn").value;
         // const validatebtn = document.getElementById("validateBtn");
+
+        $('#srecord-no').remove();
+        $('#secondary-report-view').remove();
+        $('#validate-download-secondary').remove();
+        
+        $('#sreport-details').prop("hidden",false);
         $.ajax({
             url: '/api/validate/validateSecondary',
             type: 'GET',
@@ -419,7 +427,7 @@ $(document).ready(function () {
                     $('#sreport-details').append('<p id="srecord-no"></p>');
                     //$('#report-details').append('<a href="../view" onclick="showReport()" value=' + selectedFileName + ' id="primary-report-view"><i class="bi bi-eye"></i>View Report</a>');
                     $('#sreport-details').append('<a href="#" onclick="showReport(this.name)" id="secondary-report-view" name=' +selectFolderName+"/"+ selectedFileName+'><i class="bi bi-eye"></i>View Report</a>')
-                    $('#sreport-details').append('<a href="" id="validate-download-secondary"><i class="bi bi-download"></i>Download Report</a>');
+                    $('#sreport-details').append('<a href="#" onclick="downloadValidate(this.name)" id="validate-download-secondary" name=' +selectFolderName+"/"+ selectedFileName+'><i class="bi bi-download"></i>Download Report</a>');
                     if(keys["Count"]>0){
                         $('#srecord-no').html(keys["Count"]+ " error records found!");
 
@@ -442,8 +450,8 @@ $(document).ready(function () {
                 // li.appendChild(document.createTextNode("Download Report"));
                 // ul.appendChild(li);
                 // ul.insertBefore(i,li);
-                tr += `<td><i class="bi bi-eye"></i>` + ` ` + selectedFileName + `</td>`;
-                tr += `<td><i class="bi bi-download"></i>` + ` ` + "Download Report" + `</td>`;
+                tr += `<td><a href="#" onclick="showReport(this.name)" id="secondary-reports-view" name=` +selectFolderName+`"/"`+ selectedFileName+`><i class="bi bi-eye"></i>` + ` ` + selectedFileName + `</a></td>`;
+                tr += `<td><a href="#" onclick="downloadValidate(this.name)" id="secondary-reports-download" name=` +selectFolderName+`"/"`+ selectedFileName+`><i class="bi bi-download"></i>` + ` ` + "Download Report" + `</a></td>`;
                 tr += `</tr>`;
                 $('table').append(tr);
                 //document.getElementById("add-reports").innerHTML= tr;
@@ -481,6 +489,8 @@ function move() {
                     document.getElementById("transformMessage").style.visibility = "visible";
                     $('#transformComplete').html(" Transformation completed successfully");
                     $('#transformDone').prop("hidden", false);
+                    $('#transform-report').prop("hidden", false);
+
 
                 }
                 else {
@@ -674,6 +684,7 @@ function showReport(value) {
     let ta = document.getElementById("reportTable1");
    // var value = document.getElementById("primary-report-view").value;
     console.log(value);
+
     
     $.ajax({
         type: "GET",
@@ -741,14 +752,74 @@ function showReport(value) {
 function loadProcess(){
     var loadEntity =$('#load-btn').val();
     console.log(loadEntity);
+    $("#dis").prop("hidden",true);
+    $("#processImg").prop("hidden",false);
+    setTimeout(hideImg,1000);
+    
+    // $('#load-btn').html("Processing...");
+   
     $.ajax({
         type: "GET",
         url: "/api/load/process",
         data: { 'loadEntity': loadEntity },
         dataType: "JSON",
         success: function (data) {
-            console.log(data);
-        }
+            console.log(data["Output"].length-1);
+            var s = data["Output"]
+            console.log(s[s.length-1])
+            $("#load-record").html(s[s.length-1]);
+            $("#records").prop("hidden",false);
+        },
+        complete: function (data) {
+            $("#success-done").prop("hidden",false);
+             $(".load-progress-bar").prop("hidden", true);
+           }
+    });
+}
+function hideImg(){
+    $("#processImg").prop("hidden",true);
+    
+    $("#dis-img").prop("hidden",true);
+    document.getElementById("connected").style.color="#0AA405"    
+    $("#connected ").prop("hidden",false);
+    $("#tick-img").prop("hidden",false);
+    $("#vr").prop("hidden",false);
+    $("#load-btn").prop("hidden",true);
+    $(".load-progress-bar").prop("hidden", false);
+   
+}
+
+function downloadValidate(value) {
+   
+    $.ajax({
+        type: "GET",
+        url: "/api/validate/download",
+        data: { 'validateEntity': value },
+        success: function (name) {
+            console.log(name);
+}
     });
 }
 
+function transformDownload(entity){
+    console.log(entity);
+    $.ajax({
+        type: "GET",
+        url: "/api/transforming/download-reports",
+        data: { 'entityTransform': entity},
+        success: function (name) {
+            console.log(name);
+}
+    });
+}
+
+function loadDownload(entity){
+    $.ajax({
+        type: "GET",
+        url: "/api/load/load-download",
+        data: { 'loadEntity': entity},
+        success: function (name) {
+            console.log(name);
+}
+    });
+}

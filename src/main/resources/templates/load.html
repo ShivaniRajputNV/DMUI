@@ -77,7 +77,7 @@
           <div class="cards">
             <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
               <h5 th:text="${#strings.substring(option.key,0,1)}"
-                style="color:white;text-align: center;font-size: 25px;"></h5>
+                style="color:white;text-align: center;font-size: 25px;padding-top:10px;"></h5>
             </div>
             <h6 class="Names">
               <a th:href="@{'/api/loadprocess/' + ${option.key}}" style="text-decoration: none; color:#333;">

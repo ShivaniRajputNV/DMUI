@@ -3,6 +3,8 @@ package com.portal.datamig.controller;
 import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+//import com.itextpdf.text.List;
 import com.portal.datamig.service.ReadService;
 import com.portal.datamig.service.TransformService;
 
@@ -46,5 +50,26 @@ public class TransformController {
         System.out.println(entityTransform);
         transform.transformList(entityTransform);
         return "redirect:/api/transforming/"+entityTransform;
+    }
+
+    @GetMapping("/transforming/download-reports")
+    @ResponseBody
+    public String transformDownload(@RequestParam String entityTransform){
+        // String summaryFolder = "../DMUtil/Report/Validate/Entitywise_Val_Reports/Summary_Report/"+entityTransform;
+    // String exceptionFolder = "../DMUtil/Reports/Validate/Entitywise_Val_Reports/Exception_Report/"+validateEntity;
+   try{
+    // List<String> data = new ArrayList<>();
+    // String lastSummary = transform.allModifiedFiles(entityTransform);
+    // String lastException = validate.lastModifiled(exceptionFolder);
+//    data.add(lastException);
+//    data.add(lastSummary);
+   transform.downloadValidate(transform.allModifiedFiles(entityTransform),entityTransform);
+   }catch(Exception e){
+
+   }finally{
+    System.out.println("No Record to Download");
+   }
+
+        return "SUCCESS";
     }
 }

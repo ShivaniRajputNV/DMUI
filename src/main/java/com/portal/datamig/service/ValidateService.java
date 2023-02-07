@@ -3,8 +3,11 @@ package com.portal.datamig.service;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.nio.file.Path;
@@ -17,11 +20,15 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.nio.file.Files;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.boot.autoconfigure.amqp.RabbitProperties.Retry;
 import org.springframework.stereotype.Service;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 public class ValidateService {
@@ -200,13 +207,13 @@ public class ValidateService {
 
     public String lastModifiled(String filepath) {
 
-        File path = new File("../DMUtil/Reports/Validate/Entitywise_Val_Reports/" + filepath + "/");
+        File path = new File(filepath + "/");
         System.out.println(path);
         long time = System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(2);
         File[] files = path.listFiles(pathname -> pathname.lastModified() >= time);
        // System.out.println(files);
         if (files == null || files.length == 0) {
-            System.out.println("dzfhxgggggj");
+            System.out.println("no files in folder");
             return null;
         }
 
@@ -221,7 +228,7 @@ public class ValidateService {
 
         return lastmodifiedFile;
     }
-
+//view report 
 public List<String> reports(String filepath) throws FileNotFoundException {
     List<String> data = new ArrayList();
     Scanner sc = new Scanner(new File(filepath));
@@ -232,9 +239,65 @@ public List<String> reports(String filepath) throws FileNotFoundException {
       data.add(sc.next());
       
     }
-    System.out.println("vajgx" + data + "csvDATA");
+    // System.out.println("vajgx" + data + "csvDATA");
     sc.close(); 
     return data;
 
 }
+public String downloadValidate(List<String> dirName,String folderName)throws IOException{
+String zipFile = ("../Downloads/" + folderName+"_ValidateReports.zip");
+FileOutputStream fos = new FileOutputStream(zipFile);
+            ZipOutputStream zos = new ZipOutputStream(fos);
+            
+            for (int i=0; i < dirName.size(); i++) {
+                 
+                File srcFile = new File(dirName.get(i));
+                FileInputStream fis = new FileInputStream(srcFile);
+
+                // Start writing a new file entry 
+                zos.putNextEntry(new ZipEntry(srcFile.getName())); 
+
+                int length;
+                // create byte buffer
+                byte[] buffer = new byte[1024];
+
+                // read and write the content of the file
+                while ((length = fis.read(buffer)) > 0) {
+                    zos.write(buffer, 0, length);
+                }
+                // current file entry is written and current zip entry is closed
+                zos.closeEntry();
+ 
+                // close the InputStream of the file 
+                fis.close();
+                 
+            }
+
+            // close the ZipOutputStream
+            zos.close();
+// try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile))){
+//    for (String filename:dirName){
+//         File f = new File(filename);   
+//         FileInputStream fis = new FileInputStream(f);
+
+//         Files.walk(f.toPath()).filter(path -> !Files.isDirectory(path)).forEach(path -> {
+//             ZipEntry zipEntry = new ZipEntry(f.toPath().relativize(path).toString());
+//             System.out.println(zipOutputStream + " " + f.toPath());
+//             try {
+//                 zipOutputStream.putNextEntry(zipEntry);
+//                 if (Files.isRegularFile(path)) {
+//                     Files.copy(path, zipOutputStream);
+//                 }
+//                 // zipOutputStream.closeEntry();
+//             } catch (IOException e) {
+//                 System.err.println(e);
+//             }
+//         });
+//     }
+// }
+
+
+return "Success";
+}
+
 }
