@@ -39,7 +39,7 @@ public class AuthService {
             // for item output 3
             for (int i = 0; i < user.size(); i++) {
                 JSONObject jsonObjectRow = (JSONObject) user.get(i);
-                String name = (String) jsonObjectRow.get("name");
+                String name = (String) jsonObjectRow.get("username");
                 String password = (String) jsonObjectRow.get("password");
 //                System.out.println("<br>Name="+name +"; Password="+password);
 System.out.println(name);
