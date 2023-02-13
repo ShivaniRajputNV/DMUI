@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  /* fallback for old browsers */
+  background: #6a11cb;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right,rgba(237,126,57,255), rgba(250,222,22,255),rgba(197,160,53,255),rgba(27,130,194,255),rgba(160,182,191,255));
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgba(237,126,57,0.4), rgba(250,222,22,0.4),rgba(197,160,53,0.4),rgba(27,130,194,0.4),rgba(160,182,191,0.4))
+  }
+.mainDiv {
+  display: flex;
+  /* margin-top: 10rem; */
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #f9f9f9; */
+  font-family: "Open Sans", sans-serif;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo img {
+  max-width: 8rem;
+}
+.cardStyle {
+  width: 500px;
+height: 750px;
+  border-color: white;
+  background: #fff;
+  padding: 36px 0;
+  border-radius: 1rem;
+  margin: 30px 0;
+  /* box-shadow: 0px 0 2px 0 rgba(0,0,0,0.3); */
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+#signupLogo {
+  max-height: 100px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+.formTitle {
+  font-weight: 400;
+  margin-top: 20px;
+  color: #2f2d3b;
+  text-align: center;
+}
+.inputLabel {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 6px;
+  margin-top: 24px;
+}
+.inputDiv {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+input {
+  height: 40px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: none;
+  border: solid 1px #ccc;
+  padding: 0 11px;
+}
+input:disabled {
+  cursor: not-allowed;
+  border: solid 1px #eee;
+}
+.buttonWrapper {
+  margin-top: 40px;
+}
+.submitButton {
+  width: 30%;
+  height: 40px;
+  margin: auto;
+  display: block;
+  color: #fff;
+  background-color: #065492;border: none;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.035);
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.submitButton:disabled,
+button[disabled] {
+  border: 1px solid #cccccc;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+/* #loader {
+  position: absolute;
+  z-index: 1;
+  margin: -2px 0 0 10px;
+  border: 4px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 4px solid #666666;
+  width: 14px;
+  height: 14px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+} */
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

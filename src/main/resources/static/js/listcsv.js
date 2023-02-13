@@ -200,7 +200,7 @@ $(document).ready(function () {
                 console.log(selectedFileName);
                 $("#validateBtn").prop("hidden", false);
                 $("#validateImg").prop("hidden", false);
-                $('#fetchP').html("Files in "+'<b>' + selectedFileName + '</b>' + " folder fetched successfully and ready to validate");
+                $('#fetchP').html("Files in " + '<b>' + selectedFileName + '</b>' + " folder fetched successfully and ready to validate");
             },
             error: function () {
                 $('#fetchP').html('<b>' + selectedFileName + '</b>' + " not Found !");
@@ -250,8 +250,8 @@ $(document).ready(function () {
 
                     $('#report-details').append('<p id="record-no"></p>');
                     //$('#report-details').append('<a href="../view" onclick="showReport()" value=' + selectedFileName + ' id="primary-report-view"><i class="bi bi-eye"></i>View Report</a>');
-                    $('#report-details').append('<a href="#" onclick="showReport(this.name)" class="mx-2" id="primary-report-view" name=' + selectedFileName+' ><i class="bi bi-eye">View Report</a>')
-                    $('#report-details').append('<a href="#" onclick="downloadValidate(this.name)" id="validate-download-primary" name=' + selectedFileName+' ><i class="bi bi-download"></i>Download Report</a>');
+                    $('#report-details').append('<a href="#" onclick="showReport(this.name)" class="mx-2" id="primary-report-view" name=' + selectedFileName + ' ><i class="bi bi-eye">View Report</a>')
+                    $('#report-details').append('<a href="#" onclick="downloadValidate(this.name)" id="validate-download-primary" name=' + selectedFileName + ' ><i class="bi bi-download"></i>Download Report</a>');
 
                     $.ajax({
                         url: '/api/validateSelect',
@@ -299,15 +299,15 @@ $(document).ready(function () {
                     data: { 'entityValidate': selectedFileName },
                     success: function (result) {
                         console.log(result);
-                        
-                            $('#messageOutput').html(result[result.length-2]);
-                            if(result[result.length-1]>0){
-                                $('#record-no').html(result[result.length-1]+ " error records found!");
 
-                            }else{
-                                $('#record-no').html("0 error records found!");
-                            }
-                        
+                        $('#messageOutput').html(result[result.length - 2]);
+                        if (result[result.length - 1] > 0) {
+                            $('#record-no').html(result[result.length - 1] + " error records found!");
+
+                        } else {
+                            $('#record-no').html("0 error records found!");
+                        }
+
 
 
                     }
@@ -369,7 +369,7 @@ $(document).ready(function () {
                 document.getElementById("fetchS").style.color = "black";
                 $('#fetchS').html('<b>' + selectedFileName + '</b>' + " fetched successfully and ready to validate");
 
-                $('#sreport-details').prop("hidden",true);
+                $('#sreport-details').prop("hidden", true);
                 $('#secondaryValidateBtn').prop("hidden", false);
             }
         })
@@ -387,8 +387,8 @@ $(document).ready(function () {
         $('#srecord-no').remove();
         $('#secondary-report-view').remove();
         $('#validate-download-secondary').remove();
-        
-        $('#sreport-details').prop("hidden",false);
+
+        $('#sreport-details').prop("hidden", false);
         $.ajax({
             url: '/api/validate/validateSecondary',
             type: 'GET',
@@ -400,7 +400,7 @@ $(document).ready(function () {
 
                 console.log(vals + ":" + keys);
 
-                if (keys["Error"]!= null) {
+                if (keys["Error"] != null) {
                     console.log(keys + "=" + "Error");
 
                     $('#fetchS').html("");
@@ -413,11 +413,11 @@ $(document).ready(function () {
 
                     $("#secondaryValidate").prop("disabled", true);
                 } else {
-                document.getElementById("fetchS").style.color = "green";
-                $('#fetchS').html('<b>' + selectedFileName + '</b>' + " validated successfully");
-                $('#secondaryValidateBtn').prop("hidden", true);
-                $('#secondaryValidate').prop("hidden", false);
-                $('#view-reports').prop("hidden", false);
+                    document.getElementById("fetchS").style.color = "green";
+                    $('#fetchS').html('<b>' + selectedFileName + '</b>' + " validated successfully");
+                    $('#secondaryValidateBtn').prop("hidden", true);
+                    $('#secondaryValidate').prop("hidden", false);
+                    $('#view-reports').prop("hidden", false);
 
                     document.getElementById("fetchbtn").style.border = "1px solid grey";
                     // $('#validate-record').html('<b>' + selectedFileName + '</b>' + " 0 error records found");
@@ -426,36 +426,36 @@ $(document).ready(function () {
 
                     $('#sreport-details').append('<p id="srecord-no"></p>');
                     //$('#report-details').append('<a href="../view" onclick="showReport()" value=' + selectedFileName + ' id="primary-report-view"><i class="bi bi-eye"></i>View Report</a>');
-                    $('#sreport-details').append('<a href="#" onclick="showReport(this.name)" id="secondary-report-view" name=' +selectFolderName+"/"+ selectedFileName+'><i class="bi bi-eye"></i>View Report</a>')
-                    $('#sreport-details').append('<a href="#" onclick="downloadValidate(this.name)" id="validate-download-secondary" name=' +selectFolderName+"/"+ selectedFileName+'><i class="bi bi-download"></i>Download Report</a>');
-                    if(keys["Count"]>0){
-                        $('#srecord-no').html(keys["Count"]+ " error records found!");
+                    $('#sreport-details').append('<a href="#" onclick="showReport(this.name)" id="secondary-report-view" name=' + selectFolderName + "/" + selectedFileName + '><i class="bi bi-eye"></i>View Report</a>')
+                    $('#sreport-details').append('<a href="#" onclick="downloadValidate(this.name)" id="validate-download-secondary" name=' + selectFolderName + "/" + selectedFileName + '><i class="bi bi-download"></i>Download Report</a>');
+                    if (keys["Count"] > 0) {
+                        $('#srecord-no').html(keys["Count"] + " error records found!");
 
-                    }else{
+                    } else {
                         $('#srecord-no').html("0 error records found!");
                     }
 
-                
-                //var tr = document.createElement("tr");
-                tr = `<tr>`;
-                var td = document.createElement("td");
-                const i = document.createElement('i');
-                const j = document.createElement('i');
-                i.className = "bi bi-eye";
-                j.className = "bi bi-download";
-                // li.appendChild(i);
-                // li.appendChild(document.createTextNode(selectedFileName));
 
-                // li.appendChild(j);
-                // li.appendChild(document.createTextNode("Download Report"));
-                // ul.appendChild(li);
-                // ul.insertBefore(i,li);
-                tr += `<td><a href="#" onclick="showReport(this.name)" id="secondary-reports-view" name=` +selectFolderName+`"/"`+ selectedFileName+`><i class="bi bi-eye"></i>` + ` ` + selectedFileName + `</a></td>`;
-                tr += `<td><a href="#" onclick="downloadValidate(this.name)" id="secondary-reports-download" name=` +selectFolderName+`"/"`+ selectedFileName+`><i class="bi bi-download"></i>` + ` ` + "Download Report" + `</a></td>`;
-                tr += `</tr>`;
-                $('table').append(tr);
-                //document.getElementById("add-reports").innerHTML= tr;
-                $('#validateDone').prop("hidden", false);
+                    //var tr = document.createElement("tr");
+                    tr = `<tr>`;
+                    var td = document.createElement("td");
+                    const i = document.createElement('i');
+                    const j = document.createElement('i');
+                    i.className = "bi bi-eye";
+                    j.className = "bi bi-download";
+                    // li.appendChild(i);
+                    // li.appendChild(document.createTextNode(selectedFileName));
+
+                    // li.appendChild(j);
+                    // li.appendChild(document.createTextNode("Download Report"));
+                    // ul.appendChild(li);
+                    // ul.insertBefore(i,li);
+                    tr += `<td><a href="#" onclick="showReport(this.name)" id="secondary-reports-view" name=` + selectFolderName + `"/"` + selectedFileName + `><i class="bi bi-eye"></i>` + ` ` + selectedFileName + `</a></td>`;
+                    tr += `<td><a href="#" onclick="downloadValidate(this.name)" id="secondary-reports-download" name=` + selectFolderName + `"/"` + selectedFileName + `><i class="bi bi-download"></i>` + ` ` + "Download Report" + `</a></td>`;
+                    tr += `</tr>`;
+                    $('table').append(tr);
+                    //document.getElementById("add-reports").innerHTML= tr;
+                    $('#validateDone').prop("hidden", false);
                 }
 
             }
@@ -715,10 +715,10 @@ $(function () {
 function showReport(value) {
     let table = document.getElementById("reportTable");
     let ta = document.getElementById("reportTable1");
-   // var value = document.getElementById("primary-report-view").value;
+    // var value = document.getElementById("primary-report-view").value;
     console.log(value);
 
-    
+
     $.ajax({
         type: "GET",
         url: "/api/view-reports",
@@ -749,7 +749,7 @@ function showReport(value) {
                 }
                 table_data += `</table>`;
                 table.innerHTML = table_data;
-                
+
             }
             t_data = `<table style="width:auto;">`;
             if (name[1] != null) {
@@ -773,88 +773,176 @@ function showReport(value) {
 
                 }
                 t_data += `</table>`;
-                ta.innerHTML =  t_data;
+                ta.innerHTML = t_data;
             }
-             document.getElementById('id01').style.display='block';
+            document.getElementById('id01').style.display = 'block';
 
 
         }
     });
 };
 
-function loadProcess(){
-    var loadEntity =$('#load-btn').val();
+function loadProcess() {
+    var loadEntity = $('#load-btn').val();
     console.log(loadEntity);
-    $("#dis").prop("hidden",true);
-    $("#processImg").prop("hidden",false);
-    setTimeout(hideImg,1000);
-    
+    $("#dis").prop("hidden", true);
+    $("#processImg").prop("hidden", false);
+    setTimeout(hideImg, 1000);
+
     // $('#load-btn').html("Processing...");
-   
+
     $.ajax({
         type: "GET",
         url: "/api/load/process",
         data: { 'loadEntity': loadEntity },
         dataType: "JSON",
         success: function (data) {
-            console.log(data["Output"].length-1);
+            console.log(data["Output"].length - 1);
             var s = data["Output"]
-            console.log(s[s.length-1])
-            $("#load-record").html(s[s.length-1]);
-            $("#records").prop("hidden",false);
+            console.log(s[s.length - 1])
+            $("#load-record").html(s[s.length - 1]);
+            $("#records").prop("hidden", false);
         },
         complete: function (data) {
-            $("#success-done").prop("hidden",false);
-             $(".load-progress-bar").prop("hidden", true);
-           }
+            $("#success-done").prop("hidden", false);
+            $(".load-progress-bar").prop("hidden", true);
+        }
     });
 }
-function hideImg(){
-    $("#processImg").prop("hidden",true);
-    
-    $("#dis-img").prop("hidden",true);
-    document.getElementById("connected").style.color="#0AA405"    
-    $("#connected ").prop("hidden",false);
-    $("#tick-img").prop("hidden",false);
-    $("#vr").prop("hidden",false);
-    $("#load-btn").prop("hidden",true);
+function hideImg() {
+    $("#processImg").prop("hidden", true);
+
+    $("#dis-img").prop("hidden", true);
+    document.getElementById("connected").style.color = "#0AA405"
+    $("#connected ").prop("hidden", false);
+    $("#tick-img").prop("hidden", false);
+    $("#vr").prop("hidden", false);
+    $("#load-btn").prop("hidden", true);
     $(".load-progress-bar").prop("hidden", false);
-   
+
 }
 
 function downloadValidate(value) {
-   
+
     $.ajax({
         type: "GET",
         url: "/api/validate/download",
         data: { 'validateEntity': value },
         success: function (name) {
             console.log(name);
-}
+        }
     });
 }
 
-function transformDownload(entity){
+function transformDownload(entity) {
     console.log(entity);
     $.ajax({
         type: "GET",
         url: "/api/transforming/download-reports",
-        data: { 'entityTransform': entity},
+        data: { 'entityTransform': entity },
         success: function (name) {
             console.log(name);
-}
+        }
     });
 }
 
-function loadDownload(entity){
+function loadDownload(entity) {
     $.ajax({
         type: "GET",
         url: "/api/load/load-download",
-        data: { 'loadEntity': entity},
+        data: { 'loadEntity': entity },
         success: function (name) {
             console.log(name);
-}
+        }
     });
 }
+function getUsername() {
+    var loginName = document.getElementById('loginUname');
 
+    if (loginName.value == "") {
+        alert("Username Required");
+    } else {
+        console.log(loginName.value);
+        $.ajax(
+            {
+                type: "GET",
+                url: "/api/match-un",
+                data: { 'matchUser': loginName.value },
+                success: function (response) {
+                    console.log(response);
+                    if(response){
+                    window.location.href = "/api/securitylogin";
+                    sessionStorage.setItem("username", loginName.value);
+                    }else{
+                        alert("Incorrect Username");
+                    }
+                }
+            });
+    }
+}
 
+function getSecurityQ() {
+    var getUN = sessionStorage.getItem("username");
+    document.getElementById('username').value = getUN;
+    $.ajax(
+        {
+            type: "GET",
+            url: "/api/securityQ",
+            data: { 'getUN': getUN },
+            success: function (name) {
+                console.log(name);
+                $('#security-question').val(name);
+                $('#btn-wrap2').prop("hidden", "true");
+            }
+        }
+
+    )
+
+}
+function submitSecurityAnswer() {
+    var un = document.getElementById('username').value;
+    var answer = document.getElementById('security-answer').value;
+    console.log(answer + "" + un);
+    $.ajax({
+        type: "GET",
+        url: "/api/security-answer",
+        data: { 'un': un, 'securityAnswer': answer },
+        success: function (response) {
+            console.log(response);
+            if (response) {
+                $('#btn-wrap1').prop("hidden", "true");
+                document.getElementById('btn-wrap2').removeAttribute("hidden");
+                document.getElementById('new-pass').style.visibility = '';
+                document.getElementById('confirm-new-pass').style.visibility = '';
+
+            } else {
+                alert("Invalid Answer");
+            }
+        }
+
+    })
+
+}
+function changePassword() {
+    var un = document.getElementById('username').value;
+    var pass = document.getElementById('new-password').value;
+    var cnfpass = document.getElementById('confirmPassword').value;
+    console.log(un);
+    console.log(cnfpass);
+    if (pass == cnfpass) {
+        $.ajax({
+            type: "GET",
+            url: "/api/change-password",
+            data: { 'un': un, 'pass': pass },
+            success: function (response) {
+                console.log(response);
+                if (response) {
+                    alert("Password has been successfully changed")
+                    window.location.href = "/api/login";
+                }
+            }
+        });
+    } else {
+        alert("Confirm Password not matched");
+    }
+}
