@@ -6,7 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>transform Records</title>
-  <link rel="stylesheet" href="" th:href="@{/css/transform.css}">
+  <!-- <link rel="stylesheet" href="" th:href="@{/css/transform.css}"> -->
+  <link rel="stylesheet" href="" th:href="@{/css/commonStyle.css}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
@@ -25,7 +26,10 @@
     <div class="container-fliud">
       <div class="row">
         <div class="col-md-12" style="background-color: black;">
-          <div class="Heading">
+          <div class="Heading" style=" border: 6px solid#3075D7;
+          border-top:0;
+          border-left: 0;
+          border-right: 0;">
             <h1>Transform</h1>
             <a th:href="@{/api/main}">
 
@@ -43,9 +47,9 @@
 
   <section>
     <div class="container-fliud">
-      <div class="row">
-        <div class="col-md-6" style="padding: 5px 5px 0px 50px">
-          <div class="Search" style="margin-top: 10px;">
+      <div class="row px-3">
+        <div class="col-md-6 pt-4 pb-3 px-5">
+          <div class="Search">
             <h4>Select Entity</h4>
           </div>
           <div class="parent-search">
@@ -69,22 +73,21 @@
 
   <section>
     <div class="container-fliud">
-      <div class="row" style="padding-left: 25px;">
-        <div class="col-md-12" style="padding:10px 5px 0px 24px">
+      <div class="row px-3">
+        <div class="col-md-12 py-1 px-5">
           <div class="Recent_Used">
             <h3>Recently Used</h3>
           </div>
         </div>
       </div>
-      <div class="row" style="padding-left: 40px;">
-        <div class="col-md-1" th:each="option,i : ${recentList}">
+      <div class="row px-5">
+        <div class="col-md-1 px-3" th:each="option,i : ${recentList}">
           <div class="cards">
             <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
-              <h5 th:text="${#strings.substring(option.key,0,1)}"
-                style="color:white;text-align: center;font-size: 25px;"></h5>
+              <h5 th:text="${#strings.substring(option.key,0,1)}"></h5>
             </div>
             <h6 class="Names">
-              <a th:href="@{'/api/transforming/' + ${option.key}}" style="text-decoration: none; color:#333;">
+              <a th:href="@{'/api/transforming/' + ${option.key}}">
                 <span th:value="${option.key}" th:text="${option.key}" th:name="${option.key}"></span>
               </a>
             </h6>
@@ -97,18 +100,18 @@
 
   <section>
     <div class="container-fliud">
-      <div class="row" style="padding-left: 25px;">
-        <div class="col-md-4" style="padding-left: 25px;padding-top: 10px;padding-bottom: 10px; ">
+      <div class="row px-5">
+        <div class="col-md-4 px-3 pt-4">
           <div class="all-entities">
             <h3>All Entities</h3>
           </div>
         </div>
       </div>
-      <div class="row" style="padding-left:40px; height: 500px; ">
-        <div class="col-md-9">
+      <div class="row px-5">
+        <div class="col-md-9 px-3 pt-2">
           <div class="container-fliud entities-box">
 
-            <div class="tags" style="margin-bottom: 15px;" th:each="option : ${entities}">
+            <div class="tags" th:each="option : ${entities}">
 
 
               <div class="small_circle" th:style="'background-color:' + ${option.value} + ';'">
@@ -116,17 +119,16 @@
 
               </div>
               <a th:href="@{'/api/transforming/'+${option.key}}" style=" text-decoration: none; color:black">
-                <p th:value="${option.key}" th:text="${option.key}"
-                  style="font-size: 15px; margin-left:5px; margin-top: 5px; font-weight: 300;"></p>
+                <p th:value="${option.key}" th:text="${option.key}"></p>
               </a>
             </div>
-
-
-
-
           </div>
+
+
+
         </div>
       </div>
+    </div>
 
     </div>
   </section>

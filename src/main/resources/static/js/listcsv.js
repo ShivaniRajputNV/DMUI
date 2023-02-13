@@ -200,7 +200,7 @@ $(document).ready(function () {
                 console.log(selectedFileName);
                 $("#validateBtn").prop("hidden", false);
                 $("#validateImg").prop("hidden", false);
-                $('#fetchP').html('<b>' + selectedFileName + '</b>' + " fetched successfully and ready to validate");
+                $('#fetchP').html("Files in "+'<b>' + selectedFileName + '</b>' + " folder fetched successfully and ready to validate");
             },
             error: function () {
                 $('#fetchP').html('<b>' + selectedFileName + '</b>' + " not Found !");
@@ -678,6 +678,39 @@ $(function () {
     });
 });
 
+$(function () {
+    // Document is ready    
+    $("#searchQueryInputLoad").keyup(function () {
+        var value = $("#searchQueryInputLoad").val();
+        var loc = "../api/loadprocess/";
+
+        var result = document.querySelector('.output');
+        var element = document.getElementById("searchLink");
+        // element.style.visibility = "visible";       
+        if (!value) {
+            result.innerHTML = '';
+            return
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "/api/search",
+            data: { 'name': value },
+            dataType: "JSON",
+            success: function (data) {
+                //Receiving the result of search here                
+                var res = '<ul>';
+                data.forEach(e => {
+                    // res += '<li id="autocomplete">' + e + '</li>';                    
+                    res += `<li id="autocomplete"` + 'value="' + e + '"' + `>` + `<a id="test" href="` + loc + e + `"` + `>` + e + `</a>` + `</li>`;
+                })
+                res += '</ul>';
+                result.innerHTML = res;
+            }
+        });
+    });
+});
+
 //For report
 function showReport(value) {
     let table = document.getElementById("reportTable");
@@ -823,3 +856,5 @@ function loadDownload(entity){
 }
     });
 }
+
+

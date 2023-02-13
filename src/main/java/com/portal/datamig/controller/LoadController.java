@@ -59,6 +59,7 @@ public class LoadController {
     ValidateService validate;
     @Autowired
     LoadService load;
+    String homeDir = System.getProperty("user.home");
 
     @GetMapping("/load")
     public String load(Model model) throws IOException {

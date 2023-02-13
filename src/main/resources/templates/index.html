@@ -93,7 +93,8 @@
 
                     <select id="entity">
                         <option selected>Download Entity Lookup Sample File</option>
-                        <option class="entity" th:each="option : ${entities}" th:value="${option.key}"
+                       
+                        <option id="entity-list" class="entity" th:each="option : ${entities}" th:value="${option.key}"
                             th:text="${option.key}" th:name="${option.key}">
                         </option>
                     </select>
@@ -102,36 +103,7 @@
                     </div>
                 </div>
             </div>
-            <div class="values flex">
-                <div class="validation-records flex">
-                    <div class="valimg">
-                        <img src="" th:src="@{/assets/validate.svg}" alt="">
-                    </div>
-                    <div class="valcontent">
-                        <h4>103,332</h4>
-                        <p>records pending for <strong>validation</strong></p>
-                    </div>
-                </div>
-                <div class="transform-records flex">
-                    <div class="valimg">
-                        <img src="" th:src="@{/assets/transform.svg}" alt="">
-                    </div>
-                    <div class="valcontent ">
-                        <h4>103,332</h4>
-                        <p>records pending for <strong>transform</strong></p>
-                    </div>
-                </div>
-                <div class="load-records flex">
-                    <div class="valimg">
-                        <img src="" th:src="@{/assets/load.svg}" alt="">
-                    </div>
-                    <div class="valcontent">
-                        <h4>103,332</h4>
-                        <p>records pending for <strong>load</strong></p>
-                    </div>
-                </div>
-            </div>
-
+            
             <div class="global-lookup flex">
 
                 <!-- <p><b>Global Lookup</b> <a href="#" class="edit"><b>Edit</b></a></p>
@@ -240,8 +212,8 @@
                         </tr>
                     </div>
                 </table>
-                <button type="submit" class="btn">Save</button>
-                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                <button type="submit" class="btn">Cancel</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Save</button>
             </form>
         </div>
     </div>

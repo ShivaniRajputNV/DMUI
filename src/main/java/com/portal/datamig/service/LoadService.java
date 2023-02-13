@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +26,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Service
 public class LoadService {
+    private static String homeDir = System.getProperty("user.home");
+
+
     public Map<String, String> dbDetails() throws IOException{
         File file = new File("../DMUtil/db/db_details.csv");
         // FileReader filereader = new FileReader(file);
@@ -43,6 +47,7 @@ public class LoadService {
             }    
         return map;
     }
+ 
     public Map<String, List<String>> callLoadProgram(String name) throws IOException, InterruptedException{
         String loc = "../DMUtil" + File.separator + "Load" + File.separator + "JDBC_T1.java";
         String loc1 = "../DMUtil" + File.separator + "Load" + File.separator + "RnEx.java";

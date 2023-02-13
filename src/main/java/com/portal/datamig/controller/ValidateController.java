@@ -127,6 +127,7 @@ public class ValidateController {
     System.out
         .print("Secondary Validate entity" + entityValidate + "" + "Primary Validate" + "" + primaryEntityValidate);
     validate.copyCSVFiles(primaryEntityValidate + "/" + entityValidate);
+   
     return "redirect:/api/entityValidate/" + primaryEntityValidate;
   }
 

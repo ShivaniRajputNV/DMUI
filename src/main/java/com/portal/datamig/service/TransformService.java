@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 public class TransformService {
     @Autowired
     ValidateService validate;
+    private static String homeDir = System.getProperty("user.home");
+
 
     public void transformList(String name) {
         Path src = Paths.get("../DMUtil/Transform/" + name + "/");
@@ -121,32 +123,23 @@ public class TransformService {
         File path = new File("../DMUtil/Reports/Transform/Summary_Reports/" + foldername);
         System.out.println(path);
         long time = System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(2);
-        File[] files = path.listFiles(pathname -> pathname.lastModified() >= time);
-       // System.out.println(files);
+        File[] files = path.listFiles(pathname -> pathname.lastModified() >= time && pathname.getName().endsWith(".csv"));
+       System.out.println("csv files"+files);
+       for (File a: files){
+        System.out.println(a.getName());
+       }
         if (files == null || files.length == 0) {
             System.out.println("no files in folder");
             return null;
         }
 
         File lastModifiedFile = files[0];
-        for (int i = 1; i < files.length; i++) {
-            if (lastModifiedFile.lastModified() < files[i].lastModified()) {
-               
-                if(files[i].isFile()){
-                   
-                    lastModifiedFile = files[i];
-                   
-                }else{
-                    System.out.println("Not a file");
-                    
-                }
-
-            }
+        
             
 
             
-        }
-        System.out.println(lastModifiedFile);
+        
+        System.out.println("File NAME"+lastModifiedFile);
          modifiedFiles.add(lastModifiedFile.toString());
 
         System.out.println(modifiedFiles);

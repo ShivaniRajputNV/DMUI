@@ -37,6 +37,7 @@ import ch.qos.logback.core.net.SyslogOutputStream;
 public class ReadService {
 
     private static String lookup = "Field_Name,Field_Value";
+    private static String homeDir = System.getProperty("user.home");
 
     public Map<String, String> entityList() throws IOException {
         // Resource resource = new ClassPathResource("/csvs/entities/EntityList.csv");
@@ -251,7 +252,7 @@ public class ReadService {
     }
 
     public Map<String, String> recentlyUsed(String folderName) throws IOException {
-        String homeDir = System.getProperty("user.home");
+        // String homeDir = System.getProperty("user.home");
         long weekAgo = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(2);
         File directory = new File(homeDir + "/DMUtil/" + folderName);
         Path filepath= Paths.get(homeDir + "/DMUtil/" + folderName);

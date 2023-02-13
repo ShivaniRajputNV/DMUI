@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vadidate Entities</title>
   <link rel="stylesheet" href="" th:href="@{/css/entityValidate.css}">
+  <link rel="stylesheet" href="" th:href="@{/css/commonStyle.css}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
@@ -255,12 +256,12 @@ function openReport(evt, reportName) {
               class="w3-button w3-blue w3-xlarge w3-display-topright">&times;</span>
             <h2>Validation Report</h2>
           </header>
-          <div class="w3-bar w3-border-bottom"> 
+          <!-- <div class="w3-bar w3-border-bottom"> 
             <button class="tablink w3-bar-item w3-button active"
               onclick="openReport(event, 'sum-report')">Summary Report</button>
                <button class="tablink w3-bar-item w3-button"
               onclick="openReport(event, 'ex-report')">Exception Report</button> 
-            </div>
+            </div> -->
           <div id="sum-report" class="w3-container report" >
             
             <div id="reportTable" class="table-wrapper-scroll-x table-wrapper-scroll-y my-custom-scrollbar"></div>

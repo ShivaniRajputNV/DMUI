@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ import java.util.zip.ZipOutputStream;
 
 @Service
 public class ValidateService {
+    private static String homeDir = System.getProperty("user.home");
     private static List<String> outputEV = null;
 
     // upload/copy for validate page
@@ -49,6 +51,10 @@ public class ValidateService {
                 throw new RuntimeException(e);
             }
         });
+        String srcfolder = "../DMUtil/Reports/Validate/";
+        String destFolder = "../DMUtil/Archieve";
+       FileUtils.moveDirectoryToDirectory(FileUtils.getFile(srcfolder), FileUtils.getFile(destFolder),true);
+
     }
 
     public Map<String, List<String>> callValidationProgram(String selectedFolder)
@@ -103,6 +109,8 @@ public class ValidateService {
         String loc1 = "java -cp /home/anshika/DMUtil/Validate/CmCommonValidation" + " " + "/home/anshika/DMUtil/Input/"
                 + selectedFolder + " " + "/home/anshika/DMUtil/Validate/Mapping_Sheet/" + selectedFolder + ".csv";
         String[] nn = selectedFolder.split("/");
+        System.out.println("SFFF"+selectedFolder);
+        System.out.println(nn[1]);
         String command[] = { "javac", loc };
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         Process process = processBuilder.start();
@@ -121,15 +129,13 @@ public class ValidateService {
                     "../DMUtil" + File.separator + "Validate" + File.separator + "Mapping_Sheet" + File.separator
                             + nn[1].replace("_", "") + ".csv" })
                     .start();
-            if (process.getErrorStream().read() != -1) {
+            if (process.getErrorStream().read() != -1 || process.getInputStream().read()!= -1) {
                 error = print("Errors ", process.getErrorStream());
                 result.put("Error", error);
-                
-            } else {
                 output = print("Output ", process.getInputStream());
                 result.put("Output", output);
-
-            }
+                
+            } 
         }
         // process.waitFor();
         // process.exitValue();
@@ -199,6 +205,7 @@ public class ValidateService {
                 output = print("Output ", process.getInputStream());
             }
         }
+        
         // process.waitFor();
         // process.exitValue()
 
@@ -275,26 +282,6 @@ FileOutputStream fos = new FileOutputStream(zipFile);
 
             // close the ZipOutputStream
             zos.close();
-// try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile))){
-//    for (String filename:dirName){
-//         File f = new File(filename);   
-//         FileInputStream fis = new FileInputStream(f);
-
-//         Files.walk(f.toPath()).filter(path -> !Files.isDirectory(path)).forEach(path -> {
-//             ZipEntry zipEntry = new ZipEntry(f.toPath().relativize(path).toString());
-//             System.out.println(zipOutputStream + " " + f.toPath());
-//             try {
-//                 zipOutputStream.putNextEntry(zipEntry);
-//                 if (Files.isRegularFile(path)) {
-//                     Files.copy(path, zipOutputStream);
-//                 }
-//                 // zipOutputStream.closeEntry();
-//             } catch (IOException e) {
-//                 System.err.println(e);
-//             }
-//         });
-//     }
-// }
 
 
 return "Success";

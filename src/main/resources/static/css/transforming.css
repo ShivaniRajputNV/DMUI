@@ -54,7 +54,7 @@
 
 .selected-entity {
     margin-left: 10px;
-    width: 120px;
+    width: auto;
     margin-top: 10px;
     height: 40px;
     background-color: #f5f5f5;
