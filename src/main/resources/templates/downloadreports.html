@@ -5,41 +5,43 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>transform Records</title>
-  <!-- <link rel="stylesheet" href="" th:href="@{/css/lookup.css}"> -->
+  <title>Download Reports</title>
+  <!-- <link rel="stylesheet" href="" th:href="@{/css/transform.css}"> -->
   <link rel="stylesheet" href="" th:href="@{/css/commonStyle.css}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
   <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  <script type="text/javascript">
+
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
+
+</script>
 </head>
 
-<script type="text/javascript">
-
-  function preventBack() { window.history.forward(); }
-  setTimeout("preventBack()", 0);
-  window.onunload = function () { null };
-  
-  
-</script>
 <body>
+
 
   <script th:if="${session.isEmpty()}">
     location.href='/api/session';</script>
-
   <section>
     <div class="container-fliud">
       <div class="row">
         <div class="col-md-12">
-          <div class="Heading">
-            <h1>Fill entity lookup field value</h1>
+          <div class="Heading" style="
+          border: 6px solid #1c87c9;   border-top:0;
+          border-left: 0;
+          border-right: 0;">
+            <h1> Report</h1>
             <a th:href="@{/api/main}">
 
-              <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+              <button type="button" class="btn-close btn-close-white" style="opacity: .9;" aria-label="Close"></button>
             </a>
           </div>
 
@@ -54,14 +56,12 @@
   <section>
     <div class="container-fliud">
       <div class="row px-3">
-        <div class="col-md-6 pt-4 px-5" >
-          <div class="Search" >
-            <h4>Select Entity</h4>
+        <div class="col-md-6 pt-4 pb-3 px-5">
+          <div class="Search">
+            <h4>Select Entity For Download Report</h4>
           </div>
-
           <div class="parent-search">
             <div class="search search-bar">
-
               <input id="searchQueryInputLookup" class="searchQueryInput" type="text" name="searchQueryInput"
                 placeholder="Search" value="" />
               <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
@@ -79,37 +79,35 @@
 
   <section>
     <div class="container-fliud">
-      <div class="row px-3" >
-        <div class="col-md-12 pt-3 px-5" >
+      <div class="row px-3">
+        <div class="col-md-12 py-1 px-5">
           <div class="Recent_Used">
             <h3>Recently Used</h3>
           </div>
         </div>
       </div>
-      <div class="row px-5">
-        <div class="col-md-1 px-3" th:each="option,i : ${recentList}">
-          <div class="cards">
-            <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
-              <h5 th:text="${#strings.substring(option.key,0,1)}"
-                style="color:white;text-align: center;font-size: 25px;"></h5>
+
+      <!-- "carousel" data-flickity='{"wrapAround":true,"autoPlay":false}' -->
+      <div class="row px-3">
+        <div class="col-md-1 px-5" th:each="option,i : ${recentList}">
+          <div class="cards ">
+            <div class="Circles  " th:style="'background-color:' + ${option.value} + ';'">
+              <h5 th:text="${#strings.substring(option.key,0,1)}"></h5>
             </div>
             <h6 class="Names">
-              <a th:href="@{'/api/primary/' + ${option.key}}" style="text-decoration: none; color:#333;">
+              <a th:href="@{'/api/report/' + ${option.key}}">
                 <span th:value="${option.key}" th:text="${option.key}" th:name="${option.key}"></span>
               </a>
             </h6>
           </div>
         </div>
       </div>
-
-    </div>
     </div>
   </section>
-
   <section>
     <div class="container-fliud">
-      <div class="row px-5" >
-        <div class="col-md-4 px-3 pt-4" >
+      <div class="row px-5">
+        <div class="col-md-4 px-3 pt-4">
           <div class="all-entities">
             <h3>All Entities</h3>
           </div>
@@ -117,28 +115,25 @@
       </div>
       <div class="row px-5">
         <div class="col-md-9 px-3 pt-2">
-          <div class="container-fliud entities-box">
+          <div class="container-fliud entities-box ">
 
-            <div class="tags"  th:each="option : ${entities}">
+            <div class="tags" th:each="option : ${entities}">
               <div class="small_circle" th:style="'background-color:' + ${option.value} + ';'">
                 <span th:text="${#strings.substring(option.key,0,1)}"></span>
-
               </div>
-              <a th:href="@{'/api/primary/'+${option.key}}" style=" text-decoration: none; color:black">
-                <p th:value="${option.key}" th:text="${option.key}"
-               ></p>
+              <a th:href="@{'/api/report/'+${option.key}}">
+                <p th:value="${option.key}" th:text="${option.key}"></p>
               </a>
             </div>
-
-
-
-
           </div>
         </div>
       </div>
 
     </div>
+
+
   </section>
+
 </body>
 
 </html>

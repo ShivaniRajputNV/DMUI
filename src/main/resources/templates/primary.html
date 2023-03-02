@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vadidate Entities</title>
     <link rel="stylesheet" href="" th:href="@{/css/primary.css}">
+    <link rel="stylesheet" href="" th:href="@{/css/commonStyle.css}">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
@@ -16,10 +18,19 @@
         <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <script type="text/javascript">
 
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+        
+        
+    </script>
 </head>
 
 <body>
+    <script th:if="${session.isEmpty()}">
+        location.href='/api/session';</script>
     <section>
 
         <form id="formread" th:action="@{'/api/write/'+${entityName}}" th:object="${csvfile}" th:if="${csvfile ne null}" th:method="post" onsubmit="setStatus('true')">
@@ -31,7 +42,7 @@
                         <h1>Lookup Files</h1>
                         <a th:href="@{/api/lookup}">
 
-                            <button type="button" class="btn-close btn-close-white" style="opacity: .9;"
+                            <button type="button" class="btn-close btn-close-white" 
                                 aria-label="Close"></button>
                         </a>
                     </div>
@@ -46,8 +57,8 @@
 
 
 
-            <div class="row">
-                <div class="col-md-12" style="padding-left: 50px;  padding-top: 5px;">
+            <div class="row px-1">
+                <div class="col-md-12 pt-4 pb-3 px-5" >
                     <div class="selected-row">
                         <h3>Entity Selected:</h3>
                         <div class="selected-entity">
@@ -64,9 +75,9 @@
             </div>
 
 
-            <div class="row">
-                <div class="col-md-4" style="padding-left: 65px;  padding-top: 5px;">
-                    <div class="primary">
+            <div class="row px-3">
+                <div class="col-md-4 px-5" >
+                    <div class="primary px-1">
                         
                         <p id="primary-circle">
                         </p>

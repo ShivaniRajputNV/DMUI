@@ -43,14 +43,26 @@ function openReport(evt, reportName) {
     evt.currentTarget.classList.add("w3-light-grey");
 }
   </script>
-</head>
+     <script type="text/javascript">
 
+      function preventBack() { window.history.forward(); }
+      setTimeout("preventBack()", 0);
+      window.onunload = function () { null };
+      
+      
+  </script>
+</head>
+<script th:if="${session.isEmpty()}">
+  location.href='/api/session';</script>
 <body id="body-section">
   <section>
     <div class="container-fliud">
-      <div class="row">
-        <div class="col-md-12" style="background-color: black;">
-          <div class="Heading">
+      <div class="row" >
+        <div class="col-md-12" >
+          <div class="Heading" style=" border: 6px solid #F0823D;
+          border-top:0;
+          border-left: 0;
+          border-right: 0;">
             <h1>Validate</h1>
             <a th:href="@{/api/validate}">
 
@@ -66,12 +78,12 @@ function openReport(evt, reportName) {
     &nbsp;
   </div>
   <section>
-    <div class="container-fliud">
-      <div class="row" style="padding-left: 25px;">
-        <div class="col-md-12" style="padding:10px 5px 0px 24px">
+    <div class="container-fliud p-0">
+      <div class="row px-2" >
+        <div class="col-md-12  pt-4 pb-3 px-5" >
           <div class="selected-row">
             <h3>Entity Selected:</h3>
-            <div class="selected-entity" style="width: auto;">
+            <div class="selected-entity" >
               <div class="circle" th:style="'background-color:' + ${col} + ';padding-top: 6px; align-items: center;'">
                 <h5 style="color:white;text-align: center; font-size: 12px; margin-left: 12px; margin-bottom: 15px;"
                   th:text="${#strings.substring(name,0,1)}"></h5>
@@ -89,8 +101,8 @@ function openReport(evt, reportName) {
 
   <section>
     <div class="container-fliud">
-      <div class="row">
-        <div class="col-md-12" style="padding-left: 60px;  padding-top: 5px;">
+      <div class="row px-3">
+        <div class="col-md-12 px-5" >
           <div class="fetch">
             <h3>Fetch Primary File</h3>
           </div>
@@ -130,6 +142,7 @@ function openReport(evt, reportName) {
 
               </div>
               <p id="messageOutput"></p>
+             
               <p id="error"></p>
 
               <div id="report-details" class="flex">
@@ -143,7 +156,7 @@ function openReport(evt, reportName) {
             </div>
           </div>
         </div>
-        <div class="col-md-4" style="padding: 0;padding-top: 10px;">
+        <div class="col-md-3" style="padding: 0;padding-top: 10px;">
           <div class="blank">
 
           </div>
@@ -155,15 +168,15 @@ function openReport(evt, reportName) {
 
   <section id="secondary-section">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12" style="padding-left: 60px;  padding-top: 5px;">
+      <div class="row px-2">
+        <div class="col-md-12 px-5">
           <div class="fetch">
             <h3>Fetch Secondary File</h3>
           </div>
         </div>
       </div>
       <div class="row" id="secondary-container">
-        <div class="col-md-3" style="padding: 0; padding-left: 60px; padding-top: 10px;">
+        <div class="col-md-3" style="padding: 0; padding-left: 50px; padding-top: 10px;">
           <div class="fetch-box">
             <div class="fetchP">
               <p id="secondaryProcessMessage" style="color:grey">Your file is ready to process...</p>
@@ -204,7 +217,7 @@ function openReport(evt, reportName) {
           </div>
 
         </div>
-        <div class="col-md-4" style="padding: 0;padding-top: 10px;">
+        <div class="col-md-3" style="padding: 0;padding-top: 10px;">
           <div class="blank">
 
           </div>
@@ -216,8 +229,8 @@ function openReport(evt, reportName) {
   </section>
   <section>
     <div class="container-fluid" id="view-reports" hidden>
-      <div class="row">
-        <div class="col-md-10" style="padding-left: 60px;  padding-top: 5px;">
+      <div class="row px-3">
+        <div class="col-md-10 px-5" >
           <div class="fetch">
             <h3>View Reports</h3>
           </div>

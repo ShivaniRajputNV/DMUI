@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
 
-
+/* 
 * {
     margin: 0;
     padding: 0;
@@ -87,7 +87,7 @@
     font-size: 14px;
     margin-left: 5px;
     margin: 0;
-}
+} */
 
 .fetch-box {
     display: flex;
@@ -110,7 +110,7 @@
     height: 80px;
 }
 
-.fetchP {
+.fetchP{
 
     border-radius: 15px 0 0 15px;
     height: 200px;
@@ -125,10 +125,11 @@
 }
 
 .fetch-btn .btn {
+    border: 1px solid #0D71AC;
     color: #0D71AC;
     font-size: 12px;
-    margin-left: 100px;
-    padding: 5px 20px 5px 20px;
+    margin-left: 105px;
+    padding: 5px 35px 5px 35px;
 
 }
 
@@ -211,15 +212,12 @@
     display: flex;
 }
 
-#report-details i {
-    margin-right: 5px;
-    margin-left: 5px;
-}
+
 
 #report-details a {
     text-decoration: none;
     color: #0E7DBF;
-    margin-left: 1rem;
+ 
     
 }
 
@@ -232,22 +230,26 @@
     width: 100%;
 }
 
-#sreport-details i {
-    margin-right: 5px;
-    margin-left: 5px;
-}
+
 
 #sreport-details a {
     text-decoration: none;
     color: #0E7DBF;
-    margin-left: 1rem;
+  
 }
 
 #sreport-details p {
     color: tomato;
 }
 
-
+.bi-eye-fill{
+    color: #0E7DBF;
+    margin-right: 5px ;
+}
+.bi-download{
+   color:  #0E7DBF;
+   margin-right: 5px ;
+}
 .my-custom-scrollbar {
     height: 500px;
     position: relative;

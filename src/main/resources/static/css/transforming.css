@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap");
 
-
+/* 
 * {
     margin: 0;
     padding: 0;
@@ -85,113 +85,139 @@
 .name h6 {
     font-size: 14px;
     margin-left: 5px;
-}
+} */
 
 .transform-box {
-    display: flex;
-    border-radius: 15px;
-    margin-top: 25px;
-    height: 220px;
-    width: 100%;
-    background-color: #f6f6f6;
+  display: flex;
+  border-radius: 15px;
+  margin-top: 25px;
+  height: 220px;
+  width: 100%;
+  background-color: #f6f6f6;
 }
 
 .process {
-
-    width: 100%;
+  width: 100%;
 }
 
 .process p {
-    font-weight: 500;
-    margin-top: 65px;
-    text-align: center;
+  font-weight: 500;
+  margin-top: 65px;
+  text-align: center;
 }
 
 .text-center .btn {
-    text-align: center;
-    background-color: #0E7DBF;
-    color: #FFF;
-    box-shadow: 0 3px 10px rgba(71, 133, 234, 0.1);
-    font-size: 12px;
+  text-align: center;
+  background-color: #0e7dbf;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(71, 133, 234, 0.1);
+  font-size: 12px;
 
-    padding: 5px 25px 5px 25px;
+  padding: 5px 25px 5px 25px;
 }
 
 #transformComplete {
-    margin-top: 20px;
-    opacity: .7;
+  margin-top: 20px;
+  opacity: 0.7;
 }
 
 #transformMessage {
-    font-weight: 400;
-    font-size: px;
-    opacity: .7;
+  font-weight: 400;
+  font-size: px;
+  opacity: 0.7;
 }
 
 .text-center .btn:hover {
-    color: #0E7DBF;
-    border: 1px solid #0E7DBF;
+  color: #0e7dbf;
+  border: 1px solid #0e7dbf;
 }
 
 #myProgress {
-    width: 100%;
-    background-color: #ddd;
+  width: 100%;
+  background-color: #ddd;
 }
 
 #myBar {
-    width: 1%;
-    height: 22px;
-    background-color: #04AA6D !important;
-    text-align: center;
-    line-height: 30px;
-    color: white;
+  width: 1%;
+  height: 22px;
+  background-color: #04aa6d !important;
+  text-align: center;
+  line-height: 30px;
+  color: white;
 }
 
 #transformDone {
-    text-align: center;
-    background-color: #0E7DBF;
-    color: #FFF;
-    box-shadow: 0 3px 10px rgba(71, 133, 234, 0.1);
-    font-size: 12px;
+  text-align: center;
+  background-color: #0e7dbf;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(71, 133, 234, 0.1);
+  font-size: 12px;
 
-    padding: 5px 25px 5px 25px;
-
+  padding: 5px 25px 5px 25px;
 }
 
 #transformDone:hover {
-    color: #ffffff;
-    border: 1px solid #0E7DBF;
+  color: #ffffff;
+  border: 1px solid #0e7dbf;
 }
 
 #transformDoneDive {
-    align-content: center;
+  align-content: center;
 }
 
 .transform-complete {
-    margin-top: 1rem;
-    /* border: 1px solid rgb(9, 255, 0); */
+  margin-top: 1rem;
+  /* border: 1px solid rgb(9, 255, 0); */
 }
 
 .transform-message {
-    /* border: 1px solid red; */
-    margin-right: .5rem;
-    opacity: .7;
+  /* border: 1px solid red; */
+  margin-right: 0.5rem;
+  opacity: 0.7;
 }
 
 .download-report {
-    color: #0E7DBF;
-    text-decoration: none;
-    /* border: 1px solid rgb(0, 30, 255); */
-    margin-left: .5rem;
-    margin-top: 1rem;
+  color: #0e7dbf;
+  text-decoration: none;
+  /* border: 1px solid rgb(0, 30, 255); */
+  margin-left: 0.5rem;
+  margin-top: 1rem;
 }
 
 .download-report a {
-    border: none;
-  
+  border: none;
+  text-decoration: none;
+  color: #0e7dbf;
 }
 
 .download-report img {
- 
-    margin-right: .5rem;
+  margin-right: 0.5rem;
 }
+.bi {
+    margin-right: 5px;
+  color: #0e7dbf;
+}
+/* view transform */
+.my-custom-scrollbar {
+    height: 500px;
+    position: relative;
+    overflow: auto;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    padding-bottom: 40px;
+  }
+  .table-wrapper-scroll-y {
+    border: transparent;
+    display: block;
+  }
+  .table-wrapper-scroll-x {
+    border: transparent;
+    display: block;
+  }
+  .w3-modal-content {
+    width: 1300px !important;
+  }
+  td {
+    width: 100%;
+  }
+  

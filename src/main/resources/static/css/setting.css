@@ -1,0 +1,176 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  width: 100%;
+  /* height: 100%; */
+}
+.Heading {
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  background-color: #333;
+  width: 100%;
+  z-index: 9999;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  color: #ffff;
+}
+.spacer {
+  width: 100%;
+  height: 70px;
+}
+
+.Heading h1 {
+  margin: 5px 0 0 37px;
+  font-weight: 500;
+  font-size: 25px;
+}
+
+.btn-close {
+  opacity: 0.9 !important;
+  margin-top: 10px;
+  margin-right: 40px;
+  filter: brightness(0) invert(1);
+}
+
+.inp {
+  border: 2px solid gray;
+}
+
+.flex {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.icon-spacer {
+  width: 1rem;
+}
+
+/* .flex-icon {
+  display: flex;
+  gap: 10px;
+} */
+
+#submitSec {
+  background-color: #0e7dbf;
+  color: #fff;
+}
+
+.bi {
+  cursor: pointer;
+}
+.bi-pencil-square {
+  color: #0e7dbf;
+
+}
+.bi-trash3-fill {
+  color: red;
+  margin-left: 10px;
+}
+.openBtn {
+  display: flex;
+  justify-content: left;
+}
+.openButton {
+  border: none;
+  border-radius: 5px;
+  background-color: #1c87c9;
+  color: white;
+  padding: 14px 20px;
+  cursor: pointer;
+  position: fixed;
+}
+
+.editPopup {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+.formPopup {
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  border-radius: 25px;
+  display: none;
+  position: fixed;
+  height: 50%;
+  width: 25%;
+  margin-top: 150px;
+  left: 55%;
+  top: 5%;
+  transform: translate(-50%, 5%);
+  z-index: 9;
+}
+.formContainer {
+  max-width: 500px;
+  padding: 3rem;
+
+  background-color: #fff;
+}
+.formContainer  h2{
+    margin-bottom: 2rem;
+}
+.formContainer input[type="text"],
+.formContainer input[type="password"] {
+  width: 100%;
+  padding: 1rem;
+margin-top: 1rem;
+  margin-left: 10px;
+  border: none;
+  background: #eee;
+}
+.formContainer input[type="text"]:focus,
+.formContainer input[type="password"]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+.formContainer .btn {
+  /* padding: 12px 40px; */
+  margin-top: 3rem;
+  background-color: #0e7dbf;
+  border: none;
+  margin-right: 15px;
+  margin-left: 10px;
+  /* background-color: #3ec71cc8; */ /* box-shadow: 0 3px 10px rgb(0 0 0 / 0.2); */
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  /* background-color: none; */
+  width: 30%;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  /* opacity: 0.8; */
+}
+.formContainer .btn:hover{
+    background-color: #0e7dbf;
+    color: #fff;
+}
+.formContainer .cancel {
+  background-color: transparent;
+  color: #0e7dbf;
+  font-size: 15px;
+}
+.formContainer .cancel:hover{
+    background-color: transparent;
+    color: #0e7dbf;
+}
+.formContainer .btn:hover,
+.openButton:hover {
+  opacity: 1;
+}
+.user-role #userRole{
+  padding: 1rem;
+  border: none;
+  width: 250px;
+  margin-left: 10px;
+}
+
+#user_table{
+  width: 0;
+}

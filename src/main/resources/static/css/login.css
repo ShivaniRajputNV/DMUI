@@ -15,16 +15,26 @@
   background: linear-gradient(to right, rgba(237,126,57,0.4), rgba(250,222,22,0.4),rgba(197,160,53,0.4),rgba(27,130,194,0.4),rgba(160,182,191,0.4))
   }
   .logo{
-    margin-top: 20px;
+ 
+    max-width: 10rem;
+    margin-bottom: 30px;
+  }
+  .logo{
+    /* margin-top: 10px; */
     max-width: 10rem;
     margin-bottom: 30px;
   }
   .btn{
     margin-top: 30px;
   }
-  .login{
-  height: 50px;
+  .login-btn{
+  height: 40px;
   width: 150px;
+  margin-top: 5px;
+  background-color: #0E7DBF;
+ border: none;
+ border-radius: 5px;
+ color: #fff;
   }
 
   

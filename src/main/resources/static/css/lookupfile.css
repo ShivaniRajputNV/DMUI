@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
 
-
+/* 
 * {
     margin: 0;
     padding: 0;
@@ -43,7 +43,7 @@
 
 .selected-entity {
     margin-left: 10px;
-    width: 120px;
+    width: auto;
     margin-top: 10px;
     height: 40px;
     background-color: #f5f5f5;
@@ -73,7 +73,7 @@
 .name h6{
   font-size: 14px;
   margin-left: 5px;
-}
+} */
 .transform-box{
     display: flex;
     border-radius: 15px;

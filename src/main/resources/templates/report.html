@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download the Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="" th:href="@{/css/report.css}">
+    <link rel="stylesheet" href="" th:href="@{/css/commonStyle.css}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
+
+    <script>
+        function showdiv(event) {
+            document.getElementById('hidediv').style.display = "block";
+            event.preventSefault();
+        }
+        function openReport(evt, reportName) {
+            var i, x, tablinks;
+            x = document.getElementsByClassName("report");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName('tablink')
+            for (i = 0; i < x.length; i++) {
+                tablinks[i].classList.remove("w3-light-grey");
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(reportName).style.display = "block";
+            event.currentTarget.classList.add("w3-light-grey");
+            event.currentTarget.classList.add("active");
+
+
+        }
+    </script>
+       <script type="text/javascript">
+
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+        
+        
+    </script>
+</head>
+
+
+<body>
+    <script th:if="${session.isEmpty()}">
+        location.href='/api/session';</script>
+    <section>
+        <div class="container-fliud">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="Heading" style=" border: 6px solid #1c87c9;
+              border-top:0;
+              border-left: 0;
+              border-right: 0;">
+                        <h1><b>Report</b></h1>
+                        <a th:href="@{/api/downloadreports}">
+
+                            <button type="button" class="btn-close btn-close-white" style="opacity: .9;"
+                                aria-label="Close"></button>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="spacer">
+        &nbsp;
+    </div>
+    <section>
+        <div class="container-fliud">
+            <div class="row">
+                <div class="col-md-12 pt-4 pb-3 px-5">
+                    <div class="selected-row">
+                        <h3><b>Entity Selected:</b></h3>
+                        <div class="selected-entity">
+                            <div class="circle"
+                                th:style="'background-color:' + ${col} + ';padding-top: 6px; align-items: center;'">
+                                <h5 th:text="${#strings.substring(name,0,1)}"></h5>
+                            </div>
+                            <div class="name">
+                                <h6 th:text="${name}"></h6>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+    </section>
+
+    <section>
+        <div class="container-fliud">
+            <div class="row px-3">
+                <div class="col-md-6  pt-4 pb-3 px-5">
+                    <div class="Search">
+                        <h4><b>Select Catagories</b></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container-fluid">
+            <div class="row px-4">
+                <div class="col-md-3  ">
+                    <a href="#">
+
+                        <div class="validate ">
+                            <div class="validate-side front d-flex p-5">
+                                <img src="" th:src="@{/assets/validate.svg}" alt="">
+                                <p>Validate</p>
+                            </div>
+                            <div class="validate-side back ">
+                                <div class="view-v"> <a href="#" th:name="${name}" onclick="ValidateReport(this.name)">
+                                        <i class="bi bi-eye-fill"></i>&nbsp;View Report</a>
+                                </div>
+                                <button type="button" th:name="${name}" onclick="tabDownloadValidate(this.name)"
+                                    class="btn btn-default">
+                                    <i class="bi bi-download">&nbsp;Download Report</i></button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="#">
+
+                        <div class="transform">
+                            <div class="transform-side front d-flex p-5">
+                                <img src="" th:src="@{/assets/transform.svg}" alt="">
+                                <p>Transform</p>
+                            </div>
+                            <div class="transform-side back">
+                                <div class="view-t"> 
+                                    <a href="#" th:name="${name}" onclick="TransformReport(this.name)">
+                                        <i class="bi bi-eye-fill"></i>&nbsp;View Report</a>
+                                </div>
+                                <button type="button" th:name="${name}" onclick="tabDownloadTransform(this.name)"
+                                    class="btn btn-default">
+                                    <i class="bi bi-download">&nbsp;Download Report</i></button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a href="#">
+
+                        <div class="load">
+                            <div class="load-side front d-flex p-5">
+                                <img src="" th:src="@{/assets/load.svg}" alt="">
+                                <p>Load</p>
+                            </div>
+                            <div class="load-side back">
+                                <div class="view-l">
+                                    <a href="#" th:name="${name}" onclick="LoadReport(this.name)">
+                                        <i class="bi bi-eye-fill"></i>&nbsp;View Report</a>
+                                </div>
+                                <button type="button" th:name="${name}" onclick="tabDownloadLoad(this.name)"
+                                class="btn btn-default">
+                                <i class="bi bi-download">&nbsp;Download Report</i></button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+
+    </section>
+
+    <div class="loginPopup">
+        <div class="formPopup" id="popupForm">
+
+            <img src="" th:src="@{/assets/done.svg}" alt="">
+            <a th:href="@{/api/main}" id="popup-close">
+                <button class="close"> &times;</button>
+            </a>
+            <p th:text="${#strings.concat('You successfully download report ',entityName)}"></p>
+        </div>
+    </div>
+
+    <!-- popup transform report -->
+
+    <div>
+        <div class="w3-container">
+            <div id="id01" class="w3-modal">
+                <div class="w3-modal-content w3-card-4 w3-animate-zoom">
+                    <header class="w3-container w3-blue"> <span
+                            onclick="document.getElementById('id01').style.display='none'"
+                            class="w3-button w3-blue w3-xlarge w3-display-topright">&times;</span>
+                        <h2 id="headingTab"></h2>
+                    </header>
+                    <div id="addReportTab" class="w3-bar w3-border-bottom"> </div>
+                    <div id="reportsList">
+                        <div class="w3-container w3-light-grey w3-padding"> <button
+                                class="w3-button w3-right w3-white w3-border"
+                                onclick="document.getElementById('id01').style.display='none'">Close</button> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

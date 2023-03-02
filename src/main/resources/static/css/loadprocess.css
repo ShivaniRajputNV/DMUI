@@ -5,7 +5,7 @@
     margin: 0;
     padding: 0;
 }
-
+/* 
 .Heading {
     position: fixed;
     overflow: hidden;
@@ -34,7 +34,7 @@
 }
 
 .btn-close {
-    margin-top: 5px;
+    margin-top: 12px;
     margin-right: 50px;
     filter: brightness(0) invert(1);
 
@@ -75,15 +75,15 @@
 }
 
 .name{
-    margin-top: 5px;
-    text-align: center;
+    
     color: #424141;
     font-weight: 400;
 }
 .name h6{
+  
   font-size: 14px;
   margin-left: 5px;
-}
+} */
 .db-connection h3{
     font-size: 22px;
     margin-top: 25px;
@@ -96,24 +96,31 @@
 .establish{
     display: flex;
 }
+.processing{
+    margin-left: 60px;
+    padding-left: 70px;
+}
 .processing-btn .btn{
     color: #fff;
     box-shadow: 0 3px 10px rgba(71, 133, 234, 0.1);
     background-color: #0E7DBF;
     font-size: 12px;
-    margin-left: 40px;
     padding: 5px 25px  5px 25px;
- margin-top: 30px;
+    margin-top: 30px;
    
 }
 .remove{
-    border: transparent;
+    border:transparent;
 }
 .tr-heading{
-    background-color: rgb(209, 205, 205);
-    
+    /* background-color: rgb(209, 205, 205); */    
    
 }
+
+.table {
+
+}
+
 .establish {
     display: flex;
     margin-bottom: 1rem;
@@ -178,11 +185,11 @@ tr {
 }
 .vr {
     margin-top: 1.5rem;
-    height: 110px;
-  color: #8d8c8c;
+    height: 115px;
+    color: #777676;
 }
-.hr {
-    opacity: .1;
+.hr{
+    border: 1px solid #9f9e9e;
 }
 .insert-done {
     margin-right: 44rem;
@@ -194,6 +201,10 @@ tr {
     border: none;
     border-radius: 5px;
     margin-top: 2rem;
+}
+.insert-done:hover{
+    background-color: #0E7DBF;
+    color: #fff;
 }
 .download-report {
     color: #0E7DBF;
@@ -209,4 +220,62 @@ tr {
     color: #0AA405;
     opacity: .5;
     margin-right: .2rem;
+}
+
+.view-report {
+    color: #0E7DBF;
+    text-decoration: none;
+   
+  }
+  .view-report i {
+    margin-left: .5rem;
+    margin-right: .3rem;
+  }
+  .view-report a{
+    text-decoration: none;
+  }
+
+  .bi {
+    color:#0E7DBF;
+  }
+
+.my-custom-scrollbar {
+    height: 500px;
+    position: relative;
+    overflow: auto;
+    overflow-y: scroll;
+    overflow-x: scroll;
+
+    padding-bottom: 40px;
+}
+
+.table-wrapper-scroll-y {
+    border: transparent;
+    display: block;
+}
+
+.table-wrapper-scroll-x {
+    border: transparent;
+    display: block;
+}
+
+.w3-modal-content {
+    width: 1200px !important;
+
+}
+.w3-xlarge{
+    margin-top: 0;
+    width: 3rem;
+  margin-left: 70.6rem;
+
+}
+.close-btn{
+    height: 40px;
+    width: 50px;
+  
+}
+#secondary-reports-view,#secondary-reports-download{
+    text-decoration: none;
+    color: #0E7DBF;
+    margin-left: 1rem;
 }

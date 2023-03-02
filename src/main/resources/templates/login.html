@@ -16,16 +16,22 @@
   <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
 
 
+  <script type="text/javascript">
 
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
+    
+    
+</script>
 </head>
 
 <body>
-
   <section class="vh-100 gradient-custom">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-          <div class="card bg-light text-black" style="border-radius: 1rem;">
+          <div class="card bg-light text-black" style="border-radius: 1rem;height: 620px;">
             <div class="card-body p-5 text-center">
 
               <div class="mb-md-5 mt-md-4 pb-5 ">
@@ -49,7 +55,7 @@
                   </div>
 
                   <div class="text-center pt-1 mb-5 pb-1">
-                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3  login" type="submit">Log
+                    <button class=" login-btn btn-block fa-lg gradient-custom-2 mb-3  login" type="submit">Log
                       in</button>
                     <span th:text="${error}" th:if="${error ne null}"></span><br>
                     <a class="text-muted" href="#" onclick="getUsername()">Forgot password?</a>

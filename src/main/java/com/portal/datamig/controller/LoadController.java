@@ -1,36 +1,17 @@
 package com.portal.datamig.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.io.File;
 
-
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.MediaTypeFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,13 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itextpdf.text.DocumentException;
 import com.portal.datamig.service.AuthService;
 import com.portal.datamig.service.LoadService;
 import com.portal.datamig.service.ReadService;
 import com.portal.datamig.service.ValidateService;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/api")
@@ -59,8 +38,9 @@ public class LoadController {
     ValidateService validate;
     @Autowired
     LoadService load;
-    String homeDir = System.getProperty("user.home");
+    String home = System.getProperty("user.home");
 
+  
     @GetMapping("/load")
     public String load(Model model) throws IOException {
         model.addAttribute("entities", read.entityList());
@@ -75,7 +55,6 @@ public class LoadController {
             attributes.addFlashAttribute("name", name);
             String entityColor = read.entityList().entrySet().stream().filter(x -> x.getKey().equals(name))
                     .map(Map.Entry::getValue).collect(Collectors.joining(", "));
-
             model.addAttribute("col", entityColor);
             model.addAttribute("dbdetails", load.dbDetails());
             System.out.println("bhksa" + load.dbDetails());
@@ -88,6 +67,7 @@ public class LoadController {
     public Map<String, List<String>> validateFiles(@RequestParam String loadEntity, RedirectAttributes attributes,
             Model model)
             throws IOException, InterruptedException {
+        validate.archieveFiles("Load"+File.separator+"Summary_Reports"+ File.separator + loadEntity, "Load"+ File.separator+ "Summary_Reports"+ File.separator + loadEntity);
         Map<String, List<String>> map = load.callLoadProgram(loadEntity);
         System.out.println(map);
         attributes.addFlashAttribute("message", map);
@@ -98,41 +78,66 @@ public class LoadController {
     @ResponseBody
     public String downloadPdf(@RequestParam String loadEntity) throws IOException {
         List<String> dirName = new ArrayList<>();
-        dirName.add(validate.lastModifiled("../DMUtil/Reports/Load/Summary_Reports"));
-        String zipFile = ("../Downloads/" + loadEntity+"_LoadReports.zip");
+        dirName.add(validate.lastModifiled(home +  File.separator+"DMUtil"+ File.separator+"Reports"+ File.separator+"Load"+ File.separator+"Summary_Reports"+ File.separator+loadEntity));
+        String zipFile = (home +  File.separator+"Downloads"+ File.separator + loadEntity + "_LoadReports.zip");
         FileOutputStream fos = new FileOutputStream(zipFile);
-            ZipOutputStream zos = new ZipOutputStream(fos);
-            
-            for (int i=0; i < dirName.size(); i++) {
-                 
-                File srcFile = new File(dirName.get(i));
-                FileInputStream fis = new FileInputStream(srcFile);
+        ZipOutputStream zos = new ZipOutputStream(fos);
 
-                // Start writing a new file entry 
-                zos.putNextEntry(new ZipEntry(srcFile.getName())); 
+        for (int i = 0; i < dirName.size(); i++) {
 
-                int length;
-                // create byte buffer
-                byte[] buffer = new byte[1024];
+            File srcFile = new File(dirName.get(i));
+            FileInputStream fis = new FileInputStream(srcFile);
 
-                // read and write the content of the file
-                while ((length = fis.read(buffer)) > 0) {
-                    zos.write(buffer, 0, length);
-                }
-                // current file entry is written and current zip entry is closed
-                zos.closeEntry();
- 
-                // close the InputStream of the file 
-                fis.close();
-                 
+            // Start writing a new file entry
+            zos.putNextEntry(new ZipEntry(srcFile.getName()));
+
+            int length;
+            // create byte buffer
+            byte[] buffer = new byte[1024];
+
+            // read and write the content of the file
+            while ((length = fis.read(buffer)) > 0) {
+                zos.write(buffer, 0, length);
             }
+            // current file entry is written and current zip entry is closed
+            zos.closeEntry();
 
-            // close the ZipOutputStream
-            zos.close();
+            // close the InputStream of the file
+            fis.close();
 
+        }
 
+        // close the ZipOutputStream
+        zos.close();
 
         return "Success";
+    }
+
+    // view report for load
+
+    @GetMapping("/view-loadreports")
+    @ResponseBody
+    public List<List<String>> viewReport(@RequestParam String loadEntity) throws IOException, DocumentException {
+        String summaryFolder = home +  File.separator+"DMUtil"+ File.separator+"Reports"+ File.separator+"Load"+ File.separator+"Summary_Reports"+ File.separator + loadEntity;
+        // if(name.contains("/")){
+        // summaryFolder =
+        // home+"/DMUtil/Reports/Common_Val_Reports/Summary_Reports/"+name;
+        // }
+
+        String lastSummary = load.lastModifiled(summaryFolder);
+        List<List<String>> data = new ArrayList<>();
+        try {
+            data.add(validate.reports(lastSummary));
+        } catch (Exception e) {
+        } finally {
+            List<String> nosumm = new ArrayList<>();
+
+            nosumm.add("No data Found");
+            data.add(nosumm);
+        }
+
+        System.out.println(data.get(0));
+        return data;
     }
 
 }

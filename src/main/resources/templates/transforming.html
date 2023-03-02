@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vadidate Entities</title>
   <link rel="stylesheet" href="" th:href="@{/css/transforming.css}">
+  <link rel="stylesheet" href="" th:href="@{/css/commonStyle.css}">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
@@ -14,41 +16,56 @@
     crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-  <script>
-    // var i = 0;
-    // function move() {
-    //   if (i == 0) {
-    //     i = 1;
-    //     var elem = document.getElementById("myBar");
-    //     console.log(elem);
-    //     var width = 1;
-    //     var id = setInterval(frame, 10);
-    //     function frame() {
-    //       if (width >= 100) {
-    //         clearInterval(id);
-    //         i = 0;
-    //       } else {
-    //         width++;
-    //         elem.style.width = width + "%";
-    //         elem.innerHTML = width  + "%";
-    //       }
-    //     }
-    //   }
-    // }
-  </script>
+  <script type="text/javascript">
+
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
+    
+    
+</script>
+   <script>
+    function showdiv(event){
+      document.getElementById('hidediv').style.display="block";
+      event.preventSefault();
+    }
+    function openReport(evt, reportName) {
+        var i, x,tablinks;
+        x = document.getElementsByClassName("report");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName('tablink')
+        for (i = 0; i < x.length; i++) {
+           tablinks[i].classList.remove("w3-light-grey");
+           tablinks[i].classList.remove("active");
+        }
+        document.getElementById(reportName).style.display = "block";
+        event.currentTarget.classList.add("w3-light-grey");
+        event.currentTarget.classList.add("active");
+      
+
+    }
+</script>
 </head>
 
 <body>
+  <script th:if="${session.isEmpty()}">
+    location.href='/api/session';</script>
   <section>
     <div class="container-fliud">
       <div class="row">
-        <div class="col-md-12" style="background-color: black;">
-          <div class="Heading">
+        <div class="col-md-12">
+          <div class="Heading" style=" border: 6px solid#3075D7;
+          border-top: 0;
+          border-left: 0;
+          border-right: 0;">
             <h1>Transform</h1>
             <a th:href="@{/api/transform}">
-
-              <button type="button" class="btn-close btn-close-white" style="opacity: .9;" aria-label="Close"></button>
+              <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
             </a>
           </div>
 
@@ -61,12 +78,12 @@
   </div>
   <section>
     <div class="container-fliud">
-      <div class="row" style="padding-left: 25px;">
-        <div class="col-md-12" style="padding:10px 5px 0px 24px">
+      <div class="row px-1">
+        <div class="col-md-12 pt-4 pb-2 px-5">
           <div class="selected-row">
             <h3>Entity Selected:</h3>
             <div class="selected-entity">
-              <div class="circle" th:style="'background-color:' + ${col} + ';padding-top: 6px; align-items: center;'">
+              <div class="circle" th:style="'background-color:' + ${col} + '; align-items: center;'">
                 <h5 style="color:white;text-align: center; font-size: 12px; margin-left: 12px;"
                   th:text="${#strings.substring(name,0,1)}"></h5>
               </div>
@@ -75,14 +92,13 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
   </section>
   <section>
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-10" style="padding-left: 53px;">
+      <div class="row px-5">
+        <div class="col-md-10 px-2">
           <div class="transform-box">
             <div class="process">
               <p id="transformMessage">Your file is already in process...</p>
@@ -97,9 +113,11 @@
               <div class="d-flex align-items-center justify-content-center transform-complete ">
                 <div class="transform-message" id="transformComplete">
                 </div>
-                <div class="download-report " id="transform-report" hidden="ture"> 
-                  <a href="#"
-                    class="download-report" th:name="${name}" onclick="transformDownload(this.name)"><img src="" th:src="@{/assets/download.svg}" alt="">Download Report</a>
+                <div class="download-report " id="transform-report" hidden="true">
+                  <a href="#" th:name="${name}" onclick="showTransformReport(this.name)">
+                    <i class="bi bi-eye-fill" ></i>View Report</a>
+                  <a href="#" class="download-report" th:name="${name}" onclick="transformDownload(this.name)"><img
+                      src="" th:src="@{/assets/download.svg}" alt="">Download Report</a>
                 </div>
               </div>
 
@@ -109,7 +127,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-10 py-4" style="padding-left: 53px;">
+        <div class="col-md-10 py-4">
           <div id="transformDoneDive" class="text-center "><a th:href="@{/api/main}">
               <button id="transformDone" class="btn btn-primary " type="button" hidden="true">Done</button></a></div>
         </div>
@@ -117,6 +135,26 @@
     </div>
   </section>
 
+  <!-- popup transform report -->
+
+  <div>
+    <div class="w3-container">
+      <!-- <button onclick="document.getElementById('id01').style.display='block'"        class="w3-button w3-black">View Report</button> -->
+      <div id="id01" class="w3-modal">
+        <div class="w3-modal-content w3-card-4 w3-animate-zoom">
+          <header class="w3-container w3-blue"> <span onclick="document.getElementById('id01').style.display='none'"
+              class="w3-button w3-blue w3-xlarge w3-display-topright">&times;</span>
+            <h2>Transform Report</h2>
+          </header>
+          <div id="addReportTab" class="w3-bar w3-border-bottom"> </div>
+          <div id="reportsList">
+            <div class="w3-container w3-light-grey w3-padding"> <button class="w3-button w3-right w3-white w3-border"
+                onclick="document.getElementById('id01').style.display='none'">Close</button> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

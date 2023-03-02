@@ -1,5 +1,6 @@
 package com.portal.datamig.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itextpdf.text.DocumentException;
 import com.portal.datamig.service.ReadService;
+import com.portal.datamig.service.ReportService;
 import com.portal.datamig.service.ValidateService;
 
 @Controller
@@ -31,6 +33,9 @@ public class ValidateController {
   ReadService read;
   @Autowired
   ValidateService validate;
+  @Autowired(required = true)
+  ReportService report;
+  String home = System.getProperty("user.home");
 
   @GetMapping("/entityValidate/{name}")
   public String entityValidate(@PathVariable("name") String name, RedirectAttributes attributes, Model model)
@@ -57,6 +62,28 @@ public class ValidateController {
   @PostMapping("/validate/upload")
   public String uploadFile(@RequestParam String selectedValueValidate, RedirectAttributes attributes, Model model) {
     System.out.println("sdfxgcvjhbx" + selectedValueValidate);
+
+    validate.archieveFiles(
+        "Validate" + File.separator + "Common_Val_Reports" + File.separator + "Summary_Report" + File.separator
+            + selectedValueValidate,
+        "Validate" + File.separator + "Common_Val_Reports" + File.separator + "Summary_Report" + File.separator
+            + selectedValueValidate);
+    validate.archieveFiles(
+        "Validate" + File.separator + "Common_Val_Reports" + File.separator + "Exception_Report" + File.separator
+            + selectedValueValidate,
+        "Validate" + File.separator + "Common_Val_Reports" + File.separator + "Exception_Report" + File.separator
+            + selectedValueValidate);
+    validate.archieveFiles(
+        "Validate" + File.separator + "Entitywise_Val_Reports" + File.separator + "Summary_Report" + File.separator
+            + selectedValueValidate,
+        "Validate" + File.separator + "Entitywise_Val_Reports" + File.separator + "Summary_Report" + File.separator
+            + selectedValueValidate);
+    validate.archieveFiles(
+        "Validate" + File.separator + "Entitywise_Val_Reports" + File.separator + "Exception_Report" + File.separator
+            + selectedValueValidate,
+        "Validate" + File.separator + "Entitywise_Val_Reports" + File.separator + "Exception_Report" + File.separator
+            + selectedValueValidate);
+
     try {
       validate.copyCSVFiles(selectedValueValidate);
     } catch (IOException e) {
@@ -87,27 +114,29 @@ public class ValidateController {
   @ResponseBody
   public List<String> primaryMessage(@RequestParam String entityValidate) throws IOException, InterruptedException {
     List<String> output = validate.callEntityValidationProgram(entityValidate);
-    if(output.isEmpty()){
+    if (output.isEmpty()) {
       output.add("");
     }
-    String exFolder = "../DMUtil/Reports/Validate/Entitywise_Val_Reports/Exception_Report/"+entityValidate;
+    String exFolder = home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator + "Validate"
+        + File.separator + "Entitywise_Val_Reports" + File.separator + "Exception_Report" + File.separator
+        + entityValidate;
     System.out.println(exFolder);
     String ll = validate.lastModifiled(exFolder);
-    long count =0;
+    long count = 0;
     try {
 
       // make a connection to the file
       Path file = Paths.get(ll);
 
       // read all lines of the file
-       count = Files.lines(file).count();
+      count = Files.lines(file).count();
       System.out.println("Total Lines: " + count);
       count--;
 
     } catch (Exception e) {
       e.getStackTrace();
     }
-    System.out.println("COUNT"+count);
+    System.out.println("COUNT" + count);
     output.add(String.valueOf(count));
     return output;
   }
@@ -126,64 +155,65 @@ public class ValidateController {
       throws IOException, InterruptedException {
     System.out
         .print("Secondary Validate entity" + entityValidate + "" + "Primary Validate" + "" + primaryEntityValidate);
-    validate.copyCSVFiles(primaryEntityValidate + "/" + entityValidate);
-   
+    validate.copyCSVFiles(primaryEntityValidate + File.separator + entityValidate);
+
     return "redirect:/api/entityValidate/" + primaryEntityValidate;
   }
 
   @GetMapping("/validate/validateSecondary")
   @ResponseBody
-  public Map<String, List<String>> validateSecondaryFiles(@RequestParam String entityValidate, String primaryEntityValidate,
+  public List<String> validateSecondaryFiles(@RequestParam String entityValidate,
+      String primaryEntityValidate,
       RedirectAttributes attributes, Model model)
       throws IOException, InterruptedException {
-        Map<String, List<String>> output =  validate.callSecondaryValidationProgram(primaryEntityValidate + "/" + entityValidate);
-      List<String> a = new ArrayList();
-
-    if(output.isEmpty()){
-      output.put("",null);
+    Map<String, List<String>> output = validate
+        .callSecondaryValidationProgram(primaryEntityValidate + File.separator + entityValidate);
+    List<String> output1 = validate
+        .callEntityValidationProgram(primaryEntityValidate + File.separator + entityValidate);
+    List<String> a = new ArrayList();
+    System.out.println(output1);
+    if (output1.isEmpty()) {
+      output1.add("");
     }
-    String exFolder = "../DMUtil/Reports/Validate/Exception_Report/"+entityValidate;
+    String exFolder = home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator + "Validate"
+        + File.separator + "Entitywise_Val_Reports" + File.separator + "Exception_Report" + File.separator
+        + primaryEntityValidate + File.separator + entityValidate;
     System.out.println(exFolder);
     String ll = validate.lastModifiled(exFolder);
-    long count =0;
+    long count = 0;
     try {
 
-      // make a connection to the file
+      // make a connection to the file     
       Path file = Paths.get(ll);
-
-      // read all lines of the file
-       count = Files.lines(file).count();
+      // read all lines of the file      
+      count = Files.lines(file).count();
       System.out.println("Total Lines: " + count);
       count--;
-      a.add(String.valueOf(count));
-
     } catch (Exception e) {
       e.getStackTrace();
     }
-    System.out.println(count);
-    output.put("Count",a);
-    return output;
-   
+    System.out.println("COUNT" + count);
+    output1.add(String.valueOf(count));
+    return output1;
+
   }
 
   @GetMapping("/view-reports")
   @ResponseBody
   public List<List<String>> viewReport(@RequestParam String name) throws IOException, DocumentException {
-    String summaryFolder = "../DMUtil/Reports/Validate/Entitywise_Val_Reports/Summary_Report/"+name;
-    String exceptionFolder = "../DMUtil/Reports/Validate/Entitywise_Val_Reports/Exception_Report/"+name;
-    if(name.contains("/")){
-       summaryFolder = "../DMUtil/Reports/Validate/Common_Val_Reports/Summary_Report/"+name;
-      exceptionFolder = "../DMUtil/Reports/Validate/Common_Val_Reports/Exception_Report/"+name;
-    }
-    
+    String summaryFolder = home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator + "Validate"
+        + File.separator + "Entitywise_Val_Reports" + File.separator + "Summary_Report" + File.separator + name;
+    String exceptionFolder = home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator + "Validate"
+        + File.separator + "Entitywise_Val_Reports" + File.separator + "Exception_Report" + File.separator + name;
+
     String lastSummary = validate.lastModifiled(summaryFolder);
     String lastException = validate.lastModifiled(exceptionFolder);
     List<List<String>> data = new ArrayList<>();
-    try{
-    data.add(validate.reports(lastSummary));
-    data.add(validate.reports(lastException));
-    }catch(Exception e){
-    }finally{
+    try {
+      data.add(validate.reports(lastSummary));
+      data.add(validate.reports(lastException));
+    } catch (Exception e) {
+    } finally {
       List<String> nosumm = new ArrayList<>();
       List<String> noex = new ArrayList<>();
       nosumm.add("No data Found");
@@ -191,39 +221,56 @@ public class ValidateController {
       data.add(nosumm);
       data.add(noex);
     }
-    
+
     System.out.println(data.get(0));
     return data;
   }
 
- 
- 
   @GetMapping("/validate/download")
   @ResponseBody
   public String downloadValidateReport(@RequestParam String validateEntity, RedirectAttributes attributes,
-  Model model)throws IOException{
-    String summaryFolder = "../DMUtil/Reports/Validate/Entitywise_Val_Reports/Summary_Report/"+validateEntity;
-    String exceptionFolder = "../DMUtil/Reports/Validate/Entitywise_Val_Reports/Exception_Report/"+validateEntity;
-    if(validateEntity.contains("/")){
-      summaryFolder = "../DMUtil/Reports/Validate/Common_Val_Reports/Summary_Report/"+validateEntity;
-     exceptionFolder = "../DMUtil/Reports/Validate/Common_Val_Reports/Exception_Report/"+validateEntity;
-   }
-   try{
-    List<String> data = new ArrayList<>();
-    String lastSummary = validate.lastModifiled(summaryFolder);
-    String lastException = validate.lastModifiled(exceptionFolder);
-   data.add(lastException);
-   data.add(lastSummary);
-   validate.downloadValidate(data,validateEntity);
-   }catch(Exception e){
-
-   }finally{
-    System.out.println("No Record to Download");
-   }
-
-      return "Success"+validateEntity;
+      Model model) throws IOException {
+        File summaryFolder = new File(home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator
+        + "Validate" + File.separator + "Entitywise_Val_Reports" + File.separator + "Summary_Report" + File.separator
+        + validateEntity + File.separator);
+   File exceptionFolder = new File(home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator
+        + "Validate" + File.separator + "Entitywise_Val_Reports" + File.separator + "Exception_Report" + File.separator
+        + validateEntity + File.separator);
+    File summaryFolderCommon = new File(home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator
+        + "Validate" + File.separator + "Common_Val_Reports" + File.separator + "Summary_Report" + File.separator
+        + validateEntity + File.separator);
+    File exceptionFolderCommon = new File(home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator
+        + "Validate" + File.separator + "Common_Val_Reports" + File.separator + "Exception_Report" + File.separator
+        + validateEntity + File.separator);
+    
+    List<File> filesname = new ArrayList<>();
+    File[] files = null;
+    filesname.add(summaryFolder);
+    filesname.add(exceptionFolder);
+    filesname.add(summaryFolderCommon);
+    filesname.add(exceptionFolderCommon);
+    System.out.println(filesname);
+    List<String> reportnames = new ArrayList<>();
+    for (File path : filesname) {
+      System.out.println(path.list());
+      files = path.listFiles();
+      for (int i = 0; i < files.length; i++) {
+        if (files[i].isFile()) {
+          reportnames.add(files[i].getPath());
+        } else {
+          File[] subFiles = files[i].listFiles();
+          for (int j = 0; j < subFiles.length; j++) {
+            reportnames.add(subFiles[j].getPath());
+          }
+        }
+      }
+    }
+    if (validateEntity.contains("/")) {
+      String[] name = validateEntity.split("/");
+      report.downloadValidateTab(reportnames, name[name.length - 1]);
+    } else {
+      report.downloadValidateTab(reportnames, validateEntity);
+    }
+    return "Success" + validateEntity;
   }
-      
-
 }
-

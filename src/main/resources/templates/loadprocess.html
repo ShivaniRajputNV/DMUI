@@ -7,29 +7,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vadidate Entities</title>
     <link rel="stylesheet" href="" th:href="@{/css/loadprocess.css}">
+    <link rel="stylesheet" href="" th:href="@{/css/commonStyle.css}">
+
+    <!-- <link rel="stylesheet" href="" th:href="@{/css/commonStyle.css}"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
+    <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
+    <script>
+        function openReport(event) {
+            var i, x;
+            x = document.getElementsByClassName("reportName");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            for (i = 0; i < x.length; i++) {
+               
+            }
+            document.getElementById(reportName).style.display = "block";
+            event.currentTarget.classList.add("w3-light-grey");
+        }
+    </script>
+       <script type="text/javascript">
+
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+        
+        
+    </script>
 </head>
 
 <body>
+    <script th:if="${session.isEmpty()}">
+        location.href='/api/session';</script>
     <section>
         <div class="container-fliud">
             <div class="row">
-                <div class="col-md-12" style="background-color: black;">
-                    <div class="Heading">
+                <div class="col-md-12">
+                    <div class="Heading" style="border: 6px solid #0AA405;
+                    border-top: 0;
+                    border-left: 0;
+                    border-right: 0;">
                         <h1>Load</h1>
                         <a th:href="@{/api/load}">
 
-                            <button type="button" class="btn-close btn-close-white" style="opacity: .9;"
-                                aria-label="Close"></button>
+                            <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
                         </a>
                     </div>
 
@@ -42,14 +72,14 @@
     </div>
     <section>
         <div class="container-fliud">
-            <div class="row" style="padding-left: 25px;">
-                <div class="col-md-12" style="padding:10px 5px 0px 24px">
+            <div class="row px-1">
+                <div class="col-md-12  pt-4 pb-3 px-5">
                     <div class="selected-row">
                         <h3>Entity Selected:</h3>
                         <div class="selected-entity">
                             <div class="circle"
                                 th:style="'background-color:' + ${col} + ';padding-top: 6px; align-items: center;'">
-                                <h5 style="color:white;text-align: center; font-size: 12px; margin-left: 12px;"
+                                <h5 style="color:#fff ;text-align: center; font-size: 12px; margin-left: 12px;"
                                     th:text="${#strings.substring(name,0,1)}"></h5>
                             </div>
                             <div class="name">
@@ -57,30 +87,30 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
     </section>
 
     <section>
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-4" style="padding-left: 50px;">
+            <div class="row px-2">
+                <div class="col-md-4 px-5">
                     <div class="db-connection">
                         <h3>Destination DB Connection Details</h3>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6" style="padding-left: 50px; margin-top: 10px;">
+            <div class="row px-2">
+                <div class="col-md-6 px-5 pt-4">
 
-                    <table class="table" style="width: 90%; height: 200px;">
+                    <table class="table">
 
                         <tr th:class="${map.key =='DB Fields'}?tr-heading:''" th:each=" map ,i: ${dbdetails}">
                             <td th:name="${map.key}" th:text="${map.key}"></td>
                             <td><input th:name="${map.value}" th:value="${map.value}"
                                     th:type="${map.key =='DB Password'}?password:''" size="30" disabled
-                                    style="border:none; background:transparent; color: #000;" /></td>
+                                    style="border:transparent; background:transparent; color: #000;" />
+                            </td>
                         </tr>
 
 
@@ -93,15 +123,15 @@
 
     <section>
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-4" style="padding-left: 50px;">
+            <div class="row px-2">
+                <div class="col-md-4 px-5">
                     <div class="db-connection">
                         <h3>Establish DB Connection</h3>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row px-2">
             <div class="col-md-3 px-5">
                 <div class="establish  py-3">
                     <div class="image"> <img class="image1" src="" th:src="@{/assets/establish.svg}" alt=""> <img
@@ -109,8 +139,10 @@
                             class="image2 p-1 " id="tick-img" src="" th:src="@{/assets/done.svg}" hidden="true" alt="">
                         <span class="opacity-25" id="dis">Disconnected</span> <span class="connect" id="connected"
                             hidden="true">Connected</span> <img id="processImg" class="image3" src=""
-                            th:src="@{/assets/threedots.gif}" hidden="true" alt=""> </div>
+                            th:src="@{/assets/threedots.gif}" hidden="true" alt="">
+                    </div>
                 </div>
+
                 <div class="processing"> <button type="button" id="load-btn" th:value="${name}" onclick="loadProcess()"
                         class="btn btn-default">Load</button> </div>
             </div>
@@ -127,9 +159,15 @@
                         </p>
                         <p id="load-record"><b> </b>
                         </p>
-                        <hr class="hr hr-blurry" /> <a href="#" th:name="${name}" onclick="loadDownload(this.name)" class="download-report"><img src=""
-                                th:src="@{/assets/download.svg}" alt="">Download
+                        <hr class="hr" />
+
+                        <a href="#" th:name="${name}" onclick="loadDownload(this.name)" class="download-report"><img
+                                src="" th:src="@{/assets/download.svg}" alt="">Download
                             Report</a>
+
+                        <a href="#" th:name="${name}" class="view-report"
+                            onclick="document.getElementById('id01').style.display='block';viewLoadReport('Premise')">
+                            <i class="bi bi-eye-fill"></i>View Report</a>
                     </div>
                 </div>
             </div>
@@ -138,11 +176,37 @@
                             class="insert-done btn-primary" hidden="true">Done</button> </a> </div>
             </div>
         </div>
-
-
-
     </section>
 
+    <!--  -->
+    <div>
+        <div class="w3-container">
+            <div id="id01" class="w3-modal">
+                <div class="w3-modal-content w3-card-4 w3-animate-zoom">
+                    <header class="w3-container w3-blue">
+                        <span onclick="document.getElementById('id01').style.display='none'"
+                            class="w3-button w3-blue w3-xlarge w3-display-topright">&times;</span>
+                        <h2>Load Report</h2>
+                    </header>
+
+                    <div id="sum-report" class="w3-container report">
+
+                        <div id="reportTable" class="table-wrapper-scroll-x table-wrapper-scroll-y my-custom-scrollbar">
+                        </div>
+
+                    </div>
+                    <!-- <div id="ex-report" class="w3-container report">
+
+                <div id="reportTable1" class="table-wrapper-scroll-y my-custom-scrollbar"></div>
+            </div> -->
+                    <div class="w3-container w3-light-grey w3-padding"> <button
+                            class="w3-button w3-right w3-white w3-border"
+                            onclick="document.getElementById('id01').style.display='none'">Close</button> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  -->
 </body>
 
 </html>

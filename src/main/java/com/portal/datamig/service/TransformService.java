@@ -3,6 +3,7 @@ package com.portal.datamig.service;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +23,11 @@ import org.springframework.stereotype.Service;
 public class TransformService {
     @Autowired
     ValidateService validate;
-    private static String homeDir = System.getProperty("user.home");
+    private static String home = System.getProperty("user.home");
 
 
     public void transformList(String name) {
-        Path src = Paths.get("../DMUtil/Transform/" + name + "/");
+        Path src = Paths.get(home+File.separator+"DMUtil"+File.separator+"Transform"+File.separator + name + File.separator);
         File f = src.toFile();
         Arrays.stream(f.listFiles()).filter(p -> p.getName().endsWith(".java")).forEach(p -> {
             try {
@@ -56,7 +58,7 @@ public class TransformService {
     }
 
     public void callProgram(String javaFile, String fileName) throws IOException, InterruptedException {
-        String loc = "../DMUtil/Transform/" + fileName + "/" + javaFile;
+        String loc = home+File.separator+"DMUtil"+File.separator+"Transform"+File.separator + fileName + File.separator + javaFile;
         System.out.println(loc);
         // String loc1 = "java -cp /home/anshika/DMUtil/Validate/CmCommonValidation"+"
         // "+"/home/anshika/DMUtil/Input/"+nn+"
@@ -74,7 +76,7 @@ public class TransformService {
         System.out.println(" Transform Inside file ");
         if (process.exitValue() == 0) {
             process = new ProcessBuilder(
-                    new String[] { "java", "-cp", "../DMUtil/Transform/" + fileName + "/", javaFileName }).start();
+                    new String[] { "java", "-cp", home+File.separator+"DMUtil"+File.separator+"Transform"+File.separator + fileName + File.separator, javaFileName }).start();
             System.out.println("Transform Processs");
             if (process.getErrorStream().read() != -1) {
                 print("Errors ", process.getErrorStream());
@@ -82,7 +84,7 @@ public class TransformService {
                 print("Output ", process.getInputStream());
             }
         }
-        File filename = new File("../DMUtil/Transform/" + fileName);
+        File filename = new File(home+File.separator+"DMUtil"+File.separator+"Transform"+File.separator + fileName);
         filename.setLastModified(System.currentTimeMillis());
         // process.waitFor();
         // process.exitValue()
@@ -101,8 +103,8 @@ public class TransformService {
     public List<String> allModifiedFiles(String foldername) {
         List<String> modifiedFiles = new ArrayList<>();
         // File folder = new
-        // File("../DMUtil/Reports/Transform/Summary_Reports/"+foldername);
-        Path src = Paths.get("../DMUtil/Reports/Transform/Summary_Reports/" + foldername);
+        // File(home+"/DMUtil/Reports/Transform/Summary_Reports/"+foldername);
+        Path src = Paths.get(home+File.separator+"DMUtil"+File.separator+"Reports"+File.separator+"Transform"+File.separator+"Summary_Reports"+File.separator + foldername);
         File f = src.toFile();
         List<String> subFolder = new ArrayList<>();
         Arrays.stream(f.listFiles()).filter(p -> p.isDirectory()).forEach(p -> {
@@ -120,7 +122,7 @@ public class TransformService {
         //     modifiedFiles.add(p.toPath().toString());
 
         // });
-        File path = new File("../DMUtil/Reports/Transform/Summary_Reports/" + foldername);
+        File path = new File(home+File.separator+"DMUtil"+File.separator+"Reports"+File.separator+"Transform"+File.separator+"Summary_Reports"+File.separator + foldername);
         System.out.println(path);
         long time = System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(2);
         File[] files = path.listFiles(pathname -> pathname.lastModified() >= time && pathname.getName().endsWith(".csv"));
@@ -134,11 +136,6 @@ public class TransformService {
         }
 
         File lastModifiedFile = files[0];
-        
-            
-
-            
-        
         System.out.println("File NAME"+lastModifiedFile);
          modifiedFiles.add(lastModifiedFile.toString());
 
@@ -148,7 +145,7 @@ public class TransformService {
     }
 
     public String downloadValidate(List<String> dirName, String folderName) throws IOException {
-        String zipFile = ("../Downloads/" + folderName + "_TransformReports.zip");
+        String zipFile = (home+File.separator+"Downloads"+File.separator + folderName + "_TransformReports.zip");
         FileOutputStream fos = new FileOutputStream(zipFile);
         ZipOutputStream zos = new ZipOutputStream(fos);
 
@@ -186,4 +183,56 @@ public class TransformService {
         return "Success";
     }
 
+    //view report     
+    public List<String> transformReports(String filepath) throws FileNotFoundException {
+        List<String> data = new ArrayList();
+        Scanner sc = new Scanner(new File(filepath));
+        sc.useDelimiter("\r\n"); // sets the delimiter pattern    
+        while (sc.hasNext()) // returns a boolean value    
+        {
+          data.add(sc.next());
+        }
+        // System.out.println("vajgx" + data + "csvDATA");    
+        sc.close(); 
+        return data;
+    }
+
+//archive transform files
+    public void archieveTransformFiles(String dest, String src) {
+        File destinationDir = new File(home+File.separator+"DMUtil"+File.separator+"Archieve"+File.separator+dest+File.separator);
+        File directory = new File(home+File.separator+"DMUtil"+File.separator+src+File.separator);
+        File[] subfiles = directory.listFiles();
+        for(File f:subfiles){
+            if(f.isFile()){
+            System.out.println("dest Dir"+destinationDir.getAbsolutePath()+f.getName());
+            new File(destinationDir.getAbsolutePath()+f.getName()).delete() ;//remove the duplicate       
+             try {
+                FileUtils.moveFileToDirectory(f, destinationDir, true);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block            
+                e.printStackTrace();
+            }finally{
+                System.out.println("No files to Archieve");
+            }
+            }else{
+                System.out.println(f.getName());
+                File[] sf = f.listFiles();
+                for(File sub:sf){
+                    if(sub.isFile()){
+                    System.out.println("dest Dir"+destinationDir.getAbsolutePath()+sub.getName());
+                    new File(destinationDir.getAbsolutePath()+sub.getName()).delete() ;//remove the duplicate                
+                    try {
+                        File destinationSubDir = new File(home+File.separator+"DMUtil"+File.separator+"Archieve"+File.separator+dest+File.separator+f.getName()+File.separator);
+                        FileUtils.moveFileToDirectory(sub, destinationSubDir, true);
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block                    
+                        e.printStackTrace();
+                    }finally{
+                        System.out.println("No files to Archieve");
+                    }
+                    }
+                } 
+            }
+        }
+    }
 }

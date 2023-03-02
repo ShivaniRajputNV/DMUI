@@ -6,17 +6,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,7 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,8 +30,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.portal.datamig.service.AuthService;
-
+import com.portal.datamig.service.EncryptDecryptService;
 import com.portal.datamig.service.ReadService;
+import com.portal.datamig.service.UserService;
 import com.portal.datamig.service.ValidateService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,18 +42,59 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/api")
 public class mainController {
+    String home = System.getProperty("user.home");
     @Autowired(required = true)
     ReadService read;
     @Autowired(required = true)
     AuthService authService;
+    @Autowired(required = true)
+    UserService userService;
     @Autowired
     ValidateService validate;
+    @Autowired
+     EncryptDecryptService encryptDecryptService;
     private static String lookup = "Field_Name,Field_Value";
+    
 
     @GetMapping("/login")
     public String login() {
         return "login";
     }
+    @GetMapping("/session")
+    public String session() {
+        return "sessionexpired";
+    }
+    @GetMapping("/setting")
+    public String setting(Model model) {
+        List<String> roles = userService.getRoles();
+        List<String> questions = userService.getSecurityQuestion();
+        System.out.println(roles);
+        Map <String,JSONObject> map = userService.getUser();
+        for(String name : map.keySet()){
+            System.out.println("test"+name);
+        }
+        //GET user by id        
+        Map <String,JSONObject> map1 = userService.getUserById("HE688");
+         for(String name : map1.keySet()){ 
+            System.out.println("test"+name);
+         }
+        model.addAttribute("user", map);
+        model.addAttribute("roles", roles);
+        model.addAttribute("questions", questions);
+        model.addAttribute("userForedit",map1);
+
+
+        return "setting";
+    }
+
+    @GetMapping("/downloadreports")
+    public String downloadreports(Model model) throws IOException {
+        model.addAttribute("entities", read.entityList());
+        model.addAttribute("recentList", read.recentlyUsed("Input"));
+        return "downloadreports";
+    }
+
+   
 
     @GetMapping("/primary/{name}")
     public String lookupfile(@PathVariable("name") String name, Model model, RedirectAttributes attributes)
@@ -110,7 +146,7 @@ public class mainController {
     @GetMapping("/main")
     public String main(Model model) throws IOException {
         // Resource resource = new ClassPathResource("/csvs/Global_Lookup.csv");
-        File file = new File("../DMUtil/Lookup/GlobalLookup.csv");
+        File file = new File(home + File.separator+"DMUtil"+File.separator+"Lookup"+File.separator+"GlobalLookup.csv");
         // FileReader filereader = new FileReader(file);
         BufferedReader br = new BufferedReader(new FileReader(file));
         lookup = br.readLine();
@@ -142,9 +178,18 @@ public class mainController {
             RedirectAttributes redirectAttributes, HttpSession httpSession) {
         System.out.println(data);
         String result = authService.authenticate(data);
-        if (result != null) {
+      
+String getRole = authService.getRole(result);
+
+
+        if (result != null && getRole !=null) {
+
             redirectAttributes.addFlashAttribute("message", "Successfully Login");
             httpSession.setAttribute("name", org.apache.commons.lang3.StringUtils.capitalize(result));
+        
+httpSession.setAttribute("role", getRole);
+
+
             return "redirect:/api/main";
         } else {
             redirectAttributes.addFlashAttribute("error", "Login Again");
@@ -175,7 +220,7 @@ public class mainController {
     public String save(@RequestParam Map<String, String> data, Model model, RedirectAttributes attributes)
             throws IOException {
         System.out.println(data.entrySet());
-        File file = new File("../DMUtil/Lookup/GlobalLookup.csv");
+        File file = new File(home + File.separator+"DMUtil"+File.separator+"Lookup"+File.separator+"GlobalLookup.csv");
         String eol = System.getProperty("line.separator");
         try (Writer writer = new FileWriter(file)) {
             writer.append(lookup)
@@ -253,7 +298,7 @@ public class mainController {
         String result = null;
         // code for password reset
         try {
-            jsonObject = (JSONObject) parser.parse(new FileReader("../DMUtil/db/users.json"));
+            jsonObject = (JSONObject) parser.parse(new FileReader(home + File.separator+"DMUtil"+File.separator+"db"+File.separator+"users.json"));
             System.out.println("<br>" + jsonObject);
             JSONArray user = (JSONArray) jsonObject.get("user");
             // userList.add(user);
@@ -264,7 +309,7 @@ public class mainController {
                 System.out.println("Json Object row" + jsonObjectRow);
                 String name = (String) jsonObjectRow.get("username");
                 // String password = (String) jsonObjectRow.get("password");
-                String secQuestion = (String) jsonObjectRow.get("security-question");
+                String secQuestion = (String) jsonObjectRow.get("security_question");
                 // String secAnswer = (String) jsonObjectRow.get("security-answer");
                 System.out.println(name);
                 System.out.println("GET UN " + getUN);
@@ -276,7 +321,7 @@ public class mainController {
                 } else {
                     result = "fail";
                     System.out.println(result);
-                    
+
                 }
             }
         } catch (Exception e) {
@@ -298,7 +343,7 @@ public class mainController {
         String result = null;
         // code for password reset
         try {
-            jsonObject = (JSONObject) parser.parse(new FileReader("../DMUtil/db/users.json"));
+            jsonObject = (JSONObject) parser.parse(new FileReader(home + File.separator+"DMUtil"+File.separator+"db"+File.separator+"users.json"));
             System.out.println("<br>" + jsonObject);
             JSONArray user = (JSONArray) jsonObject.get("user");
             // userList.add(user);
@@ -310,7 +355,7 @@ public class mainController {
                 String name = (String) jsonObjectRow.get("username");
                 // String password = (String) jsonObjectRow.get("password");
                 // String secQuestion = (String) jsonObjectRow.get("security-question");
-                String secAnswer = (String) jsonObjectRow.get("security-answer");
+                String secAnswer = (String) jsonObjectRow.get("security_answer");
                 System.out.println(name);
                 System.out.println("UN " + un);
 
@@ -342,11 +387,11 @@ public class mainController {
         JSONParser parser = new JSONParser();
         List<String> list = new ArrayList<>();
 
-        System.out.println("SECUrity ans"+pass+" UN"+un);
+        System.out.println("SECUrity ans" + pass + " UN" + un);
         String result = null;
         // code for password reset
         try {
-            jsonObject = (JSONObject) parser.parse(new FileReader("../DMUtil/db/users.json"));
+            jsonObject = (JSONObject) parser.parse(new FileReader(home + File.separator+"DMUtil"+File.separator+"db"+File.separator+"users.json"));
             System.out.println("<br>" + jsonObject);
             // JSONArray user = (JSONArray)jsonObject.get("user");
             JSONArray user = (JSONArray) jsonObject.get("user");
@@ -358,13 +403,14 @@ public class mainController {
                 System.out.println("Json Object row" + jsonObjectRow);
                 String name = (String) jsonObjectRow.get("username");
                 String password = (String) jsonObjectRow.get("password");
-                String secQuestion = (String) jsonObjectRow.get("security-question");
-                String secAnswer = (String) jsonObjectRow.get("security-answer");
+                String secQuestion = (String) jsonObjectRow.get("security_question");
+                String secAnswer = (String) jsonObjectRow.get("security_answer");
                 System.out.println(name);
+                String enpassword = encryptDecryptService.encryptPassword(pass);
                 if (un.equals(name)) {
                     result = "success";
-                    ((JSONObject) user.get(i)).replace("password", pass);
-                    FileWriter fileWriter = new FileWriter("../DMUtil/db/users.json");
+                    ((JSONObject) user.get(i)).replace("password", enpassword);
+                    FileWriter fileWriter = new FileWriter(home + File.separator+"DMUtil"+File.separator+"db"+File.separator+"users.json");
                     final ObjectMapper mapper = new ObjectMapper();
                     final ObjectWriter writer = mapper.writer().withRootName("user");
                     final String json = writer.writeValueAsString(user);
@@ -387,20 +433,19 @@ public class mainController {
 
     @GetMapping("/match-un")
     @ResponseBody
-    public boolean matchUser(@RequestParam String matchUser){
+    public boolean matchUser(@RequestParam String matchUser) {
         boolean success = false;
         JSONObject jsonObject;
         JSONParser parser = new JSONParser();
-       
 
         String result = null;
         // code for password reset
         try {
-            jsonObject = (JSONObject) parser.parse(new FileReader("../DMUtil/db/users.json"));
+            jsonObject = (JSONObject) parser.parse(new FileReader(home + File.separator+"DMUtil"+File.separator+"db"+File.separator+"users.json"));
             System.out.println("<br>" + jsonObject);
             // JSONArray user = (JSONArray)jsonObject.get("user");
             JSONArray user = (JSONArray) jsonObject.get("user");
-          
+
             // for item output 3
             for (int i = 0; i < user.size(); i++) {
                 JSONObject jsonObjectRow = (JSONObject) user.get(i);

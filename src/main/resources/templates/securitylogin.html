@@ -15,7 +15,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript" th:src="@{/js/listcsv.js}"></script>
 
+  <script type="text/javascript">
 
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
+    
+    
+</script>
 
 </head>
 

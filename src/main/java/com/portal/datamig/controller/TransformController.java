@@ -1,5 +1,6 @@
 package com.portal.datamig.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,6 +29,7 @@ public class TransformController {
     ReadService read;
     @Autowired
     TransformService transform;
+ 
     @GetMapping("/transform")
     public String transform(Model model) throws IOException{
         model.addAttribute("entities", read.entityList());
@@ -48,15 +50,19 @@ public class TransformController {
     @PostMapping("/transforming")
     public String transformingProgress(@RequestParam String entityTransform){
         System.out.println(entityTransform);
+        transform.archieveTransformFiles("Transform"+File.separator+"Summary_Reports"+File.separator+entityTransform,
+      "Reports"+File.separator+"Transform"+File.separator+"Summary_Reports"+File.separator+entityTransform);
+      transform.archieveTransformFiles("Sql_Output"+File.separator+entityTransform,
+      "Sql_Output"+File.separator+entityTransform);
         transform.transformList(entityTransform);
-        return "redirect:/api/transforming/"+entityTransform;
+        return "redirect:"+File.separator+"api"+File.separator+"transforming"+File.separator+entityTransform;
     }
 
     @GetMapping("/transforming/download-reports")
     @ResponseBody
     public String transformDownload(@RequestParam String entityTransform){
-        // String summaryFolder = "../DMUtil/Report/Validate/Entitywise_Val_Reports/Summary_Report/"+entityTransform;
-    // String exceptionFolder = "../DMUtil/Reports/Validate/Entitywise_Val_Reports/Exception_Report/"+validateEntity;
+        // String summaryFolder = home+"/DMUtil/Report/Validate/Entitywise_Val_Reports/Summary_Report/"+entityTransform;
+    // String exceptionFolder = home+"/DMUtil/Reports/Validate/Entitywise_Val_Reports/Exception_Report/"+validateEntity;
    try{
     // List<String> data = new ArrayList<>();
     // String lastSummary = transform.allModifiedFiles(entityTransform);
@@ -71,5 +77,33 @@ public class TransformController {
    }
 
         return "SUCCESS";
+    }
+
+
+    // view transform report
+
+    @GetMapping("/transforming/view-reports")
+    @ResponseBody    public List<List<String>> transformViewReport(@RequestParam String entityTransform){
+     List<List<String>> data = new ArrayList<>();
+   try{
+   List<String> reports = transform.allModifiedFiles(entityTransform);
+   System.out.println(reports+"REPORt");
+   for(int i =0; i< reports.size();i++){
+    String[] splitName=reports.get(i).split(File.separator);
+    List<String> reportName= new ArrayList();
+    reportName.add(splitName[splitName.length-2]);
+    System.out.println(reportName);
+    if(reports.get(i)!= null){
+    data.add(reportName);
+    data.add(transform.transformReports(reports.get(i)));
+    }else{
+        System.out.println("File not found");
+    }
+   }
+   }catch(Exception e){
+   }finally{
+    System.out.println("No Record to show");
+   }
+    return data;
     }
 }

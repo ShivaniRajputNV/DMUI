@@ -10,39 +10,29 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
 
 @Service
 public class ReadService {
 
     private static String lookup = "Field_Name,Field_Value";
-    private static String homeDir = System.getProperty("user.home");
+    private static String home = System.getProperty("user.home");
 
     public Map<String, String> entityList() throws IOException {
         // Resource resource = new ClassPathResource("/csvs/entities/EntityList.csv");
         // File file = resource.getFile();
-        File file = new File("../DMUtil/EntityList.csv");
+        File file = new File(home+File.separator+"DMUtil"+File.separator+"EntityList.csv");
         FileReader filereader = new FileReader(file);
         BufferedReader br = new BufferedReader(filereader);
         Map<String, String> map = new LinkedHashMap<>();
@@ -74,7 +64,7 @@ public class ReadService {
         // String dirName = name.toLowerCase();
         String dirName = name;
         try {
-            File f = new File("../DMUtil/SampleFiles/" + dirName + "/");
+            File f = new File(home+File.separator+"DMUtil"+File.separator+"SampleFiles"+File.separator + dirName + File.separator);
             File fileList[] = f.listFiles();
             Arrays.stream(fileList).iterator().forEachRemaining(System.out::println);
             for (File r : fileList) {
@@ -86,8 +76,8 @@ public class ReadService {
             System.out.println("Directory is empty");
         }
         // test download
-        Path zipFile = Path.of("../Client/" + dirName + ".zip");
-        File f = new File("../DMUtil/SampleFiles/" + dirName + "/");
+        Path zipFile = Path.of(home +File.separator+"Client"+File.separator + dirName + ".zip");
+        File f = new File(home+File.separator+"DMUtil"+File.separator+"SampleFiles"+File.separator + dirName + File.separator);
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile))) {
             if (Files.isDirectory(f.toPath())) {
                 Files.walk(f.toPath()).filter(path -> !Files.isDirectory(path)).forEach(path -> {
@@ -112,9 +102,9 @@ public class ReadService {
        try{
         String dirName = name;
         name = name.replaceAll("_", "");
-        // Resource resource = new ClassPathResource("../DMUtil/Lookup/"+ dirName + "/"
+        // Resource resource = new ClassPathResource(home+"/DMUtil/Lookup/"+ dirName + "/"
         // + name + "Lookup" + ".csv");
-        File file = new File("../DMUtil/Lookup/" + dirName + "/" + name + "Lookup" + ".csv");
+        File file = new File(home+File.separator+"DMUtil"+File.separator+"Lookup"+File.separator + dirName + File.separator + name + "Lookup" + ".csv");
         FileReader filereader = new FileReader(file);
         BufferedReader br = new BufferedReader(filereader);
         
@@ -160,7 +150,7 @@ public class ReadService {
         fname = fname.replaceAll("_", "");
         // Resource resource = new ClassPathResource("/csvs/csvs/" + dirName + "/" +
         // fname + "Lookup" + ".csv");
-        File file = new File("../DMUtil/Lookup/" + dirName + "/" + fname + "Lookup" + ".csv");
+        File file = new File(home+File.separator+"DMUtil"+File.separator+"Lookup"+File.separator + dirName + File.separator + fname + "Lookup" + ".csv");
         
         String eol = System.getProperty("line.separator");
 
@@ -177,7 +167,7 @@ public class ReadService {
 
             e.printStackTrace();
         }
-        File folderName =new File("../DMUtil/Lookup/" + dirName);
+        File folderName =new File(home+File.separator+"DMUtil"+File.separator+"Lookup"+File.separator+ dirName);
         folderName.setLastModified(System.currentTimeMillis());
         return data;
     }
@@ -188,7 +178,7 @@ public class ReadService {
         String filename = fname.replaceAll("_", "");
         try {
             // Resource resource = new ClassPathResource("/csvs/csvs/" + dirName + "/");
-            File f = new File("../DMUtil/Lookup/" + dirName + "/");
+            File f = new File(home+File.separator+"DMUtil"+File.separator+"Lookup"+File.separator + dirName + File.separator);
             System.out.println("file name" + f);
             FilenameFilter filter = new FilenameFilter() {
                 @Override
@@ -222,7 +212,7 @@ public class ReadService {
     public Map<String, String> printCSVFile(String name, String dirName) throws IOException {
         // Resource resource = new ClassPathResource("/csvs/csvs/" + dirName + "/" +
         // name);
-        File file = new File("../DMUtil/Lookup/" + dirName + "/" + name);
+        File file = new File(home+File.separator+"DMUtil"+File.separator+"Lookup"+File.separator + dirName + File.separator + name);
         FileReader filereader = new FileReader(file);
         BufferedReader br = new BufferedReader(filereader);
         Map<String, String> map = new LinkedHashMap<String, String>();
@@ -254,8 +244,8 @@ public class ReadService {
     public Map<String, String> recentlyUsed(String folderName) throws IOException {
         // String homeDir = System.getProperty("user.home");
         long weekAgo = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(2);
-        File directory = new File(homeDir + "/DMUtil/" + folderName);
-        Path filepath= Paths.get(homeDir + "/DMUtil/" + folderName);
+        File directory = new File(home + File.separator+"DMUtil"+File.separator + folderName);
+        Path filepath= Paths.get(home + File.separator+"DMUtil"+File.separator + folderName);
         File[] files = directory.listFiles(pathname -> pathname.lastModified() >= weekAgo && pathname.isDirectory());
         List<String> flist = new ArrayList<>();
         for (File file : files) {
@@ -264,7 +254,7 @@ public class ReadService {
         }
         System.out.println(flist+"File list");
         // data from entity csv file
-        File file = new File(homeDir + "/DMUtil/EntityList.csv");
+        File file = new File(home + File.separator+"DMUtil"+File.separator+"EntityList.csv");
         FileReader filereader = new FileReader(file);
         BufferedReader br = new BufferedReader(filereader);
         Map<String, String> colorMap = new HashMap<>();
@@ -295,7 +285,7 @@ public class ReadService {
             // System.out.println("VALUE: "+ m.getKey() + "");
         }
         System.out.print(colorMap);
-        System.out.println("Home Directory Linux " + homeDir);
+        System.out.println("Home Directory Linux " + home);
         return colorMap;
     }
 
@@ -306,7 +296,7 @@ public class ReadService {
         String fileName = data.keySet().stream().findFirst().get();
         System.out.println(fileName);
         
-        File file = new File("../DMUtil"+File.separator+"Lookup" +File.separator+ dirName + File.separator+ fileName);
+        File file = new File(home+File.separator+"DMUtil"+File.separator+"Lookup" +File.separator+ dirName + File.separator+ fileName);
         System.out.println(file);
         System.out.println("DATA");
         System.out.println(data);
@@ -347,7 +337,7 @@ public class ReadService {
      public List<String> searchEntity(String searchCriteria) throws IOException {
         String homeDir = System.getProperty("user.home");
         // data from entity csv file        
-        File file = new File(homeDir + "/DMUtil/EntityList.csv");
+        File file = new File(home + File.separator+"DMUtil"+File.separator+"EntityList.csv");
         FileReader filereader = new FileReader(file);
         BufferedReader br = new BufferedReader(filereader);
         List<String> searchList = new ArrayList<>();
