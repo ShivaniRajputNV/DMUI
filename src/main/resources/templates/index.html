@@ -84,9 +84,7 @@
                     </div>
                     <div id="user-text">
 
-                        <h1 th:if="${!session.isEmpty()}" th:text="${#strings.concat('Good Morning',' ',session.name)}">
-                        </h1>
-
+                        <h1 th:if="${!session.isEmpty()}" th:text="${#strings.concat(session.greetings,' ',session.name)}"></h1>
 
                         <p>Here is your today's activities and updates</p>
                     </div>

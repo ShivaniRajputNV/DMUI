@@ -33,6 +33,7 @@ import com.portal.datamig.service.AuthService;
 import com.portal.datamig.service.EncryptDecryptService;
 import com.portal.datamig.service.ReadService;
 import com.portal.datamig.service.UserService;
+import com.portal.datamig.service.UtilityService;
 import com.portal.datamig.service.ValidateService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -51,6 +52,8 @@ public class mainController {
     UserService userService;
     @Autowired
     ValidateService validate;
+    @Autowired
+    UtilityService utilityService;
     @Autowired
      EncryptDecryptService encryptDecryptService;
     private static String lookup = "Field_Name,Field_Value";
@@ -188,6 +191,7 @@ String getRole = authService.getRole(result);
             httpSession.setAttribute("name", org.apache.commons.lang3.StringUtils.capitalize(result));
         
 httpSession.setAttribute("role", getRole);
+httpSession.setAttribute("greetings", utilityService.greet());
 
 
             return "redirect:/api/main";
