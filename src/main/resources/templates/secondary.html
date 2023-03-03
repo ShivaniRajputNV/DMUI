@@ -106,18 +106,18 @@
                                     </tr>
                                     <div class="form-group" th:each=" map, i: ${entry.value}">
                                         <tr th:id="tableRow">
-                                            <td><input type="text" th:name="|('${map.key}'+'${i.index}')|"
+                                            <td><input th:disabled="${session.role == 'User'}" type="text" th:name="|('${map.key}'+'${i.index}')|"
                                                     th:value="${map.key}" class="form-control"></td>
-                                            <td><input type="text" th:name="|('${map.value}'+'${i.index}')|"
+                                            <td><input th:disabled="${session.role == 'User'}" type="text" th:name="|('${map.value}'+'${i.index}')|"
                                                     th:value="${map.value}" class="form-control"></td>
-                                            <td><i id="buttonRemove" type="button" class="bi bi-trash px-2"
+                                            <td th:if="${session.role != 'User'}" ><i id="buttonRemove" type="button" class="bi bi-trash px-2"
                                                     th:value="${entityName}"
                                                     th:onclick="|deleteRow(this,formreads${id.index})|"></i></td>
                                         </tr>
                                     </div>
                                     <tr>
                                         <td>
-                                            <button class="py-1 px-5 my-2" id="buttonAdd" type="button"
+                                            <button th:if="${session.role != 'User'}" class="py-1 px-5 my-2" id="buttonAdd" type="button"
                                                 th:value="${entityName}"
                                                 th:onclick="|addRow('table${id.index}','tableRow')|">+ ADD
                                         </td>
@@ -139,13 +139,14 @@
                     <div class="buttons">
                         <a th:href="@{'/api/primary/'+${entityName}}">
                         <button type="button" id="cancel" class="btn btn-default">Cancel</button></a>
-                        <button type="button" id="submitSec" class="btn btn-default" th:value="${entityName}">Save</button>
-                      
-                        <button type="button" id="submit-slookup" th:value="${entityName}" onclick="submit()"  class="btn btn-default" >Submit</button>
+                        <button th:if="${session.role != 'User'}" type="button" id="submitSec" class="btn btn-default" th:value="${entityName}">Save</button>
+                        <a th:href="@{/api/main}">
+                        <button th:if="${session.role == 'User'}" type="button"  id="submit-slookup" th:value="${entityName}"  class="btn btn-default" >Submit</button></a>
+                        <button th:if="${session.role != 'User'}" type="button" id="submit-slookup" th:value="${entityName}" onclick="submit()"  class="btn btn-default" >Submit</button>
                     
                     </div>
                    
-                    <div class="loginPopup">
+                    <div th:if="${session.role != 'User'}" class="loginPopup">
                         <div class="formPopup" id="popupForm">
                            
                             <img src="" th:src="@{/assets/done.svg}" alt=""> 

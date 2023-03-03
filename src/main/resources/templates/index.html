@@ -119,7 +119,7 @@
                         &nbsp;|&nbsp; <b>DATE_TIME_FORMAT</b>:MM-DD-YY HH &nbsp;|&nbsp; <b>FILED 5</b>: FILED 5
                         &nbsp;|&nbsp; <b>FILED 6</b>: FILED 6
                     </p> -->
-                <p><b>Global Lookup</b> <a href="#" class="edit" onclick="openForm();"
+                <p><b>Global Lookup</b> <a href="#" th:if="${session.role != 'User'}" class="edit" onclick="openForm();"
                        ><b>Edit</b></a></p>
 
                        <!-- th:if="${session.role == 'admin'}" -->
@@ -195,20 +195,22 @@
             <hr>
             <section class="other-pages flex">
                 <a th:href="@{/api/validate}">
-                    <div class="global-lookup-card flex validate">
+                    <div th:if="${session.role != 'User'}" class="global-lookup-card flex validate">
 
                         <img src="" th:src="@{/assets/validate.svg}" alt="">
                         <p>Validate</p>
                     </div>
                 </a>
-                <div class="global-lookup-card flex transform">
-                    <a th:href="@{/api/transform}">
+                <a th:href="@{/api/transform}">
+                <div th:if="${session.role != 'User'}" class="global-lookup-card flex transform">
+                    
                         <img src="" th:src="@{/assets/transform.svg}" alt="">
                         <p>Transform</p>
                 </div>
                 </a>
-                <div class="global-lookup-card flex load">
-                    <a th:href="@{/api/load}">
+                <a th:href="@{/api/load}">
+                <div th:if="${session.role != 'User'}" class="global-lookup-card flex load">
+                   
                         <img src="" th:src="@{/assets/load.svg}" alt="">
                         <p>Load</p>
                 </div>

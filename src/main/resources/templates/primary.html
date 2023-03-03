@@ -113,7 +113,7 @@
                                     <div class="form-group" th:each=" map : ${csvfile}">
                                         <tr style="border: transparent;">
                                             <td><label id="key" th:name="${map.key}" th:text="${map.key}"></label></td>
-                                            <td><input id="value" th:name="${map.key}" type="text" th:value="${map.value}"
+                                            <td><input th:disabled="${session.role == 'User'}" id="value" th:name="${map.key}" type="text" th:value="${map.value}"
                                                     class="form-control" style="color: #333; width: 300px;"></td>
                                         </tr>
                                     </div>
@@ -138,7 +138,7 @@
                         <!-- <div class="form-group">
                             <input type="submit" value="Save" class="btn btn-default" />
                         </div> -->
-                        <button type="submit" id="save" class="btn btn-default">Save</button>
+                        <button th:if="${session.role != 'User'}" type="submit" id="save" class="btn btn-default">Save</button>
                         <a th:href="@{'/api/secondary/'+${entityName}}">
                         <button type="button" id="submit" class="btn btn-default">Submit and Continue</button>
                         </a>
@@ -149,7 +149,7 @@
         </footer>
         </form>
     </section>
-    <div class="loginPopup">
+    <div th:if="${session.role != 'User'}" class="loginPopup">
         <div class="formPopup" id="popupForm">
            
             <img src="" th:src="@{/assets/done.svg}" alt=""> 

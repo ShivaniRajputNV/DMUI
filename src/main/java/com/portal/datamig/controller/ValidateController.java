@@ -166,16 +166,19 @@ public class ValidateController {
       String primaryEntityValidate,
       RedirectAttributes attributes, Model model)
       throws IOException, InterruptedException {
+        
     Map<String, List<String>> output = validate
         .callSecondaryValidationProgram(primaryEntityValidate + File.separator + entityValidate);
-    List<String> output1 = validate
+    try{
+      List<String> output1 = validate
         .callEntityValidationProgram(primaryEntityValidate + File.separator + entityValidate);
+       
     List<String> a = new ArrayList();
     System.out.println(output1);
     if (output1.isEmpty()) {
       output1.add("");
-    }
-    String exFolder = home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator + "Validate"
+
+    } String exFolder = home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator + "Validate"
         + File.separator + "Entitywise_Val_Reports" + File.separator + "Exception_Report" + File.separator
         + primaryEntityValidate + File.separator + entityValidate;
     System.out.println(exFolder);
@@ -194,8 +197,18 @@ public class ValidateController {
     }
     System.out.println("COUNT" + count);
     output1.add(String.valueOf(count));
+    
     return output1;
+  }catch(Exception e){
 
+  }finally{
+   
+    
+  
+   
+  }
+    return null;
+    
   }
 
   @GetMapping("/view-reports")
