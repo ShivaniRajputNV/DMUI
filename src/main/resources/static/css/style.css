@@ -315,7 +315,6 @@ hr{
   align-items: center;
   width: 360px ;
   margin-left: 53px;
- 
   border-radius: 15px;
 }
 .lookup {
@@ -335,8 +334,8 @@ hr{
  }
 .transform{
   background: #3e65b825;
-  margin-left: 25px ;
-  margin-top: 3rem;
+  margin-left: 4px ;
+  /* margin-top: 3rem; */
 }
 .transform img{
   margin-right: 13px;
@@ -348,7 +347,7 @@ hr{
 .load{
   background: #0aa40525;
  margin-left: 4px;
- margin-top: 3rem;
+ /* margin-top: 3rem; */
 
 }
 .load img{
