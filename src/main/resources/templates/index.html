@@ -90,7 +90,7 @@
                     </div>
 
                 </div>
-                <div id="download">
+                <div id="download" th:if="${session.role != 'User'}">
 
                     <img id="download-icon" src="" th:src="@{/assets/download.svg}" alt="">
 
