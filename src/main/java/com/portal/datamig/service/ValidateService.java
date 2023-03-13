@@ -75,7 +75,7 @@ public class ValidateService {
                     "CmCommonValidation",
                     home + File.separator + "DMUtil" + File.separator + "Input" + File.separator + selectedFolder,
                     home + File.separator + "DMUtil" + File.separator + "Validate" + File.separator + "Mapping_Sheet"
-                            + File.separator + selectedFolder + ".csv" })
+                            + File.separator + selectedFolder.replace("_", "") + ".csv" })
                     .start();
             if (process.getErrorStream().read() != -1) {
                 error = print("Errors ", process.getErrorStream());

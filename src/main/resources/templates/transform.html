@@ -22,12 +22,13 @@
   function preventBack() { window.history.forward(); }
   setTimeout("preventBack()", 0);
   window.onunload = function () { null };
-  
-  
+
+
 </script>
+
 <body>
   <script th:if="${session.isEmpty()}">
-    location.href='/api/session';</script>
+    location.href = '/api/session';</script>
 
 
   <section>
@@ -72,7 +73,6 @@
             <div id="search_list_area">
               <div class="output"></div>
             </div>
-
           </div>
         </div>
       </div>
@@ -89,16 +89,18 @@
         </div>
       </div>
       <div class="row px-5">
-        <div class="col-md-1 px-3" th:each="option,i : ${recentList}">
-          <div class="cards">
-            <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
-              <h5 th:text="${#strings.substring(option.key,0,1)}"></h5>
+        <div class="scroll-bar">
+          <div class="col-md-2 px-3" th:each="option,i : ${recentList}">
+            <div class="cards">
+              <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
+                <h5 th:text="${#strings.substring(option.key,0,1)}"></h5>
+              </div>
+              <h6 class="Names">
+                <a th:href="@{'/api/transforming/' + ${option.key}}">
+                  <span th:value="${option.key}" th:text="${option.key}" th:name="${option.key}"></span>
+                </a>
+              </h6>
             </div>
-            <h6 class="Names">
-              <a th:href="@{'/api/transforming/' + ${option.key}}">
-                <span th:value="${option.key}" th:text="${option.key}" th:name="${option.key}"></span>
-              </a>
-            </h6>
           </div>
         </div>
       </div>

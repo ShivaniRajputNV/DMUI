@@ -4,7 +4,6 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
   
     @Autowired
-     EncryptDecryptService encryptDecryptService;
+    EncryptDecryptService encryptDecryptService;
     
     
     String home = System.getProperty("user.home");

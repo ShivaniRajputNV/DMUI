@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap");
 
 * {
   margin: 0;
@@ -29,7 +28,7 @@
   font-size: 25px;
 }
 .btn-close {
-  opacity: .9 !important;
+  opacity: 0.9 !important;
   margin-top: 10px;
   margin-right: 40px;
   filter: brightness(0) invert(1);
@@ -82,7 +81,6 @@ i {
 .Recent_Used h3 {
   font-size: 17px;
   margin-bottom: 15px;
- 
 }
 
 .all-entities h3 {
@@ -121,7 +119,6 @@ i {
   text-align: center;
   font-size: 25px;
   font-weight: 400;
-
 }
 
 .Names {
@@ -134,7 +131,6 @@ i {
 .entities-box {
   display: flex;
   flex-wrap: wrap;
-
 }
 
 .tags {
@@ -150,9 +146,8 @@ i {
 }
 
 .tags a {
-
   text-decoration: none;
-  color: black
+  color: black;
 }
 
 .tags p {
@@ -195,18 +190,17 @@ ul {
   color: #333;
   border-top: 0;
   width: 96%;
-
 }
 
 .output {
   height: auto;
   width: 100%;
   margin-left: 1rem;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 li:hover {
-  color: #56BDC5;
+  color: #56bdc5;
 }
 
 #test {
@@ -215,12 +209,12 @@ li:hover {
 }
 
 #test:hover {
-  color: #56BDC5;
+  color: #56bdc5;
 }
 
 /*  */
 .selected-row {
-    display: flex;
+  display: flex;
 }
 .selected-row h3 {
   padding-left: 15px;
@@ -250,7 +244,6 @@ li:hover {
   width: 30px;
   border-radius: 50%;
   color: white;
- 
 }
 
 .circle h5 {
@@ -266,15 +259,15 @@ li:hover {
   font-size: 12px;
   margin-left: 12px;
 }
-.name{
+.name {
   margin-top: 5px;
   text-align: center;
   color: #424141;
-  font-weight: 400 ;
+  font-weight: 400;
 }
 
 .name h6 {
-margin-top: 0;
+  margin-top: 0;
   text-align: center;
   color: #424141;
   font-size: 15px;
@@ -286,25 +279,25 @@ margin-top: 0;
   position: relative;
 }
 
-button{
-  border:none;
-  border-radius:5px;
-  padding:15px 30px;
-  font-size:18px;
-  cursor:pointer;
+button {
+  border: none;
+  border-radius: 5px;
+  padding: 15px 30px;
+  font-size: 18px;
+  cursor: pointer;
 }
 
-button:hover{
-  background-color:#ddd;
+button:hover {
+  background-color: #ddd;
 }
 
 .dropdown-options {
   display: none;
   position: absolute;
   overflow: auto;
-  background-color:#fff;
-  border-radius:5px;
-  box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.4);
 }
 
 .dropdown:hover .dropdown-options {
@@ -316,13 +309,13 @@ button:hover{
   color: #000000;
   padding: 5px;
   text-decoration: none;
-  padding:20px 40px;
+  padding: 20px 40px;
 }
 
 .dropdown-options a:hover {
   color: #0a0a23;
   background-color: #ddd;
-  border-radius:5px;
+  border-radius: 5px;
 }
 /*  */
 
@@ -341,18 +334,14 @@ button:hover{
   cursor: pointer;
 }
 
-
 .loginPopup {
-
   position: relative;
- 
   text-align: center;
   width: 100%;
 }
 .formPopup {
- 
   height: 18%;
-  width:20%;
+  width: 20%;
   display: none;
   position: fixed;
   padding: 10px;
@@ -360,24 +349,61 @@ button:hover{
   top: 42%;
   transform: translate(-50%, 5%);
   /* box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);*/
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
   z-index: 9;
 }
-.formPopup img{
-margin-top: 2rem;
-margin-left: 5rem;
+.formPopup img {
+  margin-top: 2rem;
+  margin-left: 5rem;
 }
-.formPopup  p{
+.formPopup p {
   color: #333;
-margin-top: 1rem;
-font-size: 17px;
-font-weight: 300;
+  margin-top: 1rem;
+  font-size: 17px;
+  font-weight: 300;
 }
-.formPopup .close{
-border: none;
-color: grey;
-background-color: transparent;
-font-size: 1.5rem;
-font-weight: 300;
+.formPopup .close {
+  border: none;
+  color: grey;
+  background-color: transparent;
+  font-size: 1.5rem;
+  font-weight: 300;
+}
 
+/*  */
+.scroll-bar {
+  display: flex;
+
+  width: 950px !important;
+  overflow: auto;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+
+::-webkit-scrollbar{
+  height: 2px;
+  width: 6px;
+  background: gray;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #bebebd; 
+}
+
+::-webkit-scrollbar-thumb:horizontal{
+  background: #bebebd;
+  border-radius: 10px;
 }

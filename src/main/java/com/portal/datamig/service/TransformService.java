@@ -206,15 +206,20 @@ public class TransformService {
             if(f.isFile()){
             System.out.println("dest Dir"+destinationDir.getAbsolutePath()+f.getName());
             new File(destinationDir.getAbsolutePath()+f.getName()).delete() ;//remove the duplicate       
-             try {
+             try 
+             {
                 FileUtils.moveFileToDirectory(f, destinationDir, true);
-            } catch (IOException e) {
+             } 
+            catch (IOException e) {
                 // TODO Auto-generated catch block            
                 e.printStackTrace();
-            }finally{
+            }
+            finally
+            {
                 System.out.println("No files to Archieve");
             }
-            }else{
+            }
+            else{
                 System.out.println(f.getName());
                 File[] sf = f.listFiles();
                 for(File sub:sf){
@@ -224,10 +229,13 @@ public class TransformService {
                     try {
                         File destinationSubDir = new File(home+File.separator+"DMUtil"+File.separator+"Archieve"+File.separator+dest+File.separator+f.getName()+File.separator);
                         FileUtils.moveFileToDirectory(sub, destinationSubDir, true);
-                    } catch (IOException e) {
+                    } 
+                    catch (IOException e) 
+                    {
                         // TODO Auto-generated catch block                    
                         e.printStackTrace();
-                    }finally{
+                    }
+                    finally{
                         System.out.println("No files to Archieve");
                     }
                     }

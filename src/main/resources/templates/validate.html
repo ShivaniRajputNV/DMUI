@@ -22,20 +22,20 @@
     function preventBack() { window.history.forward(); }
     setTimeout("preventBack()", 0);
     window.onunload = function () { null };
-    
-    
-</script>
+
+
+  </script>
 </head>
 
 <body>
 
 
   <script th:if="${session.isEmpty()}">
-    location.href='/api/session';</script>
+    location.href = '/api/session';</script>
   <section>
     <div class="container-fliud">
       <div class="row">
-        <div class="col-md-12"  >
+        <div class="col-md-12">
           <div class="Heading" style=" border: 6px solid #F0823D;
           border-top:0;
           border-left: 0;
@@ -58,8 +58,8 @@
   <section>
     <div class="container-fliud">
       <div class="row px-3">
-        <div class="col-md-6 pt-4 pb-3 px-5" >
-          <div class="Search" >
+        <div class="col-md-6 pt-4 pb-3 px-5">
+          <div class="Search">
             <h4>Select Entity</h4>
           </div>
           <div class="parent-search">
@@ -81,24 +81,28 @@
 
   <section>
     <div class="container-fliud">
-      <div class="row px-3" >
-        <div class="col-md-12 py-1 px-5" >
+      <div class="row px-3">
+        <div class="col-md-12 py-1 px-5">
           <div class="Recent_Used">
             <h3>Recently Used</h3>
           </div>
         </div>
       </div>
-      <div class="row px-5" >
-        <div class="col-md-1 px-3" th:each="option,i : ${recentList}">
-          <div class="cards">
-            <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
-              <h5 th:text="${#strings.substring(option.key,0,1)}"></h5>
+      <div class="row px-5">
+        <div class="scroll-bar">
+          <div class="col-2 px-3" th:each="option,i : ${recentList}">
+
+            <div class="cards">
+              <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
+                <h5 th:text="${#strings.substring(option.key,0,1)}"></h5>
+              </div>
+              <h6 class="Names">
+                <a th:href="@{'/api/entityValidate/' + ${option.key}}">
+                  <span th:value="${option.key}" th:text="${option.key}" th:name="${option.key}"></span>
+                </a>
+              </h6>
             </div>
-            <h6 class="Names">
-              <a th:href="@{'/api/entityValidate/' + ${option.key}}" >
-                <span th:value="${option.key}" th:text="${option.key}" th:name="${option.key}"></span>
-              </a>
-            </h6>
+
           </div>
         </div>
       </div>
@@ -114,7 +118,7 @@
           </div>
         </div>
       </div>
-      <div class="row px-5" >
+      <div class="row px-5">
         <div class="col-md-9 px-3 pt-2">
           <div class="container-fliud entities-box">
 
@@ -126,9 +130,8 @@
                 <span th:text="${#strings.substring(option.key,0,1)}"></span>
 
               </div>
-              <a th:href="@{'/api/entityValidate/'+${option.key}}" >
-                <p th:value="${option.key}" th:text="${option.key}"
-                 ></p>
+              <a th:href="@{'/api/entityValidate/'+${option.key}}">
+                <p th:value="${option.key}" th:text="${option.key}"></p>
               </a>
             </div>
 
