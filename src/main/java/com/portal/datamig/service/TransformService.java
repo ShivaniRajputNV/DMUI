@@ -24,15 +24,17 @@ public class TransformService {
     @Autowired
     ValidateService validate;
     private static String home = System.getProperty("user.home");
+    private static Map<String,List<String>> outputEV = null;
 
 
-    public void transformList(String name) {
+    public Map<String,List<String>> transformList(String name) {
         Path src = Paths.get(home+File.separator+"DMUtil"+File.separator+"Transform"+File.separator + name + File.separator);
+       
         File f = src.toFile();
         Arrays.stream(f.listFiles()).filter(p -> p.getName().endsWith(".java")).forEach(p -> {
             try {
                 System.out.println(p.getName() + " File " + f.getName());
-                callProgram(p.getName(), f.getName());
+                 outputEV = callProgram(p.getName(), f.getName());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -45,7 +47,7 @@ public class TransformService {
             Arrays.stream(p.listFiles()).filter(n -> n.getName().endsWith(".java")).forEach(n -> {
                 System.out.println(p.getName() + " : JAVA File " + n.getName());
                 try {
-                    callProgram(n.getName(), (f.getName() + "/" + p.getName()));
+                    outputEV =callProgram(n.getName(), (f.getName() + File.separator + p.getName()));
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -55,17 +57,23 @@ public class TransformService {
                 }
             });
         });
+        return outputEV;
     }
 
-    public void callProgram(String javaFile, String fileName) throws IOException, InterruptedException {
+    public Map<String, List<String>> callProgram(String javaFile, String fileName) throws IOException, InterruptedException {
         String loc = home+File.separator+"DMUtil"+File.separator+"Transform"+File.separator + fileName + File.separator + javaFile;
+
+        Map<String, List<String>> result = new HashMap();
+        List<String> output = new ArrayList<>();
+        List<String> error = new ArrayList<>();
         System.out.println(loc);
+        String[] name; 
         // String loc1 = "java -cp /home/anshika/DMUtil/Validate/CmCommonValidation"+"
         // "+"/home/anshika/DMUtil/Input/"+nn+"
         // "+"/home/anshika/DMUtil/Validate/Mapping_Sheet/"+nn+".csv";
         String command[] = { "javac", loc };
         String javaFileName = javaFile.replace(".java", "");
-        System.out.println(javaFileName);
+        System.out.println(fileName+"gsvc"+javaFileName);
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         Process process = processBuilder.start();
         process.waitFor();
@@ -79,26 +87,34 @@ public class TransformService {
                     new String[] { "java", "-cp", home+File.separator+"DMUtil"+File.separator+"Transform"+File.separator + fileName + File.separator, javaFileName }).start();
             System.out.println("Transform Processs");
             if (process.getErrorStream().read() != -1) {
-                print("Errors ", process.getErrorStream());
+                error = print("Errors ", process.getErrorStream());
+                result.put("Error",error);
             } else {
-                print("Output ", process.getInputStream());
+                output = print("Output ", process.getInputStream());
+                result.put("Success",output);
             }
         }
         File filename = new File(home+File.separator+"DMUtil"+File.separator+"Transform"+File.separator + fileName);
         filename.setLastModified(System.currentTimeMillis());
         // process.waitFor();
         // process.exitValue()
+        return result;
     }
 
-    private static void print(String status, InputStream input) throws IOException {
+    private static List<String> print(String status, InputStream input) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(input));
         System.out.println("************* " + status + "***********************");
-        String line = null;
+        List<String> lines = new ArrayList<>();
+        String line;
         while ((line = in.readLine()) != null) {
             System.out.println(line);
+            lines.add(line);
         }
-        in.close();
+        // in.close();
+        return lines;
     }
+
+    
 
     public List<String> allModifiedFiles(String foldername) {
         List<String> modifiedFiles = new ArrayList<>();
@@ -199,7 +215,7 @@ public class TransformService {
 
 //archive transform files
     public void archieveTransformFiles(String dest, String src) {
-        File destinationDir = new File(home+File.separator+"DMUtil"+File.separator+"Archieve"+File.separator+dest+File.separator);
+        File destinationDir = new File(home+File.separator+"DMUtil"+File.separator+"Archive"+File.separator+dest+File.separator);
         File directory = new File(home+File.separator+"DMUtil"+File.separator+src+File.separator);
         File[] subfiles = directory.listFiles();
         for(File f:subfiles){
@@ -213,10 +229,8 @@ public class TransformService {
             catch (IOException e) {
                 // TODO Auto-generated catch block            
                 e.printStackTrace();
-            }
-            finally
-            {
-                System.out.println("No files to Archieve");
+            }finally{
+                System.out.println("No files to Archive");
             }
             }
             else{
@@ -227,16 +241,15 @@ public class TransformService {
                     System.out.println("dest Dir"+destinationDir.getAbsolutePath()+sub.getName());
                     new File(destinationDir.getAbsolutePath()+sub.getName()).delete() ;//remove the duplicate                
                     try {
-                        File destinationSubDir = new File(home+File.separator+"DMUtil"+File.separator+"Archieve"+File.separator+dest+File.separator+f.getName()+File.separator);
+                        File destinationSubDir = new File(home+File.separator+"DMUtil"+File.separator+"Archive"+File.separator+dest+File.separator+f.getName()+File.separator);
                         FileUtils.moveFileToDirectory(sub, destinationSubDir, true);
                     } 
                     catch (IOException e) 
                     {
                         // TODO Auto-generated catch block                    
                         e.printStackTrace();
-                    }
-                    finally{
-                        System.out.println("No files to Archieve");
+                    }finally{
+                        System.out.println("No files to Archive");
                     }
                     }
                 } 

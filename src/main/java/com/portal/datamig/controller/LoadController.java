@@ -67,7 +67,11 @@ public class LoadController {
     public Map<String, List<String>> validateFiles(@RequestParam String loadEntity, RedirectAttributes attributes,
             Model model)
             throws IOException, InterruptedException {
+                try{
         validate.archieveFiles("Load"+File.separator+"Summary_Reports"+ File.separator + loadEntity, "Load"+ File.separator+ "Summary_Reports"+ File.separator + loadEntity);
+                }catch(Exception e){
+                    
+                }
         Map<String, List<String>> map = load.callLoadProgram(loadEntity);
         System.out.println(map);
         attributes.addFlashAttribute("message", map);

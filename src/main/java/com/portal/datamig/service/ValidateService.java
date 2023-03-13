@@ -231,7 +231,7 @@ public class ValidateService {
 
     public String lastModifiled(String filepath) {
 
-        File path = new File(filepath + "/");
+        File path = new File(filepath + File.separator);
         System.out.println(path);
         long time = System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(2);
         File[] files = path.listFiles(pathname -> pathname.lastModified() >= time);
@@ -306,7 +306,7 @@ public class ValidateService {
     }
 
     public void archieveFiles(String dest, String src) {
-        File destinationDir = new File(home + File.separator + "DMUtil" + File.separator + "Archieve" + File.separator
+        File destinationDir = new File(home + File.separator + "DMUtil" + File.separator + "Archive" + File.separator
                 + dest + File.separator);
         File directory = new File(
                 home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator + src + File.separator);
@@ -323,12 +323,12 @@ public class ValidateService {
                     // TODO Auto-generated catch block                           
                     e.printStackTrace();
                 } finally {
-                    System.out.println("No files to Archieve");
+                    System.out.println("No files to Archive");
                 }
             } else {
                 File[] sub = f.listFiles();
                 for (File sf : sub) {
-                    destinationDir = new File(home + File.separator + "DMUtil" + File.separator + "Archieve"
+                    destinationDir = new File(home + File.separator + "DMUtil" + File.separator + "Archive"
                             + File.separator + dest + File.separator + f.getName() + File.separator);
                     System.out.println("dest Dir" + destinationDir.getAbsolutePath() + sf.getName());
                     new File(destinationDir.getAbsolutePath() + sf.getName()).delete();// remove the
@@ -339,7 +339,7 @@ public class ValidateService {
                         // TODO Auto-generated catch block                               
                         e.printStackTrace();
                     } finally {
-                        System.out.println("No files to Archieve");
+                        System.out.println("No files to Archive");
                     }
                 }
             }

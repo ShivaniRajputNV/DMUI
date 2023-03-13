@@ -2,16 +2,12 @@
 $(document).ready(function () {
   $("#entity").change(function () {
     var selectedFileName = $(this).children("option:selected").val();
-    var loc = "http://localhost:8080/api/download";
-    var temp = "Download Entity Lookup Sample File";
-    // document.getElementById("download").setAttribute("href", loc + "/" + selectedFileName);
     $.ajax({
       url: "/api/download/" + selectedFileName,
       type: "GET",
       data: selectedFileName,
       success: function (returndata) {
         console.log(selectedFileName);
-
         $('select option[value="1"]').attr("selected", true);
         setInterval("location.reload()", 100);
       },
@@ -351,7 +347,9 @@ $(document).ready(function () {
       type: "POST",
       data: { entityTransform: selectedFileName },
       success: function (returndata) {
+        console.log(returndata);
         console.log(selectedFileName);
+        if(Object.keys(returndata) == "Success"){
         $("#transformBtn").prop("hidden", true);
         // document.getElementById("transformBtn").style.visibility = "hidden";
         // $("#transformMessage").prop("hidden", true);
@@ -360,7 +358,10 @@ $(document).ready(function () {
         $("#myProgress").prop("hidden", false);
 
         move();
-      },
+      }else{
+        $("#transformMessage").html("Transformation Failed!!");
+      }
+    },
     });
   });
 });
@@ -1497,3 +1498,42 @@ function tabDownloadLoad(entityToView) {
     },
   });
 }
+// $(document).ready(function () {
+//   $.ajax({
+//     type: "GET",
+//     url: "/api/recent-lookup",
+//     success: function (data) {
+//       console.log(Object.keys(data));
+//       console.log(Object.values(data));
+//       var list = Object.keys(data);
+//       console.log(Math.round(2/3))
+    
+//       var d =0
+//       for(var i=0;i< Math.floor(list.length/3)+1;i++){
+//         for(var j=0;j<4;j++){
+//           console.log(d,i,j,list[d]);
+//           var classname = document.getElementById("carouselCustom");
+//           console.log(classname)
+//           $("#carouselCustom").append('<div class="carousel-item active"><div class="col-md-3"><div class="card"><div class="card-img"> <p>'+list[d]+'</p> </div><div class="card-img-overlay">Slide 1</div></div></div> </div>')
+//           d++;
+//         }
+//       }
+//       console.log(classname.firstChild);
+//     }
+//   })
+// });
+// let items = document.querySelectorAll('.carousel .carousel-item')
+
+// items.forEach((el) => {
+//     const minPerSlide = 3;
+//     let next = el.nextElementSibling
+//     for (var i=1; i<minPerSlide; i++) {
+//         if (!next) {
+//             // wrap carousel by using first child
+//         	next = items[0]
+//       	}
+//         let cloneChild = next.cloneNode(true)
+//         el.appendChild(cloneChild.children[0])
+//         next = next.nextElementSibling
+//     }
+// })

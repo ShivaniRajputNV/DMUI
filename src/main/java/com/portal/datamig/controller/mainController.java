@@ -145,6 +145,13 @@ public class mainController {
         model.addAttribute("recentList", read.recentlyUsed("Lookup"));
         return "lookup";
     }
+    @GetMapping("/recent-lookup")
+    @ResponseBody
+    public Map<String, String> recentlookup(Model model) throws IOException {
+        Map<String, String> map = read.recentlyUsed("Lookup");
+        System.out.println(map);
+         return map;
+    }
 
     @GetMapping("/main")
     public String main(Model model) throws IOException {

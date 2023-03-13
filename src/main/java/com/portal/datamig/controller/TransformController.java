@@ -48,14 +48,18 @@ public class TransformController {
         return "transforming";
     }
     @PostMapping("/transforming")
-    public String transformingProgress(@RequestParam String entityTransform){
+    @ResponseBody
+    public Map<String,List<String>> transformingProgress(@RequestParam String entityTransform){
         System.out.println(entityTransform);
+        Map<String,List<String>> output;
         transform.archieveTransformFiles("Transform"+File.separator+"Summary_Reports"+File.separator+entityTransform,
       "Reports"+File.separator+"Transform"+File.separator+"Summary_Reports"+File.separator+entityTransform);
       transform.archieveTransformFiles("Sql_Output"+File.separator+entityTransform,
       "Sql_Output"+File.separator+entityTransform);
-        transform.transformList(entityTransform);
-        return "redirect:"+File.separator+"api"+File.separator+"transforming"+File.separator+entityTransform;
+        
+            output =transform.transformList(entityTransform);
+            
+        return output;
     }
 
     @GetMapping("/transforming/download-reports")
