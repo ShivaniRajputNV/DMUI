@@ -57,7 +57,7 @@ public class LoadController {
                     .map(Map.Entry::getValue).collect(Collectors.joining(", "));
             model.addAttribute("col", entityColor);
             model.addAttribute("dbdetails", load.dbDetails());
-            System.out.println("bhksa" + load.dbDetails());
+            System.out.println(load.dbDetails());
         }
         return "loadprocess";
     }

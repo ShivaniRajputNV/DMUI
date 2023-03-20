@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -214,9 +215,9 @@ public class ValidateController {
   @ResponseBody
   public List<List<String>> viewReport(@RequestParam String name) throws IOException, DocumentException {
     String summaryFolder = home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator + "Validate"
-        + File.separator + "Entitywise_Val_Reports" + File.separator + "Summary_Report" + File.separator + name;
+        + File.separator + "Common_Val_Reports" + File.separator + "Summary_Report" + File.separator + name;
     String exceptionFolder = home + File.separator + "DMUtil" + File.separator + "Reports" + File.separator + "Validate"
-        + File.separator + "Entitywise_Val_Reports" + File.separator + "Exception_Report" + File.separator + name;
+        + File.separator + "Common_Val_Reports" + File.separator + "Exception_Report" + File.separator + name;
 
     String lastSummary = validate.lastModifiled(summaryFolder);
     String lastException = validate.lastModifiled(exceptionFolder);
@@ -277,8 +278,8 @@ public class ValidateController {
         }
       }
     }
-    if (validateEntity.contains("/")) {
-      String[] name = validateEntity.split("/");
+    if (validateEntity.contains(File.separator)) {
+      String[] name = validateEntity.split(Pattern.quote(File.separator));
       report.downloadValidateTab(reportnames, name[name.length - 1]);
     } else {
       report.downloadValidateTab(reportnames, validateEntity);

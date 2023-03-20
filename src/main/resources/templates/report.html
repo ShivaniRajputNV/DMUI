@@ -35,9 +35,12 @@
                 x[i].style.display = "none";
             }
             tablinks = document.getElementsByClassName('tablink')
+            console.log(tablinks);
             for (i = 0; i < x.length; i++) {
+                if(tablinks[i]!= undefined){
                 tablinks[i].classList.remove("w3-light-grey");
                 tablinks[i].classList.remove("active");
+                }
             }
             document.getElementById(reportName).style.display = "block";
             event.currentTarget.classList.add("w3-light-grey");

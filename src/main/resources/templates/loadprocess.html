@@ -29,25 +29,25 @@
                 x[i].style.display = "none";
             }
             for (i = 0; i < x.length; i++) {
-               
+
             }
             document.getElementById(reportName).style.display = "block";
             event.currentTarget.classList.add("w3-light-grey");
         }
     </script>
-       <script type="text/javascript">
+    <script type="text/javascript">
 
         function preventBack() { window.history.forward(); }
         setTimeout("preventBack()", 0);
         window.onunload = function () { null };
-        
-        
+
+
     </script>
 </head>
 
 <body>
     <script th:if="${session.isEmpty()}">
-        location.href='/api/session';</script>
+        location.href = '/api/session';</script>
     <section>
         <div class="container-fliud">
             <div class="row">
@@ -131,49 +131,59 @@
                 </div>
             </div>
         </div>
-        <div class="row px-2">
-            <div class="col-md-3 px-5">
-                <div class="establish  py-3">
-                    <div class="image"> <img class="image1" src="" th:src="@{/assets/establish.svg}" alt=""> <img
-                            class="image2 " id="dis-img" src="" th:src="@{/assets/disconnected.svg}" alt=""> <img
-                            class="image2 p-1 " id="tick-img" src="" th:src="@{/assets/done.svg}" hidden="true" alt="">
-                        <span class="opacity-25" id="dis">Disconnected</span> <span class="connect" id="connected"
-                            hidden="true">Connected</span> <img id="processImg" class="image3" src=""
-                            th:src="@{/assets/threedots.gif}" hidden="true" alt="">
+        <div class="d-flex gap-0">
+            <div class="px-5">
+                <div class="connection d-flex justify-content-between">
+                    <div class="establish  py-3">
+                        <div class="image"> <img class="image1" src="" th:src="@{/assets/establish.svg}" alt=""> <img
+                                class="image2 " id="dis-img" src="" th:src="@{/assets/disconnected.svg}" alt=""> <img
+                                class="image2 p-1 " id="tick-img" src="" th:src="@{/assets/done.svg}" hidden="true"
+                                alt="">
+                            <span class="opacity-25" id="dis">Disconnected</span> <span class="connect" id="connected"
+                                hidden="true">Connected</span> <img id="processImg" class="image3" src=""
+                                th:src="@{/assets/threedots.gif}" hidden="true" alt="">
+                        </div>
                     </div>
-                </div>
 
-                <div class="processing"> <button type="button" id="load-btn" th:value="${name}" onclick="loadProcess()"
-                        class="btn btn-default">Load</button> </div>
-            </div>
-            <div class="col-md-5 p-0 ">
-                <div class="inserted-success d-flex align-items-center justify-content-centerw-100 h-100 p ">
-                    <div class="ver-line" id="vr" hidden="true">
-                        <div class="vr vr-blurry"></div>
-                    </div>
-                    <div class="load-progress-bar mx-2" hidden="true">
-                        <img src="" th:src="@{/assets/Loadingprogress.gif}" style="background-color: white;" alt="">
-                    </div>
-                    <div class="records-inserted px-3 pt-3 " id="records" hidden="true">
-                        <p class="done-inserted"> <i class="bi bi-check-circle-fill"></i> Data inserted successfully!
-                        </p>
-                        <p id="load-record"><b> </b>
-                        </p>
-                        <hr class="hr" />
-
-                        <a href="#" th:name="${name}" onclick="loadDownload(this.name)" class="download-report"><img
-                                src="" th:src="@{/assets/download.svg}" alt="">Download
-                            Report</a>
-
-                        <a href="#" th:name="${name}" class="view-report"
-                            onclick="document.getElementById('id01').style.display='block'; viewLoadReport(this.name)">
-                            <i class="bi bi-eye-fill"></i>View Report</a>
+                    <div class="processing mt-5">
+                        <button type="button" id="load-btn" th:value="${name}" onclick="loadProcess()"
+                            class="btn btn-default load-btn">Load</button>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
-                <div class="text-center"> <a th:href="@{/api/main}"> <button type="button" id="success-done"
-                            class="insert-done btn-primary" hidden="true">Done</button> </a> </div>
+            <div class="d-flex-column ms-0">
+                <div class="p-0">
+                    <div class="inserted-success d-flex align-items-center justify-content-centerw-100 h-100 p ">
+                        <div class="ver-line" id="vr" hidden="true">
+                            <div class="vr vr-blurry"></div>
+                        </div>
+                        <div class="load-progress-bar mx-2" hidden="true">
+                            <img src="" th:src="@{/assets/Loadingprogress.gif}" style="background-color: white;" alt="">
+                        </div>
+                        <div class="records-inserted px-3 pt-3 " id="records" hidden="true">
+                            <p class="done-inserted"> <i class="bi bi-check-circle-fill"></i> Data inserted
+                                successfully!
+                            </p>
+                            <p id="load-record"><b> </b>
+                            </p>
+                            <hr class="hr" />
+
+                            <a href="#" th:name="${name}" onclick="loadDownload(this.name)" class="download-report"><img
+                                    src="" th:src="@{/assets/download.svg}" alt="">Download
+                                Report</a>
+
+                            <a href="#" th:name="${name}" class="view-report"
+                                onclick="document.getElementById('id01').style.display='block'; viewLoadReport(this.name)">
+                                <i class="bi bi-eye-fill"></i>View Report</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center ms-2"> 
+                    <a th:href="@{/api/main}"> 
+                        <button type="button" id="success-done"
+                            class="insert-done btn-primary" hidden="true">Done</button> 
+                    </a> 
+                </div>
             </div>
         </div>
     </section>

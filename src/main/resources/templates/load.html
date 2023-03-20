@@ -88,7 +88,7 @@
       </div>
       <div class="row px-5">
         <div class="scroll-bar">
-          <div class="col-md-2 px-3" th:each="option,i : ${recentList}">
+          <div class="col-lg-2 col-md-3 col-sm-4 px-3" th:each="option,i : ${recentList}">
             <div class="cards">
               <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
                 <h5 th:text="${#strings.substring(option.key,0,1)}"></h5>
@@ -117,13 +117,9 @@
       <div class="row px-5">
         <div class="col-md-9 px-3 pt-2">
           <div class="container-fliud entities-box">
-
             <div class="tags" th:each="option : ${entities}">
-
-
               <div class="small_circle" th:style="'background-color:' + ${option.value} + ';'">
                 <span th:text="${#strings.substring(option.key,0,1)}"></span>
-
               </div>
               <a th:href="@{'/api/loadprocess/'+${option.key}}">
                 <p th:value="${option.key}" th:text="${option.key}"></p>

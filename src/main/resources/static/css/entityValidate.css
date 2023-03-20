@@ -128,6 +128,7 @@
   font-size: 12px;
   margin-left: 105px;
   padding: 5px 35px 5px 35px;
+ 
 }
 
 .fetch-btn .btn:hover {
@@ -184,16 +185,20 @@
   cursor: pointer;
   font-size: 12px;
   margin-left: 100px;
-  padding: 5px 20px 5px 20px;
+  
   border: 1px solid grey;
   color: grey;
-
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 15px;
+}
+#secondaryValidate option{
+  white-space: nowrap;
 }
 
 #reports {
   height: 200px;
-  width: 100%;
+  width: 87%;
   background-color: #f6f6f6;
   padding: 20px 20px;
   border-radius: 15px;

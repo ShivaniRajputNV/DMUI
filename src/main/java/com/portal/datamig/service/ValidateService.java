@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -112,7 +113,7 @@ public class ValidateService {
         // " + "/home/anshika/DMUtil/Input/"
         // + selectedFolder + " " + "/home/anshika/DMUtil/Validate/Mapping_Sheet/" +
         // selectedFolder + ".csv";
-        String[] nn = selectedFolder.split("/");
+        String[] nn = selectedFolder.split(Pattern.quote(File.separator));
         System.out.println("SFFF" + selectedFolder);
         System.out.println(nn[1]);
         String command[] = { "javac", loc };
@@ -234,7 +235,7 @@ public class ValidateService {
         File path = new File(filepath + File.separator);
         System.out.println(path);
         long time = System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(2);
-        File[] files = path.listFiles(pathname -> pathname.lastModified() >= time);
+        File[] files = path.listFiles();
         // System.out.println(files);
         if (files == null || files.length == 0) {
             System.out.println("no files in folder");

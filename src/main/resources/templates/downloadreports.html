@@ -90,7 +90,7 @@
       <!-- "carousel" data-flickity='{"wrapAround":true,"autoPlay":false}' -->
       <div class="row mx-5 ">
         <div class="scroll-bar">
-        <div class="col-md-2 " th:each="option,i : ${recentList}">
+        <div class="col-lg-2 col-md-3 col-sm-4 px-3  " th:each="option,i : ${recentList}">
           <div class="cards ">
             <div class="Circles  " th:style="'background-color:' + ${option.value} + ';'">
               <h5 th:text="${#strings.substring(option.key,0,1)}"></h5>

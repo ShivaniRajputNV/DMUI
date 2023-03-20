@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    
+
     <link th:href="@{/css/sweetalert.css}" type="text/css" rel="stylesheet">
 
 
@@ -25,6 +25,7 @@
 
     </script>
 
+ 
 
 </head>
 
@@ -86,7 +87,6 @@
 
                         <h1 th:if="${!session.isEmpty()}"
                             th:text="${#strings.concat(session.greetings,' ',session.name)}"></h1>
-
                         <p>Here is your today's activities and updates</p>
                     </div>
 
@@ -97,7 +97,6 @@
 
                     <select id="entity">
                         <option selected>Download Entity Lookup Sample File</option>
-
                         <option id="entity-list" class="entity" th:each="option : ${entities}" th:value="${option.key}"
                             th:text="${option.key}" th:name="${option.key}">
                         </option>
@@ -110,18 +109,9 @@
 
             <div class="global-lookup flex">
 
-                <!-- <p><b>Global Lookup</b> <a href="#" class="edit"><b>Edit</b></a></p>
-
-                <div class="content">
-                    <p class="some-text">
-                        <b>VERSION</b> :3 &nbsp;|&nbsp; <b>USER ID</b>:SYSUSER &nbsp;|&nbsp; <b>DATE_FORMAT</b>:MM-DD-YY
-                        &nbsp;|&nbsp; <b>DATE_TIME_FORMAT</b>:MM-DD-YY HH &nbsp;|&nbsp; <b>FILED 5</b>: FILED 5
-                        &nbsp;|&nbsp; <b>FILED 6</b>: FILED 6
-                    </p> -->
                 <p><b>Global Lookup</b> <a href="#" th:if="${session.role != 'User'}" class="edit"
                         onclick="openForm();"><b>Edit</b></a></p>
 
-                <!-- th:if="${session.role == 'admin'}" -->
                 <form id="global-lookup" method="post" th:action="@{/api/main}" th:object="${data}"
                     onsubmit="return validateForm(this)">
 
@@ -129,13 +119,11 @@
 
                         <p class="some-text" th:each=" map,i: ${data}">
 
-                            <!-- <b>VERSION</b> :3 &nbsp;|&nbsp; <b>USER ID</b>:SYSUSER  &nbsp;|&nbsp; <b>DATE_FORMAT</b>:MM-DD-YY &nbsp;|&nbsp; <b>DATE_TIME_FORMAT</b>:MM-DD-YY HH &nbsp;|&nbsp;  <b>FILED 5</b>: FILED 5 &nbsp;|&nbsp;  <b>FILED 6</b>: FILED 6            -->
 
                             <b><label id="key" th:name="${map.key}" th:text="${map.key}"></label></b>:
 
                             <label id="value" th:name="${map.key}" th:text="${map.value}"></label>
 
-                            <!-- <span th:if="${i.count}!=${i.size}">|</span> -->
 
                         </p>
 
@@ -158,25 +146,13 @@
 
                 <div class="recently-used-entity flex ">
                     <h1>Recently Used</h1>
-                    <!-- <div class="recent flex ">
-                        <div class="cards" th:each="option,i : ${recentList}">
-                            <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
-                                <h5 th:text="${#strings.substring(option.key,0,1)}"
-                                    style="color:white;text-align: center;font-weight:400;font-size: 25px;"></h5>
-                            </div>
-                            <h6 class="Names" >
-                                <a th:href="@{'/api/primary/' + ${option.key}}">
-                                  <span th:value="${option.key}" th:text="${option.key}" th:name="${option.key}"></span>
-                                </a>
-                              </h6>
-                        </div>
-                    </div> -->
+                  
                     <div class="outer-wrapper">
                         <div class="inner-wrapper">
                             <div class="pseudo-item" th:each="option,i : ${recentList}">
                                 <div class="Circles" th:style="'background-color:' + ${option.value} + ';'">
                                     <h5 th:text="${#strings.substring(option.key,0,1)}"
-                                        style="color:white;text-align: center;font-weight:400;font-size: 25px;"></h5>
+                                       ></h5>
                                 </div>
                                 <h6 class="Names">
                                     <a th:href="@{'/api/primary/' + ${option.key}}">
@@ -245,4 +221,3 @@
 </body>
 
 </html>
-

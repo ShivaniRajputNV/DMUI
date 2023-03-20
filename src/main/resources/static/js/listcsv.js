@@ -256,12 +256,12 @@ $(document).ready(function () {
           $("#report-details").append(
             '<a href="#" onclick="showReport(this.name)" class="mx-2" id="primary-report-view" name=' +
               selectedFileName +
-              ' ><i class="bi bi-eye-fill"></i>View Report</a>'
+              ' ><i id="biEye" class="bi bi-eye-fill"></i>View Report</a>'
           );
           $("#report-details").append(
             '<a href="#" onclick="downloadValidate(this.name)" id="validate-download-primary" name=' +
               selectedFileName +
-              ' ><i class="bi bi-download"></i>Download Report</a>'
+              ' ><i id="biDownload" class="bi bi-download"></i>Download Report</a>'
           );
 
           $.ajax({
@@ -381,6 +381,13 @@ $(document).ready(function () {
       },
       success: function (returndata) {
         console.log(selectedFileName);
+        $("#report-details").children().prop("disabled", true);
+        // document.getElementById("primary-report-view").style.color="grey";
+        $("#report-details").children().css("color","grey");
+        $("#biEye").css("color","grey");
+        $("#biDownload").css("color","grey");
+                // document.getElementById("validate-download-primary").style.color="grey";
+        document.getElementById("report-details").style.pointerEvents="none";
         $("#secondaryFetchImg").prop("hidden", false);
         document.getElementById("fetchS").style.color = "black";
         $("#fetchS").html(
@@ -389,6 +396,7 @@ $(document).ready(function () {
             "</b>" +
             " fetched successfully and ready to validate"
         );
+        $("#messageOutputS").prop("hidden", true);
 
         $("#sreport-details").prop("hidden", true);
         $("#secondaryValidateBtn").prop("hidden", false);
@@ -468,6 +476,7 @@ $(document).ready(function () {
           );
 
           $("#messageOutputS").html(message[message.length - 2]);
+          $("#messageOutputS").prop("hidden", false);
           if (message[message.length - 1] > 0) {
             $("#srecord-no").html(
               message[message.length - 1] + " error records found!"
@@ -1356,7 +1365,7 @@ function ValidateReport(entityToView) {
       for (var j = 0; j < response.length; j++) {
         if (j % 2 == 0 && response[j] != null) {
           $("#addReportTab").append(
-            '<button class="tablink w3-bar-item w3-button" onclick="openReport(event,\'' +
+            '<button class="tablinks w3-bar-item w3-button" onclick="openReport(event,\'' +
               response[j] +
               "')\">" +
               response[j] +

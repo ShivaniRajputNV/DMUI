@@ -3,6 +3,7 @@ package com.portal.datamig.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.List;
 import java.util.ArrayList;
@@ -93,7 +94,7 @@ public class TransformController {
    List<String> reports = transform.allModifiedFiles(entityTransform);
    System.out.println(reports+"REPORt");
    for(int i =0; i< reports.size();i++){
-    String[] splitName=reports.get(i).split(File.separator);
+    String[] splitName=reports.get(i).split(Pattern.quote(File.separator));
     List<String> reportName= new ArrayList();
     reportName.add(splitName[splitName.length-2]);
     System.out.println(reportName);

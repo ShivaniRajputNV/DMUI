@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -52,7 +53,7 @@ public class ReportService {
         return reportList;
     }
     public String downloadTransformRep(String folderName) throws IOException {
-        String[] name = folderName.split("/");
+        String[] name = folderName.split(Pattern.quote(File.separator));
         String zipFile = (home+File.separator+"Downloads"+File.separator + name[name.length-1] + "_"+name[0]+"Reports.zip");
         FileOutputStream fos = new FileOutputStream(zipFile);
         ZipOutputStream zos = new ZipOutputStream(fos);
